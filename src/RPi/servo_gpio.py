@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#USING PWM, but maybe change to another rotate-type movement?
 import rospy
 import RPi.GPIO as GPIO
 import time
@@ -32,7 +33,7 @@ class servo_controller:
 	#time.sleep(0.5)
 	#self.vertical_controller.ChangeDutyCycle(0)
 	#self.horizontal_controller.ChangeDutyCycle(0)
-	print(vertical_angle, horizontal_angle)        
+	print(vertical_angle, horizontal_angle)
 
     def clean(self):
         self.vertical_controller.ChangeDutyCycle(7)
@@ -47,4 +48,3 @@ if __name__ == "__main__":
         rospy.on_shutdown(controller.clean)
     except KeyboardInterrupt:
         print("keyboard interrupt")
-

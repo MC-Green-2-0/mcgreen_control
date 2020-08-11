@@ -20,15 +20,16 @@ class Mode_selector:
         self.mode_feedback_pub = rospy.Publisher(self.FEEDBACK_TOPIC, Int16, queue_size = 1)
         self.multiplier = multiplier
         self.threshold  = threshold
-        self.mode = 1
+        self.mode = 1 #1 is normal 2 arms and legs are disabled 3 is everything
         self.up_down = 0
-        self.game_data = [1500] * 2 + [90] * 2
+        self.game_data = [1500] * 2 + [90] * 2 #PWM for head or arms?
         self.feedback = Int16()
         self.feedback.data = 1
         self.out_upper = Array()
         self.out_upper.arr = [1500] * 2 + [90] * 2
         self.out_lower = Array()
         self.mode_feedback_pub.publish(self.feedback)
+
     def rec_update(self,data):
         try:
             self.mode = data.ts[1]/500 - 1
@@ -43,7 +44,7 @@ class Mode_selector:
         self.game_data = data.arr
         self.update()
     def update(self):
-        upper_data = [1500] * 4
+        upper_data = [1500] * 2 + [90] * 2
         lower_data = [1500] * 4
         #up_down == 1 -> control drivetrain
         #up_down == 0 -> control head/face
@@ -72,17 +73,17 @@ class Mode_selector:
                                 upper_data[x] = self.out_upper.arr[x] + increment
                         else:
                             upper_data[x] = self.out_upper.arr[x]
-                if self.reset == 1:
+                if self.reset == 1:#may have to update
                     upper_data[2:] = [90,90]
         except IndexError:
             print("Waiting for receiver data")
         if self.mode == 2:
             upper_data = self.game_data
             if self.up_down == 1:
-                lower_data = self.receiver_joystick
+                lower_data = self.receiver_joystick[:4]
         if self.mode == 3:
             upper_data = self.game_data
-        if self.feedback.data != self.mode:
+        if self.feedback.data != self.mode:#check if mode is updated
             self.feedback.data=self.mode
             self.mode_feedback_pub.publish(self.feedback)
         #move forward or backward
@@ -102,4 +103,3 @@ if __name__ == "__main__":
         rospy.spin()
     except KeyboardInterrupt:
         print("keyboard interrupt")
-

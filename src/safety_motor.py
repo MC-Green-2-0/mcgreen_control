@@ -4,8 +4,6 @@ from mcgreen_control.msg import Peripheral, Arm, Sensor, Joystick, Array
 from numpy import interp
 from std_msgs.msg import Int16, Bool
 
-
-
 class safety_break:
     TOGGLE_TOPIC="/receiver"
     UPPER_IN = "/upper_motors"
@@ -39,12 +37,16 @@ class safety_break:
         self.safety_feedback_pub = rospy.Publisher(self.FEEDBACK_TOPIC, Bool, queue_size = 1)
         self.safety_feedback_pub.publish(self.feedback)
         self.us=[50]*4
+
     def up_update(self,data):
         self.upper = list(data.arr)
+
     def low_update(self,data):
         self.lower = list(data.arr)
+
     def face_update(self,data):
         self.face = data
+
     def sensor_update(self, data):
         #Replace 0's with old value
         for old, new in zip(self.us, enumerate(data.ultrasonic)):
@@ -52,6 +54,7 @@ class safety_break:
                 #data.ultrasonic[b[0]]=2000
                 data.ultrasonic[b[0]]=old
         self.us = data.ultrasonic
+
     def toggle_update(self, data):
         try:
             self.safety_clear = data.ts[5]

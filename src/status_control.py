@@ -2,12 +2,14 @@
 import rospy
 from mcgreen_control.msg import Peripheral, Arm, Sensor, Joystick, Face
 from std_msgs.msg import Int16
+
 class feedback_manager:
     FACE_TOPIC_IN = "/dot_matrix"
     MODE_TOPIC = "/mode_feedback"
     SAFETY_TOPIC = "/safety_feedback"
     LED_TOPIC = "/LED_control"
     FACE_TOPIC_OUT="/dot_matrix_send"
+
     def __init__(self):
         self.feedback = Joystick()
         self.face = Face()
@@ -18,18 +20,22 @@ class feedback_manager:
         self.face_pub = rospy.Publisher(self.FACE_TOPIC_OUT, Face, queue_size = 1)
         self.mode = 1
         self.safety = 1
+
     def face_update(self, data):
         self.face = data
+
     def mode_update(self,data):
         self.mode = data.data
         self.update()
+
     def safety_update(self,data):
         self.safety = data.data
         self.update()
+
     def update(self):
-        if self.safety == 0:
+        if not self.safety:
             self.face.Expression = 10
-            self.RBG=[255,0,0]
+            self.face.RGB=[255,0,0]
         self.feedback.joy = [self.mode, self.safety]
 
 

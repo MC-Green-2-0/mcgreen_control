@@ -9,7 +9,7 @@ from mcgreen_control.msg import Array
 #horizontal controller attached to GPIO 13
 
 class servo_controller:
-    SERVO_TOPIC = "/upper_safety"
+    SERVO_TOPIC = "/upper_motors"
     def __init__(self):
         self.tog_sub = rospy.Subscriber(self.SERVO_TOPIC, Array, self.servo_callback)
         GPIO.setwarnings(False)			#disable warnings

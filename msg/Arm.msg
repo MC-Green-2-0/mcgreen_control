@@ -1,2 +1,1 @@
-int16 ultra
-string arm
+int16 ultrasonic

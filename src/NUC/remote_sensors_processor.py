@@ -1,27 +1,23 @@
 #!/usr/bin/python
 import rospy
-from mcgreen_control.msg import Peripheral, Arm, Sensor, Joystick, Array
+from mcgreen_control.msg import Remote, Arm, Sensor, Array
 from std_msgs.msg import Int16
 
 class Manager:
     RECEIVER_OUTPUT_TOPIC =  "/receiver_output"
-    LEFT_TOPIC = "left_arm_send"
-    RIGHT_TOPIC = "peripheral/right_arm"
+    LEFT_TOPIC = "Sensors/left_arm_sensor"
+    RIGHT_TOPIC = "Sensors/right_arm_sensor"
     RECEIVER_TOPIC = "/receiver"
     SENSOR_TOPIC = "/sensor_data"
     FACE_TOPIC = "/facial_expression"
     initial_ultra=rospy.get_param("peripheral/default_ultra")
+
     def __init__(self):
         self.rec_sub = rospy.Subscriber(self.RECEIVER_OUTPUT_TOPIC, Array, self.receiver_callback)
         self.left_sub = rospy.Subscriber(self.LEFT_TOPIC, Arm, self.right_arm_callback)
         self.right_sub = rospy.Subscriber(self.RIGHT_TOPIC, Arm, self.left_arm_callback)
-        self.rec_pub = rospy.Publisher(self.RECEIVER_TOPIC, Peripheral, queue_size = 1)
+        self.rec_pub = rospy.Publisher(self.RECEIVER_TOPIC, Remote, queue_size = 1)
         self.sensor_pub = rospy.Publisher(self.SENSOR_TOPIC, Sensor, queue_size = 1)
-
-        face_pub = rospy.Publisher(self.FACE_TOPIC, Int16, queue_size=1)#just to initilize
-        face = Int16()
-        face.data=4
-        face_pub.publish(face)
 
         #Intiate variables
         self.sensors = Sensor()
@@ -36,11 +32,11 @@ class Manager:
 
     def right_arm_callback(self, data):
         self.right_data = data
-        self.data_process()
+        self.sensors.ultrasonic = [self.left_data.ultra, self.right_data.ultra]
 
     def left_arm_callback(self, data):
         self.left_data = data
-        self.data_process()
+        self.sensors.ultrasonic = [self.left_data.ultra, self.right_data.ultra]
 
     def receiver_callback(self, data):
         self.receiver_data = data.arr
@@ -50,15 +46,12 @@ class Manager:
         self.out_receiver.ts = self.receiver_data[4:]
         self.out_receiver.xy = self.receiver_data[3:1:-1] + self.receiver_data[:2]
 
-    def data_process(self):
-        self.sensors.ultrasonic = [self.left_data.ultra, self.right_data.ultra]
-
     def data_publish(self):
         self.sensor_pub.publish(self.sensors)
         self.rec_pub.publish(self.out_receiver)
 
 if __name__ == "__main__":
-    rospy.init_node("peripheral_manager")
+    rospy.init_node("remote_control_process")
     peripheral = Manager()
     r = rospy.Rate(100)
     while not rospy.is_shutdown():

@@ -19,12 +19,12 @@ font = ImageFont.truetype(font_name, font_size)
 
 
 class Screen:
-	MODE_TOPIC = "/mode_feedback"
+	MODE_TOPIC = "/mode_status"
 	GAME_TOPIC = "/current_game"
-	UPPER_TOPIC = "/upper_safety"
+	UPPER_TOPIC = "/upper_motors"
 	EXPRESSION_TOPIC = "/dot_matrix"
-	LOWER_TOPIC = "/lower_safety"
-	SAFETY_TOPIC = "/safety_feedback"
+	LOWER_TOPIC = "/lower_motors"
+	SAFETY_TOPIC = "/safety_status"
 	def __init__(self):
 		self.mode_sub = rospy.Subscriber(self.MODE_TOPIC, Int16, self.mode_set)
 		self.game_sub = rospy.Subscriber(self.GAME_TOPIC, String, self.game_set)
@@ -98,7 +98,7 @@ class Screen:
 		h = font.getsize(text)[1]
 		line_height = font.getsize("hg")[1]
 		length = len(text)
-		current_size = 0		
+		current_size = 0
 		begin = 0
 		newlines = 0
 		modified_text = ""
@@ -118,18 +118,18 @@ class Screen:
 					draw.text((0, self.line), text[begin:i], font=font, fill="white")
 					h = font.getsize(text[begin:i])[1]
 					self.line += line_height
-					
+
 					begin = i
 				#else:
 					#modified_text += text[i]
 			draw.text((0, self.line), text[begin:length+1], font=font, fill="white")
 			h = font.getsize(text[begin:length+1])[1]
 			self.line += line_height
-			 
+
 		# print(device.width)
 		# print(h)
 		# print(w)
-			
+
 	def d(self, draw):
 		draw.text((0, 45), "Game: RECYCLE DA" + self.game, font=font, fill="white")
 if __name__ == "__main__":

@@ -1,20 +1,21 @@
 #!/usr/bin/python
 import rospy
-from mcgreen_control.msg import Peripheral, Arm, Sensor, Joystick, Array
+from mcgreen_control.msg import Sensor, Array
 from numpy import interp
 from std_msgs.msg import Int16, Bool
 
 class safety_break:
     TOGGLE_TOPIC="/receiver"
-    UPPER_IN = "/upper_motors"
-    LOWER_IN = "/lower_motors"
+    UPPER_IN = "/remote_upper"
+    LOWER_IN = "/remote_lower"
     US_TOPIC = "/sensor_data"
-    UPPER_OUT = "/upper_safety"
-    LOWER_OUT = "/lower_safety"
-    FEEDBACK_TOPIC = "/safety_feedback"
-    FACE_IN="/facial_expression"
-    FACE_OUT="/dot_matrix"
+    UPPER_OUT = "/upper_motors"
+    LOWER_OUT = "/lower_motors"
+    FEEDBACK_TOPIC = "/safety_status"
+    FACE_IN="/game_face"
+    FACE_OUT="/facial_expression"
     threshold = rospy.get_param("peripheral/threshold_ultra")
+
     def __init__(self):
         self.upper_safe = Array()
         self.lower_safe = Array()
@@ -29,7 +30,7 @@ class safety_break:
         self.up_sub = rospy.Subscriber(self.UPPER_IN, Array, self.up_update)
         self.low_sub = rospy.Subscriber(self.LOWER_IN, Array, self.low_update)
         self.sensor_sub = rospy.Subscriber(self.US_TOPIC, Sensor, self.sensor_update)
-        self.tog_sub = rospy.Subscriber(self.TOGGLE_TOPIC, Peripheral, self.toggle_update)
+        self.tog_sub = rospy.Subscriber(self.TOGGLE_TOPIC, Remote, self.toggle_update)
         self.face_sub = rospy.Subscriber(self.FACE_IN, Int16, self.face_update)
         self.face_pub = rospy.Publisher(self.FACE_OUT, Int16, queue_size=1)
         self.upper_pub = rospy.Publisher(self.UPPER_OUT, Array, queue_size = 1)
@@ -48,11 +49,7 @@ class safety_break:
         self.face = data
 
     def sensor_update(self, data):
-        #Replace 0's with old value
-        for old, new in zip(self.us, enumerate(data.ultrasonic)):
-            if new[1] == 0:
-                #data.ultrasonic[b[0]]=2000
-                data.ultrasonic[b[0]]=old
+        #Need to add code to deal with bad data
         self.us = data.ultrasonic
 
     def toggle_update(self, data):
@@ -60,6 +57,7 @@ class safety_break:
             self.safety_clear = data.ts[5]
         except IndexError:
             self.safety_clear = 1000
+
     def update(self):
         # upper_safe = [arm_left, arm_right, head_x, head_y]
         if not all(item > self.threshold for item in self.us):

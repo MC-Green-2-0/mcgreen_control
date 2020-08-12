@@ -54,7 +54,6 @@ find_package(catkin REQUIRED COMPONENTS
    Peripheral.msg
    Arm.msg
    Sensor.msg
-   Joystick.msg
    Array.msg
  )
 

@@ -3,9 +3,9 @@ import time
 import serial
 import chardet
 import rospy
-from mcgreen_control.msg import Peripheral, Arm, Sensor, Joystick, Array
+from mcgreen_control.msg import Array
 from binascii import hexlify
-from binascii import unhexlify 
+from binascii import unhexlify
 from threading import Timer
 ser = serial.Serial(
 	port='/dev/ttyS0',
@@ -28,10 +28,9 @@ def talker():
 	pub = rospy.Publisher('/receiver_output', Array, queue_size=0)
 	rospy.init_node('pi', anonymous=True)
 	rate=rospy.Rate(20)
-	
-#while 1:
+
 	while not rospy.is_shutdown():
-	
+
 		a = ser.read(1)
 		x = hexlify(a)
 		#print(x)
@@ -52,7 +51,7 @@ def talker():
 
 					#ch[i] = int(6)
 					#print(ord(a+b))
-					
+
 				#print(ch)
 				#print("\n")
 		elif x == "":
@@ -60,7 +59,7 @@ def talker():
 
 		#rate.sleep()
 		msg = Array()
-		
+
 		msg.arr = ch
 		pub.publish(msg)
 
@@ -69,4 +68,3 @@ if __name__ == '__main__':
 		talker()
 	except rospy.ROSInterruptException:
 		pass
-

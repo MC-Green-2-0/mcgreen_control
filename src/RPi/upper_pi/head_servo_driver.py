@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #USING PWM, but maybe change to another rotate-type movement?
 import rospy
 import RPi.GPIO as GPIO
@@ -8,7 +8,7 @@ from mcgreen_control.msg import Array
 #vertical controller attached to GPIO 12
 #horizontal controller attached to GPIO 13
 
-class servo_controller:
+class Head_Servo_Driver:
     SERVO_TOPIC = "/upper_motors"
     def __init__(self):
         self.tog_sub = rospy.Subscriber(self.SERVO_TOPIC, Array, self.servo_callback)
@@ -43,7 +43,7 @@ class servo_controller:
 if __name__ == "__main__":
     try:
         rospy.init_node("head_controller")
-        controller = servo_controller()
+        controller = Head_Servo_Driver()
         rospy.spin()
         rospy.on_shutdown(controller.clean)
     except KeyboardInterrupt:

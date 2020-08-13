@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import time
 import rospy
 from mcgreen_control.msg import Arm
@@ -40,7 +40,7 @@ class Arm_Sensor:
 
 if __name__ == "__main__":
     rospy.init_node("arm_sensor")
-    args = {"topic": rospy.get_param("~topic"), "rate": rospy.get_param("/peripheral/rate")}
+    args = {"topic": rospy.get_param("~topic"), "rate": rospy.get_param("/Sensors/rate")}
     sense = Arm_Sensor(args["topic"])
     r = rospy.Rate(args["rate"])
     while not rospy.is_shutdown():

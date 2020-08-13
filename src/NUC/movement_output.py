@@ -1,10 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import rospy
 from mcgreen_control.msg import Sensor, Array
 from numpy import interp
 from std_msgs.msg import Int16, Bool
 
-class safety_break:
+class Movement_Output:
     TOGGLE_TOPIC="/receiver"
     UPPER_IN = "/remote_upper"
     LOWER_IN = "/remote_lower"
@@ -84,7 +84,7 @@ class safety_break:
 
 if __name__ == "__main__":
     rospy.init_node("safety_cutoff")
-    safe = safety_break()
+    safe = Movement_Output()
     #rospy.spin()
     r = rospy.Rate(50)
     while not rospy.is_shutdown():

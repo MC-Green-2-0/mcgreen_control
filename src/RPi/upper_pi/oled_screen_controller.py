@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import rospy
-# from node_control.msg import Peripheral, Arm, Sensor, Joystick, Array
 from std_msgs.msg import Int16, String, Bool
 from mcgreen_control.msg import Array
 from luma.core.interface.serial import i2c, spi
@@ -18,7 +17,7 @@ font_name = "FreeMono.ttf"
 font = ImageFont.truetype(font_name, font_size)
 
 
-class Screen:
+class OLED:
 	MODE_TOPIC = "/mode_status"
 	GAME_TOPIC = "/current_game"
 	UPPER_TOPIC = "/upper_motors"
@@ -134,7 +133,7 @@ class Screen:
 		draw.text((0, 45), "Game: RECYCLE DA" + self.game, font=font, fill="white")
 if __name__ == "__main__":
 	rospy.init_node("status_screen")
-	screen = Screen()
+	screen = OLED()
 	rate = rospy.Rate(10)
 	while not rospy.is_shutdown():
 		screen.display()

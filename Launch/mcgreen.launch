@@ -19,23 +19,23 @@
 
 	<node
 		machine="upper_pi"
-		name="servo_controller"
+		name="Head_Servo_Driver"
 		pkg="mcgreen_control"
 		type="head_servo_driver.py"
 	/>
 
 	<node
 		machine="upper_pi"
-		name="screen_controller"
+		name="OLED_Screen_Controller"
 		pkg="mcgreen_control"
-		type="oled.py"
+		type="oled_screen_controller.py"
 	/>
 
-	<node name="remote_control_processor" pkg="mcgreen_control" respawn="true" type="remote_sensors_processor.py" />
+	<node name="Remote_Control_Processor" pkg="mcgreen_control" respawn="true" type="remote_sensors_processor.py" />
 
-	<node name="safety_cutoff" pkg="mcgreen_control" respawn="true" type="movement_output.py" />
+	<node name="Movement_Output" pkg="mcgreen_control" respawn="true" type="movement_output.py" />
 
-	<node name="mode_select" pkg="mcgreen_control" respawn="true" type="mode_select.py">
+	<node name="Mode_Select" pkg="mcgreen_control" respawn="true" type="mode_select.py">
 
 		<param name="speed_multiplier" value="2"/>
 		<param name="joystick_threshold" value="2"/>
@@ -50,21 +50,30 @@
 
 		<param name="threshold_ultra" value="40" type="int" />
 
-		<node name="right_arm_sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
+		<node name="Right_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
 			<param name="topic" value="right_arm_sensor"/>
 		</node>
 
-		<node name="left_arm_sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
+		<node name="Left_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
 			<param name="topic" value="left_arm_sensor"/>
 		</node>
 
 		<node
 			machine="lower_pi"
-			name="receiver_data"
+			name="Remote_Control_Reciever"
 			pkg="mcgreen_control"
-			type="remote_control.py"
+			type="remote_control_reciever.py"
 		/>
 	</group>
+
+
+		<node name="Right_Linear_Actuator" pkg="mcgreen_control" respawn="true" type="linear_actuator_driver.py">
+			<param name="side" value="right"/>
+		</node>
+
+		<node name="Left_Linear_Actuator" pkg="mcgreen_control" respawn="true" type="linear_actuator_driver.py">
+			<param name="side" value="left"/>
+		</node>
 
 
 </launch>

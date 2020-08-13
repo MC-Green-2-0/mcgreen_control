@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import rospy
 import numpy as np
 from mcgreen_control.msg import Remote, Array
@@ -6,7 +6,7 @@ from std_msgs.msg import Int16
 
 
 #movement threshold to prevent accidental input
-class ModeSelector:
+class Mode_Selector:
     RECEIVER_TOPIC = "/receiver"
     UPPER_TOPIC = "/remote_upper"
     LOWER_TOPIC = "/remote_lower"
@@ -102,7 +102,7 @@ if __name__ == "__main__":
         rospy.init_node("mode_select")
         multiplier = rospy.get_param("~speed_multiplier")
         threshold = rospy.get_param("~joystick_threshold")
-        mode = ModeSelector(multiplier, threshold)
+        mode = Mode_Selector(multiplier, threshold)
         rospy.spin()
     except KeyboardInterrupt:
         print("keyboard interrupt")

@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import rospy
 from mcgreen_control.msg import Remote, Arm, Sensor, Array
 from std_msgs.msg import Int16
 
-class Manager:
+class Remote_Sensor_Processor:
     RECEIVER_OUTPUT_TOPIC =  "/receiver_output"
     LEFT_TOPIC = "Sensors/left_arm_sensor"
     RIGHT_TOPIC = "Sensors/right_arm_sensor"
@@ -52,7 +52,7 @@ class Manager:
 
 if __name__ == "__main__":
     rospy.init_node("remote_control_process")
-    peripheral = Manager()
+    peripheral = Remote_Sensor_Processor()
     r = rospy.Rate(100)
     while not rospy.is_shutdown():
         peripheral.data_publish()

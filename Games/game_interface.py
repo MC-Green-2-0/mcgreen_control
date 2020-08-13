@@ -8,7 +8,7 @@ from mcgreen_control.msg import Array
 # 1-3 -> Happy Faces
 # 4   -> Neutral
 # 5-6 -> Sad Faces
-class Head_comm:
+class Game_Interface:
     FACE_EXPRESSION = "/game_face"
     HEAD_TOPIC = "/game_motors"
     GAME_TOPIC = "/current_game"
@@ -45,7 +45,7 @@ class Head_comm:
 if __name__=="__main__":
     try:
         rospy.init_node("Head_Controller")
-        face_controller = Head_comm("init")
+        face_controller = Game_Interface("init")
         rospy.spin()
     except KeyboardInterrupt:
         pass

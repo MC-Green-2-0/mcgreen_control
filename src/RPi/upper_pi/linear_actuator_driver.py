@@ -20,6 +20,7 @@ class Linear_Actuator_Driver:
         self.side = side
         self.index = -1
         controller = Controller()
+
     def actuator_callback(self, data):
         if side == "left":
             self.index = 0

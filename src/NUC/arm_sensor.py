@@ -10,6 +10,7 @@ import Adafruit_GPIO as GPIO
 import argparse
 
 class MAXBOTIX_I2C():
+
     def __init__(self, ft232h, address=112):
         self.i2c = FT232H.I2CDevice(ft232h,112)
 
@@ -23,6 +24,7 @@ class MAXBOTIX_I2C():
         return val >> 8
 
 class Arm_Sensor:
+
     def __init__(self, topic):
         self.arm_pub = rospy.Publisher(topic, Arm, queue_size=1)
         self.data = Arm()

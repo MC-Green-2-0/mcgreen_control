@@ -31,7 +31,7 @@
 		type="oled_screen_controller.py"
 	/>
 
-	<node name="Remote_Control_Processor" pkg="mcgreen_control" respawn="true" type="remote_sensors_processor.py" />
+	<node name="Remote_Sensors_Processor" pkg="mcgreen_control" respawn="true" type="remote_sensors_processor.py" />
 
 	<node name="Movement_Output" pkg="mcgreen_control" respawn="true" type="movement_output.py" />
 
@@ -51,11 +51,11 @@
 		<param name="threshold_ultra" value="40" type="int" />
 
 		<node name="Right_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
-			<param name="topic" value="right_arm_sensor"/>
+			<param name="topic" value="/right_arm_sensor"/>
 		</node>
 
 		<node name="Left_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
-			<param name="topic" value="left_arm_sensor"/>
+			<param name="topic" value="/left_arm_sensor"/>
 		</node>
 
 		<node

@@ -48,4 +48,6 @@ if __name__=="__main__":
         face_controller = Game_Interface("init")
         rospy.spin()
     except KeyboardInterrupt:
-        pass
+		pass
+	except rospy.ROSInterruptException:
+		pass

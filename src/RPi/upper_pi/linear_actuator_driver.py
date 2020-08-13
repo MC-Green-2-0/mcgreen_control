@@ -47,4 +47,6 @@ if __name__ == "__main__":
         actuator = Linear_Actuator_Driver(args["side"])
         rospy.spin()
     except KeyboardInterrupt:
-        print("keyboard interrupt")
+		pass
+	except rospy.ROSInterruptException:
+		pass

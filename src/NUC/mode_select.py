@@ -105,4 +105,6 @@ if __name__ == "__main__":
         mode = Mode_Selector(multiplier, threshold)
         rospy.spin()
     except KeyboardInterrupt:
-        print("keyboard interrupt")
+		pass
+	except rospy.ROSInterruptException:
+		pass

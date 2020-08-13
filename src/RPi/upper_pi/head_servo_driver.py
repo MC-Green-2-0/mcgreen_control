@@ -47,4 +47,6 @@ if __name__ == "__main__":
         rospy.spin()
         rospy.on_shutdown(controller.clean)
     except KeyboardInterrupt:
-        print("keyboard interrupt")
+		pass
+	except rospy.ROSInterruptException:
+		pass

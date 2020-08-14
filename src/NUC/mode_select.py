@@ -14,7 +14,7 @@ class Mode_Selector:
     FEEDBACK_TOPIC = "/mode_status"
 
     def __init__(self, multiplier, threshold):
-        self.rec_sub = rospy.Subscriber(self.RECEIVER_TOPIC, Peripheral, self.rec_update)
+        self.rec_sub = rospy.Subscriber(self.RECEIVER_TOPIC, Remote, self.rec_update)
         self.game_sub = rospy.Subscriber(self.GAME_TOPIC, Array, self.game_update)
         self.upper_safety_pub = rospy.Publisher(self.UPPER_TOPIC, Array, queue_size = 1)
         self.lower_safety_pub = rospy.Publisher(self.LOWER_TOPIC, Array, queue_size = 1)
@@ -105,6 +105,6 @@ if __name__ == "__main__":
         mode = Mode_Selector(multiplier, threshold)
         rospy.spin()
     except KeyboardInterrupt:
-		pass
-	except rospy.ROSInterruptException:
-		pass
+        pass
+    except rospy.ROSInterruptException:
+        pass

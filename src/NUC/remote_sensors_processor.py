@@ -9,7 +9,7 @@ class Remote_Sensor_Processor:
     RIGHT_TOPIC = "Sensors/right_arm_sensor"
     RECEIVER_TOPIC = "/receiver"
     SENSOR_TOPIC = "/sensor_data"
-    initial_ultra=rospy.get_param("peripheral/default_ultra")
+    initial_ultra=rospy.get_param("Sensors/default_ultra")
 
     def __init__(self):
         self.rec_sub = rospy.Subscriber(self.RECEIVER_OUTPUT_TOPIC, Array, self.receiver_callback)
@@ -20,13 +20,13 @@ class Remote_Sensor_Processor:
 
         #Intiate variables
         self.sensors = Sensor()
-        self.out_receiver = Peripheral()
+        self.out_receiver = Remote()
 
         #Arm initial values
         self.left_data=Arm()
-        self.left_data.ultra=self.initial_ultra
+        self.left_data.ultrasonic=self.initial_ultra
         self.right_data=Arm()
-        self.right_data.ultra=self.initial_ultra
+        self.right_data.ultrasonic=self.initial_ultra
         self.sensors.ultrasonic=[self.initial_ultra]*2
 
     def right_arm_callback(self, data):

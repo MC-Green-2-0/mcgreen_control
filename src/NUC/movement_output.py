@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import rospy
-from mcgreen_control.msg import Sensor, Array
+from mcgreen_control.msg import Sensor, Array, Remote
 from numpy import interp
 from std_msgs.msg import Int16, Bool
 
@@ -14,7 +14,7 @@ class Movement_Output:
     FEEDBACK_TOPIC = "/safety_status"
     FACE_IN="/game_face"
     FACE_OUT="/facial_expression"
-    threshold = rospy.get_param("peripheral/threshold_ultra")
+    threshold = rospy.get_param("Sensors/threshold_ultra")
 
     def __init__(self):
         self.upper_safe = Array()

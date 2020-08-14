@@ -4,6 +4,7 @@
 		name="upper_pi"
 		address="upper_pi"
 		user="upperpi"
+		password="mcgreen"
 		timeout="10"
 		env-loader="~/upper_ws/devel/remote_env_loader.sh"
 	/>
@@ -13,6 +14,7 @@
 		name="lower_pi"
 		address="lower_pi"
 		user="lowerpi"
+		password="mcgreen"
 		timeout="10"
 		env-loader="~/lower_ws/devel/remote_env_loader.sh"
 	/>
@@ -50,11 +52,11 @@
 
 		<param name="threshold_ultra" value="40" type="int" />
 
-		<node name="Right_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
+		<node machine="upper_pi" name="Right_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
 			<param name="topic" value="/right_arm_sensor"/>
 		</node>
 
-		<node name="Left_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
+		<node machine="upper_pi" name="Left_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
 			<param name="topic" value="/left_arm_sensor"/>
 		</node>
 
@@ -67,11 +69,11 @@
 	</group>
 
 
-		<node name="Right_Linear_Actuator" pkg="mcgreen_control" respawn="true" type="linear_actuator_driver.py">
+		<node machine="upper_pi" name="Right_Linear_Actuator" pkg="mcgreen_control" respawn="true" type="linear_actuator_driver.py">
 			<param name="side" value="right"/>
 		</node>
 
-		<node name="Left_Linear_Actuator" pkg="mcgreen_control" respawn="true" type="linear_actuator_driver.py">
+		<node machine="upper_pi" name="Left_Linear_Actuator" pkg="mcgreen_control" respawn="true" type="linear_actuator_driver.py">
 			<param name="side" value="left"/>
 		</node>
 

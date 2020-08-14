@@ -21,7 +21,7 @@ class OLED:
 	MODE_TOPIC = "/mode_status"
 	GAME_TOPIC = "/current_game"
 	UPPER_TOPIC = "/upper_motors"
-	EXPRESSION_TOPIC = "/dot_matrix"
+	EXPRESSION_TOPIC = "/facial_expression"
 	LOWER_TOPIC = "/lower_motors"
 	SAFETY_TOPIC = "/safety_status"
 	def __init__(self):

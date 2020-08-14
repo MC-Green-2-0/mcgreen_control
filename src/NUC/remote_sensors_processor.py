@@ -9,7 +9,6 @@ class Remote_Sensor_Processor:
     RIGHT_TOPIC = "Sensors/right_arm_sensor"
     RECEIVER_TOPIC = "/receiver"
     SENSOR_TOPIC = "/sensor_data"
-    FACE_TOPIC = "/facial_expression"
     initial_ultra=rospy.get_param("peripheral/default_ultra")
 
     def __init__(self):

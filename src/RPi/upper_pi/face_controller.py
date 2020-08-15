@@ -6,6 +6,7 @@ from mcgreen_control.msg import Int16
 
 class Face_Controller:
     FACE_TOPIC = "/facial_expression"
+
     def __init__(self):
         self.tog_sub = rospy.Subscriber(self.FACE_TOPIC, Int16, self.face_callback)
 

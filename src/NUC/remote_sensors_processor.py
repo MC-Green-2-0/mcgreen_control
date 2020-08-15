@@ -51,8 +51,9 @@ class Remote_Sensor_Processor:
 
 if __name__ == "__main__":
     rospy.init_node("remote_control_process")
+    args = {"rate": rospy.get_param("~rate")}
     peripheral = Remote_Sensor_Processor()
-    r = rospy.Rate(100)
+    r = rospy.Rate(args["rate"])
     while not rospy.is_shutdown():
         peripheral.data_publish()
         r.sleep()

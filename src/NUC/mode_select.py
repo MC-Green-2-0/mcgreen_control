@@ -4,8 +4,6 @@ import numpy as np
 from mcgreen_control.msg import Remote, Array
 from std_msgs.msg import Int16
 
-
-#movement threshold to prevent accidental input
 class Mode_Selector:
     RECEIVER_TOPIC = "/receiver"
     UPPER_TOPIC = "/remote_upper"
@@ -27,7 +25,7 @@ class Mode_Selector:
         self.feedback = Int16()
         self.feedback.data = 1
         self.out_upper = Array()
-        self.out_upper.arr = [1500] * 2 + [90] * 2
+        self.out_upper.arr = [0] * 2 + [90] * 2
         self.out_lower = Array()
         self.mode_feedback_pub.publish(self.feedback)
 
@@ -56,10 +54,11 @@ class Mode_Selector:
             if self.mode == 1:
                 if self.up_down == 1:
                     lower_data=self.receiver_joystick[:4]
-                    upper_data=self.out_upper.arr#I don't understand the need for this
+                    upper_data=self.out_upper.arr
                 if self.up_down == 0:
                     upper_data=self.receiver_joystick[:-2]
                     #move data from scroll wheels to replace left joystick
+                    #will have to change to 0 and 1 here
                     upper_data[:2] = self.receiver_joystick[-2:]
                     print("input: ", upper_data)
                     #convert values from 1000-2000 range to 0-180 range
@@ -67,7 +66,6 @@ class Mode_Selector:
                     upper_data[3] = ((float(upper_data[3]) - 1000) / (1000) * (180))
                     for x in range(2,4):
                         if abs(upper_data[x] - 90) > self.threshold:
-                            # print("current: ",self.out_upper.arr[x])
                             increment = self.multiplier*np.sign(upper_data[x] - 90)
                             if increment + self.out_upper.arr[x] > 180:
                                 upper_data[x]=180
@@ -78,6 +76,7 @@ class Mode_Selector:
                         else:
                             upper_data[x] = self.out_upper.arr[x]
                 if self.reset == 1:#may have to update for drivetrain motors as well
+                    upper_data[0:2] = [0,0]
                     upper_data[2:] = [90,90]
         except IndexError:
             print("Waiting for receiver data")

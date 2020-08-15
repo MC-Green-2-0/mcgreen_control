@@ -24,6 +24,7 @@ class OLED:
 	EXPRESSION_TOPIC = "/facial_expression"
 	LOWER_TOPIC = "/lower_motors"
 	SAFETY_TOPIC = "/safety_status"
+	
 	def __init__(self):
 		self.mode_sub = rospy.Subscriber(self.MODE_TOPIC, Int16, self.mode_set)
 		self.game_sub = rospy.Subscriber(self.GAME_TOPIC, String, self.game_set)
@@ -133,8 +134,9 @@ class OLED:
 		draw.text((0, 45), "Game: RECYCLE DA" + self.game, font=font, fill="white")
 if __name__ == "__main__":
 	rospy.init_node("OLED_Screen_Controller")
+	args = {"rate": rospy.get_param("~rate")}
 	screen = OLED()
-	rate = rospy.Rate(10)
+	r = rospy.Rate(args["rate"])
 	while not rospy.is_shutdown():
 		screen.display()
-		rate.sleep()
+		r.sleep()

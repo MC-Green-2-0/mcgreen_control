@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>mcgreen_control</name>
-  <version>2.0</version>
+  <version>2.0.0</version>
   <description>The McGreen Phase II control package</description>
 
   <maintainer email="geeky2307@gmail.com">mcgreen</maintainer>

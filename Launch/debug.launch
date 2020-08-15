@@ -1,0 +1,36 @@
+<launch>
+
+	<machine
+		name="upper_pi"
+		address="upper_pi"
+		user="upperpi"
+		password="mcgreen"
+		timeout="10"
+		env-loader="~/upper_ws/devel/remote_env_loader.sh"
+	/>
+
+	<group ns="Sensors">
+		<param name="rate" value="100" type="int"/>
+		<param name="default_ultra" value="80" type="int"/>
+		<param name="threshold_ultra" value="40" type="int" />
+
+		<node machine="upper_pi" name="Right_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
+			<param name="topic" value="/right_arm_sensor"/>
+		</node>
+
+		<node machine="upper_pi" name="Left_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
+			<param name="topic" value="/left_arm_sensor"/>
+		</node>
+	</group>
+
+
+	<machine
+		name="lower_pi"
+		address="lower_pi"
+		user="lowerpi"
+		password="mcgreen"
+		timeout="10"
+		env-loader="~/lower_ws/devel/remote_env_loader.sh"
+	/>
+
+</launch>

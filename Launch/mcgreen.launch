@@ -69,4 +69,6 @@
 		<param name="joystick_threshold" value="2"/>
 	</node>
 
+	<node name="Game_Interface" pkg="mcgreen_control" type="game_interface.py"/>
+
 </launch>

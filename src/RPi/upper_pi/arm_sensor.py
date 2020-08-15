@@ -5,7 +5,8 @@ from mcgreen_control.msg import Arm
 import math
 from collections import namedtuple
 import struct
-import FT232H
+import Adafruit_GPIO.FT232H as FT232H
+import Adafruit_GPIO as GPIO
 import argparse
 
 class MAXBOTIX_I2C():
@@ -40,13 +41,10 @@ class Arm_Sensor:
         self.arm_pub.publish(self.data)
 
 if __name__ == "__main__":
-    try:
-        rospy.init_node("arm_sensor")
-        args = {"topic": rospy.get_param("~topic"), "rate": rospy.get_param("/Sensors/rate")}
-        sense = Arm_Sensor(args["topic"])
-        r = rospy.Rate(args["rate"])
-        while not rospy.is_shutdown():
-            sense.data_publish()
-            r.sleep()
-    except:
-        pass
+    rospy.init_node("arm_sensor")
+    args = {"topic": rospy.get_param("~topic"), "rate": rospy.get_param("/Sensors/rate")}
+    sense = Arm_Sensor(args["topic"])
+    r = rospy.Rate(args["rate"])
+    while not rospy.is_shutdown():
+        sense.data_publish()
+        r.sleep()

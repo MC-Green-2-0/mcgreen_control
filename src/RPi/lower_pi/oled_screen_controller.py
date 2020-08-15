@@ -9,13 +9,11 @@ from PIL import ImageFont, ImageDraw
 from time import sleep
 import textwrap
 
-
 serial = spi(device=0, port=0)
 device = ssd1327(serial)
 font_size = 14
 font_name = "FreeMono.ttf"
 font = ImageFont.truetype(font_name, font_size)
-
 
 class OLED:
 	MODE_TOPIC = "/mode_status"
@@ -24,7 +22,7 @@ class OLED:
 	EXPRESSION_TOPIC = "/facial_expression"
 	LOWER_TOPIC = "/lower_motors"
 	SAFETY_TOPIC = "/safety_status"
-	
+
 	def __init__(self):
 		self.mode_sub = rospy.Subscriber(self.MODE_TOPIC, Int16, self.mode_set)
 		self.game_sub = rospy.Subscriber(self.GAME_TOPIC, String, self.game_set)

@@ -8,8 +8,6 @@ from binascii import hexlify
 from binascii import unhexlify
 from threading import Timer
 
-
-
 class Remote_Control:
 	RECIEVER_TOPIC = "/receiver_output"
 

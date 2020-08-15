@@ -10,6 +10,7 @@ from mcgreen_control.msg import Array
 
 class Head_Servo_Driver:
     SERVO_TOPIC = "/upper_motors"
+
     def __init__(self):
         self.tog_sub = rospy.Subscriber(self.SERVO_TOPIC, Array, self.servo_callback)
         GPIO.setwarnings(False)			#disable warnings

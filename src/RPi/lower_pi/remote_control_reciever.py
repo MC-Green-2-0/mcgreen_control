@@ -8,10 +8,9 @@ from binascii import hexlify
 from binascii import unhexlify
 from threading import Timer
 
-
-
 class Remote_Control:
 	RECIEVER_TOPIC = "/receiver_output"
+
 	ser = serial.Serial(
 		port='/dev/ttyS0',
 		baudrate=115200,
@@ -23,9 +22,9 @@ class Remote_Control:
 	counter=0
 	ch = [1500 for i in range(10)]
 
-	def __init__ (self):
+	def __init__ (self, rate):
 		self.pub = rospy.Publisher(self.RECIEVER_TOPIC, Array, queue_size=0)
-		self.rate = rospy.Rate(20)
+		self.rate = rospy.Rate(rate)
 
 	def bytes_to_int(self, bytes):
 		result=0
@@ -59,8 +58,9 @@ class Remote_Control:
 
 if __name__ == '__main__':
 	try:
-		rospy.init_node("Remote_Control")
-		face_controller = Remote_Control()
+		rospy.init_node("Remote_Control_Reciever")
+		args = {"rate": rospy.get_param("~rate")}
+		face_controller = Remote_Control(args["rate"])
 		face_controller.talker()
 		rospy.spin()
 	except KeyboardInterrupt:

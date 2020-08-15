@@ -84,9 +84,10 @@ class Movement_Output:
 
 if __name__ == "__main__":
     rospy.init_node("safety_cutoff")
+    args = {"rate": rospy.get_param("~rate")}
     safe = Movement_Output()
     #rospy.spin()
-    r = rospy.Rate(50)
+    r = rospy.Rate(args["rate"])
     while not rospy.is_shutdown():
         safe.update()
         r.sleep()

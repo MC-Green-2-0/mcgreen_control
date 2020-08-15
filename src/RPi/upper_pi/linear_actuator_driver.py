@@ -4,9 +4,8 @@ import RPi.GPIO as GPIO
 import time
 from mcgreen_control.msg import Array
 
-MOTOR_TOPIC = "/upper_motors"
-
 class Controller:
+
     def __init__ (self, side):
         pass
 
@@ -15,6 +14,8 @@ class Controller:
 
 
 class Linear_Actuator_Driver:
+    MOTOR_TOPIC = "/upper_motors"
+
     def __init__ (self, side):
         self.motor_sub = rospy.Subscriber(self.MOTOR_TOPIC, Array, self.actuator_callback)
         self.side = side

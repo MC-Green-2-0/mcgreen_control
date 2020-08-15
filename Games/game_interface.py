@@ -14,7 +14,6 @@ class Game_Interface:
     GAME_TOPIC = "/current_game"
 
     def __init__ (self, game):
-        rospy.init_node("Head_Controller")
         rospy.on_shutdown(self.game_cleanup)
         self.face_pub=rospy.Publisher(self.FACE_EXPRESSION, Int16, queue_size=1)
         self.head_pub=rospy.Publisher(self.HEAD_TOPIC, Array, queue_size=1)
@@ -44,7 +43,7 @@ class Game_Interface:
 
 if __name__=="__main__":
     try:
-        rospy.init_node("Head_Controller")
+        rospy.init_node("Game_Interface")
         face_controller = Game_Interface("init")
         rospy.spin()
     except KeyboardInterrupt:

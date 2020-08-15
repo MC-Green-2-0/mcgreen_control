@@ -132,7 +132,7 @@ class OLED:
 	def d(self, draw):
 		draw.text((0, 45), "Game: RECYCLE DA" + self.game, font=font, fill="white")
 if __name__ == "__main__":
-	rospy.init_node("status_screen")
+	rospy.init_node("OLED_Screen_Controller")
 	screen = OLED()
 	rate = rospy.Rate(10)
 	while not rospy.is_shutdown():

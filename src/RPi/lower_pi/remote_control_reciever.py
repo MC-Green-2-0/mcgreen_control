@@ -59,7 +59,7 @@ class Remote_Control:
 
 if __name__ == '__main__':
 	try:
-		rospy.init_node("Remote_Control")
+		rospy.init_node("Remote_Control_Reciever")
 		face_controller = Remote_Control()
 		face_controller.talker()
 		rospy.spin()

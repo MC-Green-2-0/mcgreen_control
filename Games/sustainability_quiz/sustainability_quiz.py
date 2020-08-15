@@ -9,9 +9,9 @@ import random
 import sys
 import threading
 #UNCOMMENT BOTTOM TWO LINES BEFORE USING BOTTOM TWO LINES
-sys.path.append("../")
-from head_controller import Head_comm
-controller = Head_comm("Sust. Quiz")
+# sys.path.append("../")
+# from head_controller import Head_comm
+# controller = Head_comm("Sust. Quiz")
 
 #Screen size of window
 window_size = (1920,1080)
@@ -75,7 +75,7 @@ class Button:
     def is_pressed(self, touch_status):
         x, y, w, h = self.rectAttrs
         mouse = pygame.mouse.get_pos()
-        
+
         #Check if mouse is hovering over button or not
         if x + w > mouse[0] > x and y + h > mouse[1] > y:
             if touch_status == True:
@@ -107,27 +107,27 @@ def getFaceNum(statusNum=2):
     else:
         return 2
 
-def moveHeadUpDown():
-    #Fine tune bottom as needed
-    upDegree = 45
-    downDegree = 90 + 45
-    moveDelay = 0.5
-    controller.head_update([90,upDegree])
-    #Delay for moveDelay seconds
-    time.sleep(moveDelay)
-    controller.head_update([90, downDegree])
-
-def moveHeadLeftRight():
-    #Fine tune bottom as needed
-    leftDegree = 45
-    rightDegree = 90 + 45
-    moveDelay = 0.5
-    controller.head_update([leftDegree, 90])
-    #Delay for moveDelay seconds
-    time.sleep(moveDelay)
-    controller.head_update([rightDegree, 90])
-    time.sleep(moveDelay)
-    controller.head_update([90, 90])
+# def moveHeadUpDown():
+#     #Fine tune bottom as needed
+#     upDegree = 45
+#     downDegree = 90 + 45
+#     moveDelay = 0.5
+#     controller.head_update([90,upDegree])
+#     #Delay for moveDelay seconds
+#     time.sleep(moveDelay)
+#     controller.head_update([90, downDegree])
+#
+# def moveHeadLeftRight():
+#     #Fine tune bottom as needed
+#     leftDegree = 45
+#     rightDegree = 90 + 45
+#     moveDelay = 0.5
+#     controller.head_update([leftDegree, 90])
+#     #Delay for moveDelay seconds
+#     time.sleep(moveDelay)
+#     controller.head_update([rightDegree, 90])
+#     time.sleep(moveDelay)
+#     controller.head_update([90, 90])
 
 #Generate Sustainability Bar for game WORKS
 def generate_bar(surfaceName, x, y, num_right, num_wrong, num_questions, color):
@@ -135,25 +135,25 @@ def generate_bar(surfaceName, x, y, num_right, num_wrong, num_questions, color):
     fixed_width = 1500 / 2
     #Fixed height for full size bar
     fixed_height = 100 / 2
-    
+
     width_div = fixed_width / num_questions
-    
+
     #Calculate width of bar
     w = max((width_div * num_right) - (0.5 * width_div * num_wrong), 0)
-    
+
     #Draw sustainability bar
     pygame.draw.rect(surfaceName, color, (x, y, w, fixed_height))
 
     #Draw bar outline
     pygame.draw.rect(surfaceName, white, (x, y, fixed_width, fixed_height), 3)
 
-    
+
 def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans):
     #Status is a list [score, num_right, num_wrong, num_questions]
 
     #Button dimensions
     button_w = 750 / 2; button_h = 250 / 2
-    
+
     #Reference x, y coordinates for upper left button
     ref_x = window_size[0] / 4; ref_y = window_size[1] / 4
 
@@ -179,7 +179,7 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
 
     ScoreSurf, ScoreRect = text_objects('Score: ' + str(status[0]) + ' points', mediumText, white)
     ScoreRect.center = ((0.80 * window_size[0]), (window_size[1] / 16))
-    
+
     ElectricSurf, ElectricRect = text_objects('Sustainability Bar: ', mediumText, white)
     ElectricRect.topleft = ((0.10 * window_size[0]), (0.70 * window_size[1]))
 
@@ -200,9 +200,9 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
     up_right_rect = up_right_button.get_rect()
     bottom_left_rect = bottom_left_button.get_rect()
     bottom_right_rect = bottom_right_button.get_rect()
-    
+
     updateList = [up_left_rect, up_right_rect, bottom_left_rect, bottom_right_rect]
-    
+
     #Update ENTIRE screen just once
     pygame.display.update()
 
@@ -217,7 +217,7 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
 
             if event.type == pygame.QUIT:
                 #Set Face to Neutral
-                controller.face_update(getFaceNum())
+                # controller.face_update(getFaceNum())
 
                 pygame.quit()
                 quit()
@@ -269,11 +269,11 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
 def generate_correct_page(surface, status, point_inc):
     #Uncomment below
     #Make Face Happy
-    controller.face_update(getFaceNum(1))
-    #Instantiate motor thread and begin it
-    motorThread = threading.Thread(target=moveHeadUpDown, args=())
-    motorThread.start()
-    
+    # controller.face_update(getFaceNum(1))
+    # #Instantiate motor thread and begin it
+    # motorThread = threading.Thread(target=moveHeadUpDown, args=())
+    # motorThread.start()
+
     next_button = Button(surface, darker_blue, blue, (0.5 * window_size[0] - (0.5 *375), 0.5 * window_size[1], 750 / 2, 250 / 2), 'Next Question', mediumText)
 
     next_button_rect = next_button.get_rect()
@@ -284,7 +284,7 @@ def generate_correct_page(surface, status, point_inc):
 
     ScoreSurf, ScoreRect = text_objects('Score: ' + str(status[0]) + ' (+' + str(point_inc) + ' pts)', mediumText)
     ScoreRect.center = ((window_size[0] / 2), (0.35 * window_size[1]))
-    
+
     ElectricSurf, ElectricRect = text_objects('Sustainability Bar: ', mediumText)
     ElectricRect.topleft = ((0.10 * window_size[0]), (0.70 * window_size[1]))
 
@@ -310,7 +310,7 @@ def generate_correct_page(surface, status, point_inc):
 
             if event.type == pygame.QUIT:
                 #Change face to neutral
-                controller.face_update(getFaceNum())
+                # controller.face_update(getFaceNum())
 
                 pygame.quit()
                 quit()
@@ -321,7 +321,7 @@ def generate_correct_page(surface, status, point_inc):
                 #Check if buttons are pressed if mouse button is down
                 if next_button.is_pressed(touch_status):
                     #Change face to neutral
-                    controller.face_update(getFaceNum())
+                    # controller.face_update(getFaceNum())
 
                     running = False
             else:
@@ -334,14 +334,14 @@ def generate_correct_page(surface, status, point_inc):
         clock.tick(FPS)
 
     #Change face to neutral
-    controller.face_update(getFaceNum())
+    # controller.face_update(getFaceNum())
 
 def generate_incorrect_page(surface, status, pt_dec, correct_ans):
     #Make Face Sad
-    controller.face_update(getFaceNum(3))
-    #Instantiate motor thread and begin it
-    motorThread = threading.Thread(target=moveHeadLeftRight, args=())
-    motorThread.start()
+    # controller.face_update(getFaceNum(3))
+    # #Instantiate motor thread and begin it
+    # motorThread = threading.Thread(target=moveHeadLeftRight, args=())
+    # motorThread.start()
 
 
     next_button = Button(surface, darker_blue, blue, (0.5 * window_size[0] - (0.5 * 375), 0.5 * window_size[1], 750 / 2, 250 / 2), 'Next Question', mediumText)
@@ -363,7 +363,7 @@ def generate_incorrect_page(surface, status, pt_dec, correct_ans):
 
     ScoreSurf, ScoreRect = text_objects('Score: ' + str(status[0]) + ' (-' + str(pt_dec) + ' pts)', mediumText)
     ScoreRect.center = ((window_size[0] / 2), (0.25 * window_size[1]) + (4 * line_spacing))
-    
+
     ElectricSurf, ElectricRect = text_objects('Sustainability Bar: ', mediumText)
     ElectricRect.topleft = ((0.10 * window_size[0]), (0.70 * window_size[1]))
 
@@ -392,7 +392,7 @@ def generate_incorrect_page(surface, status, pt_dec, correct_ans):
 
             if event.type == pygame.QUIT:
                 #Set Face to Neutral
-                controller.face_update(getFaceNum())
+                # controller.face_update(getFaceNum())
 
                 pygame.quit()
                 quit()
@@ -412,7 +412,7 @@ def generate_incorrect_page(surface, status, pt_dec, correct_ans):
         clock.tick(FPS)
 
     #Set Face to Neutral
-    controller.face_update(getFaceNum())
+    # controller.face_update(getFaceNum())
 
 #Initiate pygame
 pygame.init() #SUPER IMPORTANT
@@ -430,26 +430,26 @@ clock = pygame.time.Clock()
 #Define number of points for each correct answer
 point_increment = 100
 
-#Set Face to Neutral
-controller.face_update(getFaceNum())
-#Orient Head to proper position
-controller.head_update([90, 90])
+# #Set Face to Neutral
+# controller.face_update(getFaceNum())
+# #Orient Head to proper position
+# controller.head_update([90, 90])
 
 #Start Menu for Game
 def game_intro(surface):
     #Button Dimensions
     button_w = 750 / 2; button_h = 250 / 2
-    help_button_x = 270; button_y = 1300 / 2 
+    help_button_x = 270; button_y = 1300 / 2
     button_spacing = 237 / 2 #spacing between buttons in px
     play_button_x = help_button_x + button_w + button_spacing
     quit_button_x = play_button_x + button_w + button_spacing
-    
+
 
     #Instantiate buttons (Only needs to be done once)
     help_button = Button(surface, darker_blue, blue, (help_button_x, button_y, button_w, button_h), 'Help', mediumText)
     play_button = Button(surface, darker_green, green, (play_button_x, button_y, button_w, button_h), 'Play', mediumText)
     quit_button = Button(surface, darker_red, red, (quit_button_x, button_y, button_w, button_h), 'Quit', mediumText)
-    
+
     #Portion of the screen that must ONLY be updated
     help_button_rect = help_button.get_rect()
     play_button_rect = play_button.get_rect()
@@ -483,7 +483,7 @@ def game_intro(surface):
 
             if event.type == pygame.QUIT:
                 #Set Face to Neutral
-                controller.face_update(getFaceNum())
+                # controller.face_update(getFaceNum())
 
                 pygame.quit()
                 quit()
@@ -519,15 +519,15 @@ def game_help(surface):
 
     back_button_rect = back_button.get_rect()
     updateList = [back_button_rect]
-    
+
     TextSurf, TextRect = text_objects('How to Play:', largeText, white)
     TextRect.center = ((window_size[0] / 2), (window_size[1] / 4))
-    
+
     line_spacing = 75   #Spacing between each line of instructions
 
     Line1Surf, Line1Rect = text_objects('1.) Read each question carefully and select the best answer', mediumText, white)
     Line1Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (0.5 * 300))
-    
+
     Line2Surf, Line2Rect = text_objects('2.) If your answer is correct, you will earn points and boost your sustainability meter', pygame.font.Font('FreeSansBold.ttf', 40), white)
     Line2Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (300 / 2) + (2 * line_spacing))
 
@@ -559,7 +559,7 @@ def game_help(surface):
 
             if event.type == pygame.QUIT:
                 #Set Face to Neutral
-                controller.face_update(getFaceNum())
+                # controller.face_update(getFaceNum())
 
                 pygame.quit()
                 quit()
@@ -596,12 +596,12 @@ def select_level(surface):
     easy_button_rect = easy_button.get_rect()
     medium_button_rect = medium_button.get_rect()
     hard_button_rect = hard_button.get_rect()
-    
+
     updateList = [back_button_rect, easy_button_rect, medium_button_rect, hard_button_rect]
-    
+
     TextSurf, TextRect = text_objects('Select your level:', largeText, white)
     TextRect.center = ((window_size[0] / 2), (window_size[1] / 4))
-    
+
     line_spacing = 75   #Spacing between each line of instructions
 
     #Make entire screen white to clean it
@@ -625,7 +625,7 @@ def select_level(surface):
 
             if event.type == pygame.QUIT:
                 #Set Face to Neutral
-                controller.face_update(getFaceNum())
+                # controller.face_update(getFaceNum())
 
                 pygame.quit()
                 quit()
@@ -676,7 +676,7 @@ def game_menu(surface, point_vals, q_set):
         correct_ans = q["answer"]
         choices = q["choices"]
         outcome = generate_q_page(surface, status, pt_inc, question, choices, correct_ans)
- 
+
         if outcome == 'correct':
             status[0] += pt_inc
             status[1] += 1
@@ -694,7 +694,7 @@ def game_menu(surface, point_vals, q_set):
 
 def game_over(surface, status):
     #Set Face to Happy, regardless of score
-    controller.face_update(getFaceNum(1))
+    # controller.face_update(getFaceNum(1))
 
     #Button Dimensions
     button_w = 750 / 2; button_h = 250 / 2
@@ -733,7 +733,7 @@ def game_over(surface, status):
     #makeFace()
 
     running = True
-    
+
     while running:
 
         #Handle events here:
@@ -742,8 +742,8 @@ def game_over(surface, status):
 
             if event.type == pygame.QUIT:
                 #Set Face to Neutral
-                controller.face_update(getFaceNum())
- 
+                # controller.face_update(getFaceNum())
+                #
                 pygame.quit()
                 quit()
 
@@ -753,7 +753,7 @@ def game_over(surface, status):
                 #Check if buttons are pressed if mouse button is down
                 if quit_button.is_pressed(touch_status):    #If 'Quit' button is tapped
                     #Set Face to Neutral
-                    controller.face_update(getFaceNum())
+                    # controller.face_update(getFaceNum())
                     pygame.quit()
                     quit()
 
@@ -772,9 +772,9 @@ def game_over(surface, status):
 #Execute game
 game_intro(gameDisplay)
 
-#Set Face to Neutral
-controller.face_update(getFaceNum())
-#Orient Head to proper position
-controller.head_update([90, 90])
+# #Set Face to Neutral
+# controller.face_update(getFaceNum())
+# #Orient Head to proper position
+# controller.head_update([90, 90])
 pygame.quit()
 quit()

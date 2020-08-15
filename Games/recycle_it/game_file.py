@@ -7,10 +7,10 @@ import math
 import sys
 import threading
 
-sys.path.append("../")
-from head_controller import Head_comm
-
-controller = Head_comm("Recycle It")
+# sys.path.append("../")
+# from head_controller import Head_comm
+#
+# controller = Head_comm("Recycle It")
 # Initialize pygame
 pygame.init()
 
@@ -204,17 +204,17 @@ def change_face(expression, delay):
         controller.face_update(4)
         print("face reset sent", flush=True)
         active_face -= 1
-        
+
 def game_won(pts):
-    face = random.randint(1, 3)  # HEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRREEEEEEEEEEEEEE
-    controller.face_update(face)
-    # These commands won't over write themselves right? like if i say these three in a row
-    # it'll hit all of the positions before going back to [90,90]?
-    # controller.head_update([90, 45])
-    # controller.head_update([90, 135])
-    # controller.head_update([90, 90])
-    rotate=threading.Thread(target=rotate_head, args=(True, [45, 135, 90]))
-    rotate.start()
+    # face = random.randint(1, 3)  # HEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRREEEEEEEEEEEEEE
+    # controller.face_update(face)
+    # # These commands won't over write themselves right? like if i say these three in a row
+    # # it'll hit all of the positions before going back to [90,90]?
+    # # controller.head_update([90, 45])
+    # # controller.head_update([90, 135])
+    # # controller.head_update([90, 90])
+    # rotate=threading.Thread(target=rotate_head, args=(True, [45, 135, 90]))
+    # rotate.start()
     for i in range(num_of_each):
         enemyY[i] = 2000
         goodY[i] = 2000
@@ -243,14 +243,14 @@ def game_won(pts):
 
 
 def game_lost(pts):
-    face = random.randint(5, 7)  # HHHHHHHHHHHHHHEEEEEEEEEEEEERRRRRRRRRRRREEEEEEEEEEEE
-    controller.face_update(face)
+    # face = random.randint(5, 7)  # HHHHHHHHHHHHHHEEEEEEEEEEEEERRRRRRRRRRRREEEEEEEEEEEE
+    # controller.face_update(face)
     #See game_won head update comments
     # controller.head_update([45, 90])
     # controller.head_update([135, 90])
     # controller.head_update([90, 90])
-    rotate=threading.Thread(target=rotate_head, args=(False, [45, 135, 90]))
-    rotate.start()
+    # rotate=threading.Thread(target=rotate_head, args=(False, [45, 135, 90]))
+    # rotate.start()
     for i in range(num_of_each):
         enemyY[i] = 2000
         goodY[i] = 2000
@@ -280,7 +280,7 @@ def game_lost(pts):
 
 def intro():
     bmenu = True
-    controller.face_update(4)  # HEEEEEEEEEEEEEERRRREEEEEEEEEEEEE
+    # controller.face_update(4)  # HEEEEEEEEEEEEEERRRREEEEEEEEEEEEE
     while bmenu:
         screen.fill((255, 255, 255))
         screen.blit(menu, (0, 0))
@@ -477,10 +477,10 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
             if goodCollision:
                 good_catch = mixer.Sound('good_catch.wav')
                 #good_catch.play()
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                good_face.daemon=True
-                good_face.start()
+                # face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
+                # good_face = threading.Thread(target=change_face, args=(face, 0.5,))
+                # good_face.daemon=True
+                # good_face.start()
                 # controller.face_update(face)
                 # # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
                 # # either way i'll include and u can play around
@@ -496,14 +496,14 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 bad_catch = mixer.Sound('bad_catch.wav')
                 # DISPLAY THE SURPRISED FACE HERE FOR 1 SECOND AND REVERT BACK TO NEUTRAL
                 #bad_catch.play()
-                face = random.randint(5, 7)  # HHHHHHHEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEE
+                # face = random.randint(5, 7)  # HHHHHHHEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEE
                 # controller.face_update(face)
                 # # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
                 # # either way i'll include and u can play around
                 # # time.sleep(2)
                 # controller.face_update(4)
-                bad_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                bad_face.start()
+                # bad_face = threading.Thread(target=change_face, args=(face, 0.5,))
+                # bad_face.start()
                 pts -= 50
                 print(pts)
                 # Sending bad object to top of screen in a new location

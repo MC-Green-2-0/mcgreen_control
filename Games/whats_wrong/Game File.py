@@ -12,14 +12,31 @@ import threading
 # controller = Head_comm("W Wrong?")
 
 pygame.init()
-screen = pygame.display.set_mode((926, 634))
+window_size = (926, 634)
+screen = pygame.display.set_mode(window_size)
+
+black = (0, 0, 0)
+white = (255, 255, 255)
+red = (255, 0, 0)
+darker_red = (200, 0, 0)
+green = (0, 255, 0)
+darker_green = (0, 200, 0)
+blue = (50, 89, 250)
+darker_blue = (35, 67, 250)
+yellow = (255, 255, 0)
+darker_yellow = (200, 200, 0)
+
+largeText = pygame.font.Font('FreeSansBold.ttf', 64)   #Large text, ideal for headings
+mediumText = pygame.font.Font('FreeSansBold.ttf', 48)   #Medium text, ideal for subheadings
+smallText =  pygame.font.Font('FreeSansBold.ttf', 14)   #Small text, ideal for small buttons
 
 # backgrounds
 classroomlvl = pygame.image.load('classroomlvl.png')
 kitchenlvl = pygame.image.load('kitchenlvl.png')
 bedroomlvl = pygame.image.load('bedroomlvl.png')
 menu = pygame.image.load('menubkg.png')
-helps = pygame.image.load('helpbkg.png')
+helps = pygame.image.load('helpback.png')
+helps = pygame.transform.scale(helps, (926, 634))
 gamewon = pygame.image.load('winner.png')
 gamelost = pygame.image.load('loser.png')
 
@@ -129,6 +146,14 @@ active_face = 0
 #         controller.face_update(4)
 #         print("face reset sent", flush=True)
 #         active_face -= 1
+
+
+def text_objects(text, font, color=(0,0,0)):
+    textSurface = font.render(text, True, color)
+    return textSurface, textSurface.get_rect()
+
+
+
 def intro():
     mixer.music.load('backgroundmsc.wav')
     mixer.music.play(-1)
@@ -173,9 +198,38 @@ def help_screen():
     mixer.music.load('backgroundmsc.wav')
     mixer.music.play(-1)
     bhelp = True
+
     while bhelp:
+
         screen.fill((255, 255, 255))
         screen.blit(helps, (0, 0))
+        TextSurf, TextRect = text_objects('How to Play:', largeText, red)
+        TextRect.center = ((window_size[0] / 2), (window_size[1] / 6))
+
+        line_spacing = 75   #Spacing between each line of instructions
+
+        Line1Surf, Line1Rect = text_objects('1.) The goal of this game is to make the room more environmentally efficient. Click items that you think need to be improved.', smallText, red)
+        Line1Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (0.5 * 300))
+
+        Line2Surf, Line2Rect = text_objects('2.) If you are lost or would like guidance press the question mark button in the top right.', smallText, red)
+        Line2Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (300 / 2) + (2 * line_spacing) - 10)
+
+        Line3Surf, Line3Rect = text_objects('3.) Once you complete the game, press escape to play again. Press escape to go back to the home screen. ', smallText, red)
+        Line3Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (300 / 2) + (4 * line_spacing))
+
+
+        #Make entire screen white to clean it
+
+        #Write text to buffer
+        screen.blit(TextSurf, TextRect)
+        screen.blit(Line1Surf, Line1Rect)
+        screen.blit(Line2Surf, Line2Rect)
+        screen.blit(Line3Surf, Line3Rect)
+
+        #help_message = font.render("The goal of this game is to make the room more environmentally efficient. Click items that you think need to be improved. If you are lost or would like guidance press the question mark button in the top right. Once you complete the game, press escape to play again. ", True, (0, 0, 255))
+
+        #screen.blit(help_message, (0, 0))
+
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:

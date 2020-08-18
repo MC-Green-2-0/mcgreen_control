@@ -4,11 +4,11 @@ from pygame import mixer
 import time
 import sys
 sys.path.append("../")
-from head_controller import Head_comm
+from game_interface import Game_interface
 import random
 import threading
 
-controller = Head_comm("W Wrong?")
+controller = Game_interface("W Wrong?")
 
 pygame.init()
 screen = pygame.display.set_mode((926, 634))

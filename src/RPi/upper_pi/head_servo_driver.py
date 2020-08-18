@@ -43,7 +43,7 @@ class Head_Servo_Driver:
 
 if __name__ == "__main__":
     try:
-        rospy.init_node("head_controller")
+        rospy.init_node("Head_Servo_Driver")
         controller = Head_Servo_Driver()
         rospy.spin()
         rospy.on_shutdown(controller.clean)

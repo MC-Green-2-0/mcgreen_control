@@ -10,8 +10,8 @@ import sys
 import threading
 #UNCOMMENT BOTTOM TWO LINES BEFORE USING BOTTOM TWO LINES
 sys.path.append("../")
-from head_controller import Head_comm
-controller = Head_comm("Sust. Quiz")
+from game_interface import Game_interface
+controller = Game_interface("Sust. Quiz")
 
 #Screen size of window
 window_size = (1920,1080)

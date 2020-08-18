@@ -8,9 +8,9 @@ import sys
 import threading
 
 sys.path.append("../")
-from head_controller import Head_comm
+from game_interface import Game_interface
 
-controller = Head_comm("Recycle It")
+controller = Game_interface("Recycle It")
 # Initialize pygame
 pygame.init()
 

@@ -60,8 +60,8 @@ if __name__ == '__main__':
 	try:
 		rospy.init_node("Remote_Control_Reciever")
 		args = {"rate": rospy.get_param("~rate")}
-		face_controller = Remote_Control(args["rate"])
-		face_controller.talker()
+		controller = Remote_Control(args["rate"])
+		controller.talker()
 		rospy.spin()
 	except KeyboardInterrupt:
 		pass

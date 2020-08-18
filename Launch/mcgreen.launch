@@ -16,10 +16,14 @@
 
 		<node machine="upper_pi" name="Right_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
 			<param name="topic" value="/right_arm_sensor"/>
+			<param name="trigger" value="13"/>
+			<param name="echo" value="15" />
 		</node>
 
 		<node machine="upper_pi" name="Left_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
 			<param name="topic" value="/left_arm_sensor"/>
+			<param name="trigger" value="7"/>
+			<param name="echo" value="11" />
 		</node>
 	</group>
 

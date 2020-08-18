@@ -2,49 +2,46 @@
 import time
 import rospy
 from mcgreen_control.msg import Arm
-import math
-from collections import namedtuple
-import struct
-import Adafruit_GPIO.FT232H as FT232H
-import Adafruit_GPIO as GPIO
 import argparse
-
-class MAXBOTIX_I2C():
-
-    def __init__(self, ft232h, address=112):
-        self.i2c = FT232H.I2CDevice(ft232h,112)
-
-    def start_sensor(self):
-        self.i2c.writeRaw8(81)
-
-    def read_sensor(self):
-        val = self.i2c.readU16(225)
-
-        print(val >> 8), "cm"
-        return val >> 8
+import RPi.GPIO as GPIO
 
 class Arm_Sensor:
 
-    def __init__(self, topic):
+    def __init__(self, topic, trigger, echo):
         self.arm_pub = rospy.Publisher(topic, Arm, queue_size=1)
         self.data = Arm()
-        FT232H.use_FT232H()
-        self.ft232h = FT232H.FT232H(serial='black')
-        self.address_lis = 0x18
-        self.address_maxbotix = 112
-        self.maxbotix = MAXBOTIX_I2C(self.ft232h, self.address_maxbotix)
+        GPIO.setmode(GPIO.BOARD)
+        self.GPIO_TRIGGER = trigger
+        self.GPIO_ECHO = echo
+        GPIO.setup(self.GPIO_TRIGGER, GPIO.OUT)
+        GPIO.setup(self.GPIO_ECHO, GPIO.IN)
 
-    def data_publish(self):
-        self.maxbotix.start_sensor()
-        time.sleep(0.15)
-        self.data.ultrasonic = self.maxbotix.read_sensor()
+    def sense(self):
+        GPIO.output(self.GPIO_TRIGGER, True)
+        time.sleep(0.00001)
+        GPIO.output(self.GPIO_TRIGGER, False)
+
+        StartTime = time.time()
+        StopTime = time.time()
+
+        while GPIO.input(self.GPIO_ECHO) == 0:
+            StartTime = time.time()
+
+        while GPIO.input(self.GPIO_ECHO) == 1:
+            StopTime = time.time()
+
+        TimeElapsed = StopTime - StartTime
+        distance = (TimeElapsed * 34300) / 2
+
+        self.data.ultrasonic = int(distance)
         self.arm_pub.publish(self.data)
 
 if __name__ == "__main__":
     rospy.init_node("arm_sensor")
-    args = {"topic": rospy.get_param("~topic"), "rate": rospy.get_param("/Sensors/rate")}
-    sense = Arm_Sensor(args["topic"])
+    args = {"topic": rospy.get_param("~topic"), "rate": rospy.get_param("/Sensors/rate"), "trigger": rospy.get_param("~trigger"), "echo": rospy.get_param("~echo")}
+    sensor = Arm_Sensor(args["topic"], args["trigger"], args["echo"])
     r = rospy.Rate(args["rate"])
     while not rospy.is_shutdown():
-        sense.data_publish()
+        sensor.sense()
         r.sleep()
+    GPIO.cleanup()

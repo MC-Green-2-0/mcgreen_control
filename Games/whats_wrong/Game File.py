@@ -140,16 +140,19 @@ def intro():
         click = pygame.mouse.get_pressed()
         print(click)
         if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
+            screen.blit(invplayb, (360, 80))
             if click[0] == 1:
                 level_select()
         else:
             screen.blit(playb, (360, 80))
         if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
+            screen.blit(invhelpb, (360, 170))
             if click[0] == 1:
                 help_screen()
         else:
             screen.blit(helpb, (360, 170))
         if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
+            screen.blit(invexitb, (360, 260))
             if click[0] == 1:
                 pygame.quit()
                 quit()

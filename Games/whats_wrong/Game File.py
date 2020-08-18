@@ -225,7 +225,7 @@ def help_screen():
         screen.blit(Line1Surf, Line1Rect)
         screen.blit(Line2Surf, Line2Rect)
         screen.blit(Line3Surf, Line3Rect)
-
+        #comments
         #help_message = font.render("The goal of this game is to make the room more environmentally efficient. Click items that you think need to be improved. If you are lost or would like guidance press the question mark button in the top right. Once you complete the game, press escape to play again. ", True, (0, 0, 255))
 
         #screen.blit(help_message, (0, 0))

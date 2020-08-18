@@ -43,6 +43,13 @@ exitb = pygame.image.load('quitbtn.png')
 lvl1 = pygame.image.load('lvl1.png')
 lvl2 = pygame.image.load('lvl2.png')
 lvl3 = pygame.image.load('lvl3.png')
+invplayb = pygame.image.load('invplayb.png')
+invhelpb = pygame.image.load('invhelpb.png')
+invexitb = pygame.image.load('invquitb.png')
+invlvl1 = pygame.image.load('invlvl1.png')
+invlvl2 = pygame.image.load('invlvl2.png')
+invlvl3 = pygame.image.load('invlvl3.png')
+
 hintp = pygame.image.load('hint.png')
 blank = pygame.image.load('blank.png')
 
@@ -200,16 +207,19 @@ def level_select():
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
+            screen.blit(invlvl1, (360, 80))
             if click[0] == 1:
                 level1()
         else:
             screen.blit(lvl1, (360, 80))
         if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
+            screen.blit(invlvl2, (360, 170))
             if click[0] == 1:
                 level2()
         else:
             screen.blit(lvl2, (360, 170))
         if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
+            screen.blit(invlvl3, (360, 260))
             if click[0] == 1:
                 level3()
         else:

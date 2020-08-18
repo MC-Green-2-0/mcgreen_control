@@ -60,7 +60,6 @@ class Mode_Selector:
                     #move data from scroll wheels to replace left joystick
                     #will have to change to 0 and 1 here
                     upper_data[:2] = self.receiver_joystick[-2:]
-                    print("input: ", upper_data)
                     #convert values from 1000-2000 range to 0-180 range
                     upper_data[2] = ((float(upper_data[2]) - 1000) / (1000) * (180))
                     upper_data[3] = ((float(upper_data[3]) - 1000) / (1000) * (180))
@@ -75,9 +74,10 @@ class Mode_Selector:
                                 upper_data[x] = self.out_upper.arr[x] + increment
                         else:
                             upper_data[x] = self.out_upper.arr[x]
-                if self.reset == 1:#may have to update for drivetrain motors as well
+                if self.reset == 1:
                     upper_data[0:2] = [0,0]
                     upper_data[2:] = [90,90]
+                    lower_data = [1500,1500,1500,1500]
         except IndexError:
             print("Waiting for receiver data")
         if self.mode == 2:
@@ -90,7 +90,6 @@ class Mode_Selector:
             self.feedback.data=self.mode
             self.mode_feedback_pub.publish(self.feedback)
         #move forward or backward
-        print("final: ", upper_data)
         self.out_upper.arr = upper_data
         self.out_lower.arr = lower_data
         self.upper_safety_pub.publish(self.out_upper)

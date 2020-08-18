@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import rospy
-import rosnode
 from std_msgs.msg import Int16, String
 from mcgreen_control.msg import Array
 
@@ -14,7 +13,6 @@ class Game_Interface:
     GAME_TOPIC = "/current_game"
 
     def __init__ (self, game):
-        rospy.on_shutdown(self.game_cleanup)
         self.face_pub=rospy.Publisher(self.FACE_EXPRESSION, Int16, queue_size=1)
         self.head_pub=rospy.Publisher(self.HEAD_TOPIC, Array, queue_size=1)
         self.game_pub=rospy.Publisher(self.GAME_TOPIC, String, queue_size=1)
@@ -25,8 +23,8 @@ class Game_Interface:
         self.name=String()
         self.name.data = game
         self.game_pub.publish(self.name)
-        self.head_pub.publish(self.head.arr)
-        self.face_pub.publish(self.expression.data)
+        self.head_pub.publish(self.head)
+        self.face_pub.publish(self.expression)
 
     def face_update(self, face):
         self.expression.data=face
@@ -37,16 +35,12 @@ class Game_Interface:
         self.head.arr = angle
         self.head_pub.publish(self.head)
 
-    def game_cleanup(self):
-        self.name.data = ""
-        self.game_pub.publish(self.name)
-
 if __name__=="__main__":
     try:
         rospy.init_node("Game_Interface")
         face_controller = Game_Interface("init")
         rospy.spin()
     except KeyboardInterrupt:
-		pass
-	except rospy.ROSInterruptException:
-		pass
+        pass
+    except rospy.ROSInterruptException:
+        pass

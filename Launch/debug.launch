@@ -1,4 +1,5 @@
 <launch>
+
 	<machine
 		name="upper_pi"
 		address="upper_pi"
@@ -30,4 +31,8 @@
 		<node name="Remote_Sensors_Processor" pkg="mcgreen_control" respawn="true" type="remote_sensors_processor.py">
 			<param name="rate" value="100" type="int"/>
 		</node>
+
+	<node name="Mode_Select" pkg="mcgreen_control" respawn="true" type="mode_select.py" />
+
+		<node name="Game_Interface" pkg="mcgreen_control" type="game_interface.py"/>
 </launch>

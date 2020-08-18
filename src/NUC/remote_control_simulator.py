@@ -10,17 +10,19 @@ class ControlApp(Tk, object):
 
     def __init__(self):
         super(ControlApp, self).__init__()
-        self.ts = [1000,1500,0,1500,1500,0]
+        self.ts = [1000,1000,0,1500,1500,0]
         #index 1 is mode (1000,1500,2000) index 5 is reset (0,2000) index 0 is updown (1000,2000) index 3,4 is arms (1000,1500,2000)
-        self.xy = [1500,1500,1500,1500]
+        self.xy = [1000,1500,1500,1500]
         # Initialize the teleop node
         rospy.init_node("Remote Control Sim")
         self.RECIEVER_TOPIC = "/receiver_output"
         self.pub = rospy.Publisher(self.RECIEVER_TOPIC, Array, queue_size=1)
         self.data = Array()
+        self.data.arr = self.xy + self.ts
+        self.pub.publish(self.data)
         self.sub = rospy.Subscriber("/receiver_output", Array, self.display_sensor_data)
         # Set up the interface
-        self.geometry("100x100")
+        self.geometry("600x100")
         self.bind("<KeyPress>", self.keydown)
         self.sensorText = StringVar()
         self.sensorLabel = Label(self, textvariable=self.sensorText)
@@ -28,7 +30,8 @@ class ControlApp(Tk, object):
         self.mainloop()
 
     def display_sensor_data(self, msg):
-        s = str(msg.arr)
+        s = "Mode: " + str(msg.arr[5]) + "\nReset: " + str(msg.arr[9]) + "\nUp - Down: " + str(msg.arr[4])
+        s = s + "\n\n" + str(msg.arr)
         self.sensorText.set(s)
 
     def keydown(self, event):
@@ -46,15 +49,27 @@ class ControlApp(Tk, object):
                 self.ts[5] = 2000
             else:
                 self.ts[5] = 0
-        self.ts[3:5] = [1500,1500]
+        #self.ts[3:5] = [1500,1500]
         if event.keysym=="j":
-            self.ts[3] = 2000
+            if (self.ts[3] != 2000):
+                self.ts[3] = 2000
+            else:
+                self.ts[3] = 1500
         if event.keysym=="k":
-            self.ts[4] = 2000
+            if (self.ts[4] != 2000):
+                self.ts[4] = 2000
+            else:
+                self.ts[4] = 1500
         if event.keysym=="n":
-            self.ts[3] = 1000
+            if(self.ts[3] != 1000):
+                self.ts[3] = 1000
+            else:
+                self.ts[3] = 1500
         if event.keysym=="m":
-            self.ts[4] = 1000
+            if(self.ts[4] != 1000):
+                self.ts[4] = 1000
+            else:
+                self.ts[4] = 1500
         if event.keysym=="1":
             self.ts[1] = 1000
         if event.keysym=="2":
@@ -62,10 +77,10 @@ class ControlApp(Tk, object):
         if event.keysym=="3":
             self.ts[1] = 2000
         if event.keysym=="u":
-            if(self.ts[0] == 0):
+            if(self.ts[0] == 1000):
                 self.ts[0] = 2000
             else:
-                self.ts[0] = 0
+                self.ts[0] = 1000
         self.data.arr = self.xy + self.ts
         self.pub.publish(self.data)
 

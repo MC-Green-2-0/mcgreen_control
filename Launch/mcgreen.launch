@@ -68,10 +68,8 @@
 		<param name="rate" value="50" type="int"/>
 	</node>
 
-	<node name="Mode_Select" pkg="mcgreen_control" respawn="true" type="mode_select.py">
-		<param name="speed_multiplier" value="2"/>
-		<param name="joystick_threshold" value="2"/>
-	</node>
+	<node name="Mode_Select" pkg="mcgreen_control" respawn="true" type="mode_select.py" />
+
 
 	<node name="Game_Interface" pkg="mcgreen_control" type="game_interface.py"/>
 

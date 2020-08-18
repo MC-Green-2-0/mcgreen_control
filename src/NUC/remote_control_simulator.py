@@ -7,9 +7,11 @@ import os
 from tkinter import *
 
 class ControlApp(Tk, object):
+
     def __init__(self):
         super(ControlApp, self).__init__()
-        self.ts = [1000,1500,0,1500,1500,0]#index 1 is mode (1000,1500,2000) index 5 is reset (0,2000) index 0 is updown (1000,2000) index 3,4 is arms (1000,1500,2000)
+        self.ts = [1000,1500,0,1500,1500,0]
+        #index 1 is mode (1000,1500,2000) index 5 is reset (0,2000) index 0 is updown (1000,2000) index 3,4 is arms (1000,1500,2000)
         self.xy = [1500,1500,1500,1500]
         # Initialize the teleop node
         rospy.init_node("Remote Control Sim")
@@ -24,9 +26,11 @@ class ControlApp(Tk, object):
         self.sensorLabel = Label(self, textvariable=self.sensorText)
         self.sensorLabel.pack()
         self.mainloop()
+
     def display_sensor_data(self, msg):
         s = str(msg.arr)
         self.sensorText.set(s)
+
     def keydown(self, event):
         self.xy = [1500,1500,1500,1500]
         if event.keysym =="w":
@@ -64,6 +68,7 @@ class ControlApp(Tk, object):
                 self.ts[0] = 0
         self.data.arr = self.xy + self.ts
         self.pub.publish(self.data)
+
 if __name__ == '__main__':
     os.system('xset r off')
     control = ControlApp()

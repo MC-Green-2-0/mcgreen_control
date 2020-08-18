@@ -13,8 +13,8 @@ class Head_Servo_Driver:
 
     def __init__(self):
         self.tog_sub = rospy.Subscriber(self.SERVO_TOPIC, Array, self.servo_callback)
-        GPIO.setwarnings(False)			#disable warnings
-        GPIO.setmode(GPIO.BOARD)		#set pin numbering system
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BOARD)#set pin numbering system
         GPIO.setup(11,GPIO.OUT)
         GPIO.setup(13, GPIO.OUT)
         self.vertical_controller = GPIO.PWM(11,50)		#create PWM instance with frequency

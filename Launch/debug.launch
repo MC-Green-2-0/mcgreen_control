@@ -35,4 +35,7 @@
 	<node name="Mode_Select" pkg="mcgreen_control" respawn="true" type="mode_select.py" />
 
 		<node name="Game_Interface" pkg="mcgreen_control" type="game_interface.py"/>
+		<node name="Movement_Output" pkg="mcgreen_control" respawn="true" type="movement_output.py" >
+			<param name="rate" value="50" type="int"/>
+		</node>
 </launch>

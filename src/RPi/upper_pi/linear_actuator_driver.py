@@ -4,15 +4,6 @@ import RPi.GPIO as GPIO
 import time
 from mcgreen_control.msg import Array
 
-class Controller:
-
-    def __init__ (self, side):
-        pass
-
-    def move_actuator(side, command):
-        pass
-
-
 class Linear_Actuator_Driver:
     MOTOR_TOPIC = "/upper_motors"
 
@@ -45,8 +36,9 @@ class Linear_Actuator_Driver:
 if __name__ == "__main__":
     try:
         rospy.init_node("linear_actuator")
-        args = {"side": rospy.get_param("~side")}
+        args = {"side": rospy.get_param("~side"), "in"}
         actuator = Linear_Actuator_Driver(args["side"])
+        sensor = Arm_Sensor(args["topic"], args["trigger"], args["echo"])
         rospy.spin()
     except KeyboardInterrupt:
         pass

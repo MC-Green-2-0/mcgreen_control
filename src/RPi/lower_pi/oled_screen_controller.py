@@ -11,28 +11,29 @@ import textwrap
 
 serial = spi(device=0, port=0)
 device = ssd1327(serial)
-font_size = 14
+font_size = 12
 font_name = "FreeMono.ttf"
 font = ImageFont.truetype(font_name, font_size)
 
 class OLED:
 	MODE_TOPIC = "/mode_status"
-	GAME_TOPIC = "/current_game"
-	UPPER_TOPIC = "/upper_motors"
-	EXPRESSION_TOPIC = "/facial_expression"
-	LOWER_TOPIC = "/lower_motors"
 	SAFETY_TOPIC = "/safety_status"
+	GAME_TOPIC = "/current_game"
+	EXPRESSION_TOPIC = "/facial_expression"
+	UPPER_TOPIC = "/upper_motors"
+	LOWER_TOPIC = "/lower_motors"
 
 	def __init__(self):
 		self.mode_sub = rospy.Subscriber(self.MODE_TOPIC, Int16, self.mode_set)
 		self.game_sub = rospy.Subscriber(self.GAME_TOPIC, String, self.game_set)
 		self.upper_sub = rospy.Subscriber(self.UPPER_TOPIC, Array, self.upper_set)
+		self.lower_sub = rospy.Subscriber(self.LOWER_TOPIC, Array, self.lower_set)
 		self.face_sub  = rospy.Subscriber(self.EXPRESSION_TOPIC, Int16, self.face_set)
 		self.safety_sub = rospy.Subscriber(self.SAFETY_TOPIC, Bool, self.safety_set)
 		self.mode = 1
-		self.game = ""
+		self.game = "None"
 		self.face = "Neutral"
-		self.upper=[1500] * 2 + [90] * 2
+		self.upper=[0] * 2 + [90] * 2
 		self.lower=[1500] * 4
 		self.safe = "SAFE"
 		self.line = 0
@@ -50,8 +51,11 @@ class OLED:
 	def upper_set(self, data):
 		self.upper = data.arr
 
+	def lower_set(self, data):
+		self.lower = data.arr
+
 	def game_set(self, data):
-		self.game = data.data
+		self.game = str(data.data)
 
 	def face_set(self, data):
 		self.face = data.data
@@ -59,38 +63,34 @@ class OLED:
 			self.face = "Warn"
 		elif self.face < 4:
 			self.face = "Happy " + str(self.face)
-		elif self.face >4:
+		elif self.face > 4:
 			self.face = "Sad " + str(self.face)
 		else:
 			self.face = "Neutral"
 
 	def display(self):
 		self.line = 0
-		# print(self.mode)
-		# print(self.game)
 		with canvas(device) as draw:
-			#draw.rectangle(device.bounding_box, outline="white", fill="black")
-		# w, h = draw.textsize(text="Mode: " + str(self.mode), font=font)
-		# left = (device.width - w) / 2
-		# top = (device.height - h) / 2
-			#draw.text((0, self.line*font_size), self.modify_text("Game: " + self.game), font=font, fill="white")
-			#draw.text((0, self.line*font_size), self.modify_text("Mode: " + str(self.mode)), font=font, fill="white")
 			self.write_text("Mode: " + str(self.mode), draw)
 			self.write_text("Game: " + self.game, draw)
-			self.write_text("Head Position: ", draw)
-			self.write_text(str(self.upper[2:]), draw)
 			self.write_text("Face: " + str(self.face), draw)
-			self.write_text("", draw)
+
+			self.write_text("Upper Motors: ", draw)
+			self.write_text(str(self.upper), draw)
+
+			self.write_text("Lower Motors: ", draw)
+			self.write_text(str(self.lower), draw)
+
 			self.write_text("Status: ", draw)
+
 			if self.safe == "SAFE":
 				self.write_text(self.safe, draw)
 			elif self.time >= 5:
 				self.write_text(self.safe, draw)
 			if self.time == 10:
 				self.time = 0
-			#self.d(draw)
-			#draw.text((0, 45), "Game: RECYCLE DA" + self.game, font=font, fill="white")
 		self.time += 1
+
 	def write_text(self, text, draw): # if text is too long it returns the text with \n
 		w = font.getsize(text)[0]
 		h = font.getsize(text)[1]
@@ -109,27 +109,15 @@ class OLED:
 			for i in range(length):
 				current_w = font.getsize(text[begin:i+1])[0]
 				current_h = font.getsize(text[begin:i+1])[1]
-				#end += 1
-				# print(text[begin:i+1], current_w)
 				if current_w > 128:
-					#modified_text += '\n' + text[i]
 					draw.text((0, self.line), text[begin:i], font=font, fill="white")
 					h = font.getsize(text[begin:i])[1]
 					self.line += line_height
-
 					begin = i
-				#else:
-					#modified_text += text[i]
 			draw.text((0, self.line), text[begin:length+1], font=font, fill="white")
 			h = font.getsize(text[begin:length+1])[1]
 			self.line += line_height
 
-		# print(device.width)
-		# print(h)
-		# print(w)
-
-	def d(self, draw):
-		draw.text((0, 45), "Game: RECYCLE DA" + self.game, font=font, fill="white")
 if __name__ == "__main__":
 	rospy.init_node("OLED_Screen_Controller")
 	args = {"rate": rospy.get_param("~rate")}

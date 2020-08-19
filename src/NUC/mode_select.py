@@ -19,7 +19,7 @@ class Mode_Selector:
         self.mode_feedback_pub = rospy.Publisher(self.FEEDBACK_TOPIC, Int16, queue_size = 1)
 
         self.joystick_rockers = [1500] * 6
-        self.mode = 3 #1 is normal 2 arms and legs are disabled 3 is everything
+        self.mode = 1 #1 is normal 2 arms and legs are disabled 3 is everything
         self.up_down = 1
         self.reset = 0
         self.game_data = [90] * 2
@@ -78,7 +78,7 @@ class Mode_Selector:
             lower_data = [1500,1500,1500,1500]
 
         if self.feedback.data != self.mode:
-            self.feedback.data = self.mode
+            self.feedback.data = int(self.mode)
             self.mode_feedback_pub.publish(self.feedback)
 
         for i in range(0,len(upper_data)):

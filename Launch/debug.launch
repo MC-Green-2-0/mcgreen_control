@@ -22,7 +22,7 @@
 	<group ns="Sensors">
 		<param name="rate" value="100" type="int"/>
 		<param name="default_ultra" value="80" type="int"/>
-		<param name="threshold_ultra" value="40" type="int" />
+		<param name="threshold_ultra" value="4" type="int" />
 
 		<node machine="upper_pi" name="Right_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
 			<param name="topic" value="/right_arm_sensor"/>
@@ -48,4 +48,6 @@
 		<node name="Movement_Output" pkg="mcgreen_control" respawn="true" type="movement_output.py" >
 			<param name="rate" value="50" type="int"/>
 		</node>
+		<node machine="upper_pi" name="Head_Servo_Driver" pkg="mcgreen_control" type="head_servo_driver.py"/>
+
 </launch>

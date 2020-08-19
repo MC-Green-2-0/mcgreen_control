@@ -1,5 +1,15 @@
 <launch>
-
+	<machine
+		name="lower_pi"
+		address="lower_pi"
+		user="lowerpi"
+		password="mcgreen"
+		timeout="10"
+		env-loader="~/lower_ws/devel/remote_env_loader.sh"
+	/>
+	<node machine="lower_pi" name="OLED_Screen_Controller" pkg="mcgreen_control" type="oled_screen_controller.py">
+		<param name="rate" value="10" type="int"/>
+	</node>
 	<machine
 		name="upper_pi"
 		address="upper_pi"

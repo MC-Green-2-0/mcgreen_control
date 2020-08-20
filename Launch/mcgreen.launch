@@ -29,14 +29,25 @@
 
 		<node machine="upper_pi" name="Face_Controller" pkg="mcgreen_control" type="face_controller.py"/>
 
-		<node machine="upper_pi" name="Head_Servo_Driver" pkg="mcgreen_control" type="head_servo_driver.py"/>
+		<node machine="upper_pi" name="Head_Servo_Driver" pkg="mcgreen_control" type="head_servo_driver.py">
+			<param name="vertical" value="7"/>
+			<param name="horizontal" value="19"/>
+		</node>
 
 		<node machine="upper_pi" name="Right_Linear_Actuator" pkg="mcgreen_control" respawn="true" type="linear_actuator_driver.py">
 			<param name="side" value="right"/>
+			<param name="IN1" value="-"/>
+			<param name="IN2" value="-"/>
+			<param name="PWM" value="-"/>
+			<param name="PWM_VAL" value="-"/>
 		</node>
 
 		<node machine="upper_pi" name="Left_Linear_Actuator" pkg="mcgreen_control" respawn="true" type="linear_actuator_driver.py">
 			<param name="side" value="left"/>
+			<param name="IN1" value="-"/>
+			<param name="IN2" value="-"/>
+			<param name="PWM" value="-"/>
+			<param name="PWM_VAL" value="-"/>
 		</node>
 
 
@@ -59,17 +70,15 @@
 		<param name="rate" value="20" type="int"/>
 	</node>
 
-
-	<node name="Remote_Sensors_Processor" pkg="mcgreen_control" respawn="true" type="remote_sensors_processor.py">
-		<param name="rate" value="100" type="int"/>
-	</node>
+	<node name="Mode_Select" pkg="mcgreen_control" respawn="true" type="mode_select.py" />
 
 	<node name="Movement_Output" pkg="mcgreen_control" respawn="true" type="movement_output.py" >
 		<param name="rate" value="50" type="int"/>
 	</node>
 
-	<node name="Mode_Select" pkg="mcgreen_control" respawn="true" type="mode_select.py" />
-
+	<node name="Remote_Sensors_Processor" pkg="mcgreen_control" respawn="true" type="remote_sensors_processor.py">
+		<param name="rate" value="100" type="int"/>
+	</node>
 
 	<node name="Game_Interface" pkg="mcgreen_control" type="game_interface.py"/>
 

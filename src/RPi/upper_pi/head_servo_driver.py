@@ -11,12 +11,12 @@ from mcgreen_control.msg import Array
 class Head_Servo_Driver:
     SERVO_TOPIC = "/upper_motors"
 
-    def __init__(self):
+    def __init__(self,vertical,horizontal):
         self.tog_sub = rospy.Subscriber(self.SERVO_TOPIC, Array, self.servo_callback)
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD)#set pin numbering system
-        GPIO.setup(7,GPIO.OUT)
-        GPIO.setup(19, GPIO.OUT)
+        GPIO.setup(vertical,GPIO.OUT)
+        GPIO.setup(horizontal, GPIO.OUT)
         self.vertical_controller = GPIO.PWM(7,50)		#create PWM instance with frequency
         self.horizontal_controller = GPIO.PWM(19, 50)
         self.vertical_controller.start(0)				#start PWM of required Duty Cycle
@@ -35,7 +35,8 @@ class Head_Servo_Driver:
 if __name__ == "__main__":
     try:
         rospy.init_node("Head_Servo_Driver")
-        controller = Head_Servo_Driver()
+        args = {"vertical": rospy.get_param("~vertical"), "horizontal": rospy.get_param("horizontal")}
+        controller = Head_Servo_Driver(vertical, horizontal)
         rospy.spin()
         rospy.on_shutdown(controller.clean)
     except KeyboardInterrupt:

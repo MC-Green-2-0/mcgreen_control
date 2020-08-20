@@ -27,7 +27,7 @@ class Linear_Actuator_Driver:
         GPIO.output(self.IN2, False)
 
         GPIO.setup(PWM,GPIO.OUT)
-        self.PWM_Controller = GPIO.PWM(self.PWM,50)		#create PWM instance with frequency
+        self.PWM_Controller = GPIO.PWM(self.PWM,50)
         self.PWM_Controller.start(self.PWM_VAL)
 
 
@@ -47,8 +47,8 @@ class Linear_Actuator_Driver:
 
 if __name__ == "__main__":
     try:
-        rospy.init_node("linear_actuator")
-        args = {"IN1": rospy.get_param("~IN1"), "IN2": rospy.get_param("~IN2"), "PWM": rospy.get_param("~PWM"), "PWM_VAL": rospy.get_param("~PWM_VAL")}
+        rospy.init_node("Linear_Actuator_Driver")
+        args = {"side": rospy.get_param("~side"), "IN1": rospy.get_param("~IN1"), "IN2": rospy.get_param("~IN2"), "PWM": rospy.get_param("~PWM"), "PWM_VAL": rospy.get_param("~PWM_VAL")}
         actuator = Linear_Actuator_Driver(args["side"], args["IN1"], args["IN2"], args["PWM"], args["PWM_VAL"])
         rospy.spin()
     except KeyboardInterrupt:

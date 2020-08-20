@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
-#USING PWM, but maybe change to another rotate-type movement?
 import rospy
 import RPi.GPIO as GPIO
 import time
 from mcgreen_control.msg import Array
-
-#vertical controller attached to GPIO 12
-#horizontal controller attached to GPIO 13
 
 class Head_Servo_Driver:
     SERVO_TOPIC = "/upper_motors"
@@ -14,12 +10,12 @@ class Head_Servo_Driver:
     def __init__(self,vertical,horizontal):
         self.tog_sub = rospy.Subscriber(self.SERVO_TOPIC, Array, self.servo_callback)
         GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BOARD)#set pin numbering system
+        GPIO.setmode(GPIO.BOARD)
         GPIO.setup(vertical,GPIO.OUT)
         GPIO.setup(horizontal, GPIO.OUT)
-        self.vertical_controller = GPIO.PWM(7,50)		#create PWM instance with frequency
+        self.vertical_controller = GPIO.PWM(7,50)
         self.horizontal_controller = GPIO.PWM(19, 50)
-        self.vertical_controller.start(0)				#start PWM of required Duty Cycle
+        self.vertical_controller.start(0)
         self.horizontal_controller.start(0)
 
     def servo_callback(self, data):

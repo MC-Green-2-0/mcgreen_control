@@ -35,6 +35,13 @@ exitb = pygame.image.load('exit.png')
 lvl1 = pygame.image.load('lvl1.png')
 lvl2 = pygame.image.load('lvl2.png')
 lvl3 = pygame.image.load('lvl3.png')
+invplayb = pygame.image.load('invplay.png')
+invhelpb = pygame.image.load('invhelp.png')
+invexitb = pygame.image.load('invexit.png')
+invlvl1 = pygame.image.load('invlvl1.png')
+invlvl2 = pygame.image.load('invlvl2.png')
+invlvl3 = pygame.image.load('invlvl3.png')
+
 
 # Background Music
 mixer.music.load('backgroundmsc.wav')
@@ -293,16 +300,19 @@ def intro():
         click = pygame.mouse.get_pressed()
         # print(click)
         if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
+            screen.blit(invplayb, (360, 80))
             if click[0] == 1:
                 level_select(level)
         else:
             screen.blit(playb, (360, 80))
         if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
+            screen.blit(invhelpb, (360, 170))
             if click[0] == 1:
                 help_screen()
         else:
             screen.blit(helpb, (360, 170))
         if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
+            screen.blit(invexitb, (360, 260))
             if click[0] == 1:
                 pygame.quit()
                 quit()
@@ -403,18 +413,21 @@ def level_select(lvl):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
+            screen.blit(invlvl1, (360, 80))
             if click[0] == 1:
                 lvl = 0
                 game(playerX, points_value, playerX_change, milliseconds, seconds, level)
         else:
             screen.blit(lvl1, (360, 80))
         if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
+            screen.blit(invlvl2, (360, 170))
             if click[0] == 1:
                 lvl = 1
                 game(playerX, points_value, playerX_change, milliseconds, seconds, level)
         else:
             screen.blit(lvl2, (360, 170))
         if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
+            screen.blit(invlvl3, (360, 260))
             if click[0] == 1:
                 lvl = 2
                 game(playerX, points_value, playerX_change, milliseconds, seconds, level)

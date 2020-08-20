@@ -463,6 +463,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 pygame.quit()
                 quit()
             # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
+            '''
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     playerX_change = -5
@@ -473,8 +474,20 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                     playerX_change = 0
                 if event.key == pygame.K_ESCAPE:
                     level_select(level)
-
+                        '''
         # changes X position of player character
+        keys_pressed = pygame.key.get_pressed()
+        if keys_pressed[pygame.K_LEFT] and keys_pressed[pygame.K_RIGHT]:
+            playerX_change = 0
+        elif keys_pressed[pygame.K_LEFT] :
+            playerX_change = -5
+        elif keys_pressed[pygame.K_RIGHT]:
+            playerX_change = 5
+        else:
+            playerX_change = 0
+
+        if keys_pressed[pygame.K_ESCAPE]:
+                level_select(level)
         playerX += playerX_change
 
         # Changes y position of enemies and good objects

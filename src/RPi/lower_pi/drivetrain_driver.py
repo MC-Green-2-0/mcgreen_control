@@ -38,23 +38,44 @@ class Head_Servo_Driver:
         self.RPWM_Controller.start(0)
 
     def motor_callback(self, data):
-        left_joy = data[0]#left value (1000-2000)
+		# Motor Controls
+        # IN1 = 0, IN2 = 0 -> Brake regardless of PWM
+		# IN1 = 0, IN2 = 1 -> Reverse Speed @ PWM
+		# IN1 = 1, IN2 = 0 -> Forward Speed @ PWM
+		
+		left_joy = data[0]#left value (1000-2000)
         right_joy = data[1]#right value (1000-2000)
 
-        #example code for direction of motor
-        if motor_command == 1: #motor move forward
-            GPIO.output(self.IN1, False)
-            GPIO.output(self.IN2, True)
-        elif motor_command == -1:#motor move reverse
-            GPIO.output(self.IN1, True)
-            GPIO.output(self.IN2, False)
-        else:#don't move
-            GPIO.output(self.IN1, False)
-            GPIO.output(self.IN2, False)
-
-        #PWM example
-        self.LPWM_Controller.ChangeDutyCycle(number)#0-100
-        #remember to use threshold
+		# left motor
+		if(1500 - self.threshold <= left_joy && 1500 + self.threshold >= left_joy):
+			GPIO.output(self.LIN1, False)
+			GPIO.output(self.LIN2, False)
+		elif(left_joy <= 1500 - self.threshold):
+			pwm = 100 - int((left_joy - 1000)*100/(500 - self.threshold)) # manipulation to condense left_joy value into an integer range from 0-100 (test using boundary values of 1000 & 1500-threshold)
+			self.LPWM_Controller.ChangeDutyCycle(pwm) # change pwm
+			GPIO.output(self.LIN1, False)
+			GPIO.output(self.LIN2, True)
+			
+		elif(left_joy >= 1500 + self.threshold):
+			pwm = int((left_joy - 1500 - self.threshold)*100/(500 - self.threshold)) # manipulation to condense left_joy value into an integer range from 0-100 (test using boundary values of 1500+threshold & 2000)
+			self.LPWM_Controller.ChangeDutyCycle(pwm) # change pwm
+			GPIO.output(self.LIN1, True)
+			GPIO.output(self.LIN2, False)
+			
+		# right motor
+		if(1500 - self.threshold <= right_joy && 1500 + self.threshold >= right_joy):
+			GPIO.output(self.RIN1, False)
+			GPIO.output(self.RIN2, False)
+		elif(right_joy <= 1500 - self.threshold):
+			pwm = 100 - int((right_joy - 1000)*100/(500 - self.threshold)) # manipulation to condense right_joy value into an integer range from 0-100 (test using boundary values of 1000 & 1500-threshold)
+			self.RPWM_Controller.ChangeDutyCycle(pwm) # change pwm
+			GPIO.output(self.RIN1, False)
+			GPIO.output(self.RIN2, True)
+		elif(right_joy >= 1500 + self.threshold):
+			pwm = int((right_joy - 1500 - self.threshold)*100/(500 - self.threshold)) # manipulation to condense right_joy value into an integer range from 0-100 (test using boundary values of 1500+threshold & 2000)
+			self.RPWM_Controller.ChangeDutyCycle(pwm) # change pwm
+			GPIO.output(self.RIN1, True)
+			GPIO.output(self.RIN2, False)
 
 if __name__ == "__main__":
     try:

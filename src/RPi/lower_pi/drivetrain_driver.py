@@ -43,8 +43,8 @@ class Head_Servo_Driver:
 		# IN1 = 0, IN2 = 1 -> Reverse Speed @ PWM
 		# IN1 = 1, IN2 = 0 -> Forward Speed @ PWM
 		
-		left_joy = data[0]#left value (1000-2000)
-		right_joy = data[1]#right value (1000-2000)
+		left_joy = data.arr[0] # left value (1000-2000)
+		right_joy = data.arr[1] # right value (1000-2000)
 
 		# left motor
 		if(1500 - self.threshold <= left_joy && 1500 + self.threshold >= left_joy):
@@ -55,13 +55,12 @@ class Head_Servo_Driver:
 			self.LPWM_Controller.ChangeDutyCycle(pwm) # change pwm
 			GPIO.output(self.LIN1, False)
 			GPIO.output(self.LIN2, True)
-			
 		elif(left_joy >= 1500 + self.threshold):
 			pwm = int((left_joy - 1500 - self.threshold)*100/(500 - self.threshold)) # manipulation to condense left_joy value into an integer range from 0-100 (test using boundary values of 1500+threshold & 2000)
 			self.LPWM_Controller.ChangeDutyCycle(pwm) # change pwm
 			GPIO.output(self.LIN1, True)
 			GPIO.output(self.LIN2, False)
-			
+
 		# right motor
 		if(1500 - self.threshold <= right_joy && 1500 + self.threshold >= right_joy):
 			GPIO.output(self.RIN1, False)

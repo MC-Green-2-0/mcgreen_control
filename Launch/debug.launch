@@ -12,7 +12,7 @@
 		<group ns="Sensors">
 		<param name="rate" value="100" type="int"/>
 		<param name="default_ultra" value="80" type="int"/>
-		<param name="threshold_ultra" value="40" type="int" />
+		<param name="threshold_ultra" value="10" type="int" />
 
 		<node machine="upper_pi" name="Right_Arm_Sensor" pkg="mcgreen_control" respawn="true" type="arm_sensor.py">
 			<param name="topic" value="/right_arm_sensor"/>
@@ -27,27 +27,25 @@
 		</node>
 	</group>
 
-		<node machine="upper_pi" name="Face_Controller" pkg="mcgreen_control" type="face_controller.py"/>
-
 		<node machine="upper_pi" name="Head_Servo_Driver" pkg="mcgreen_control" type="head_servo_driver.py">
-			<param name="vertical" value="7"/>
+			<param name="vertical" value="21"/>
 			<param name="horizontal" value="19"/>
 		</node>
 
 		<node machine="upper_pi" name="Right_Linear_Actuator" pkg="mcgreen_control" respawn="true" type="linear_actuator_driver.py">
 			<param name="side" value="right"/>
-			<param name="IN1" value="-"/>
-			<param name="IN2" value="-"/>
-			<param name="PWM" value="-"/>
-			<param name="PWM_VAL" value="-"/>
+			<param name="IN1" value="38"/>
+			<param name="IN2" value="36"/>
+			<param name="PWM" value="40"/>
+			<param name="PWM_VAL" value="100"/>
 		</node>
 
 		<node machine="upper_pi" name="Left_Linear_Actuator" pkg="mcgreen_control" respawn="true" type="linear_actuator_driver.py">
 			<param name="side" value="left"/>
-			<param name="IN1" value="-"/>
-			<param name="IN2" value="-"/>
-			<param name="PWM" value="-"/>
-			<param name="PWM_VAL" value="-"/>
+			<param name="IN1" value="35"/>
+			<param name="IN2" value="33"/>
+			<param name="PWM" value="37"/>
+			<param name="PWM_VAL" value="100"/>
 		</node>
 
 
@@ -59,8 +57,6 @@
 		timeout="10"
 		env-loader="~/lower_ws/devel/remote_env_loader.sh"
 	/>
-
-		<node machine="lower_pi" name="Drivetrain_Driver" pkg="mcgreen_control" type="drivetrain_driver.py"/>
 
 		<node machine="lower_pi" name="OLED_Screen_Controller" pkg="mcgreen_control" type="oled_screen_controller.py">
 			<param name="rate" value="10" type="int"/>
@@ -80,5 +76,4 @@
 	</node>
 
 	<node name="Game_Interface" pkg="mcgreen_control" type="game_interface.py"/>
-
 </launch>

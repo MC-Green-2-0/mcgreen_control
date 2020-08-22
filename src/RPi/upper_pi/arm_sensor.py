@@ -4,6 +4,7 @@ import rospy
 from mcgreen_control.msg import Arm
 import argparse
 import RPi.GPIO as GPIO
+import statistics
 
 class Arm_Sensor:
 
@@ -15,6 +16,15 @@ class Arm_Sensor:
         self.GPIO_ECHO = echo
         GPIO.setup(self.GPIO_TRIGGER, GPIO.OUT)
         GPIO.setup(self.GPIO_ECHO, GPIO.IN)
+
+    def publish(self):
+        values = []
+        for i in range(3):
+            values.append(sense())
+        distance = statistics.median(values)
+
+        self.data.ultrasonic = int(distance)
+        self.arm_pub.publish(self.data)
 
     def sense(self):
         GPIO.output(self.GPIO_TRIGGER, True)
@@ -33,8 +43,14 @@ class Arm_Sensor:
         TimeElapsed = StopTime - StartTime
         distance = (TimeElapsed * 34300) / 2
 
-        self.data.ultrasonic = int(distance)
-        self.arm_pub.publish(self.data)
+        if distance < 2:
+            distance = sense()
+            return int(distance)
+        elif distance > 400:
+            distance = sense()
+            return int(distance)
+        else:
+            return int(distance)
 
 if __name__ == "__main__":
     rospy.init_node("arm_sensor")
@@ -42,6 +58,6 @@ if __name__ == "__main__":
     sensor = Arm_Sensor(args["topic"], args["trigger"], args["echo"])
     r = rospy.Rate(args["rate"])
     while not rospy.is_shutdown():
-        sensor.sense()
+        sensor.publish()
         r.sleep()
     GPIO.cleanup()

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import time
+import time as Time
 import rospy
 from mcgreen_control.msg import Arm
 import argparse
@@ -14,43 +14,57 @@ class Arm_Sensor:
         GPIO.setmode(GPIO.BOARD)
         self.GPIO_TRIGGER = trigger
         self.GPIO_ECHO = echo
+        self.maxTime = 0.04
         GPIO.setup(self.GPIO_TRIGGER, GPIO.OUT)
         GPIO.setup(self.GPIO_ECHO, GPIO.IN)
 
-    def publish(self):
-        values = []
-        for i in range(3):
-            values.append(sense())
-        distance = statistics.median(values)
-
-        self.data.ultrasonic = int(distance)
-        self.arm_pub.publish(self.data)
-
     def sense(self):
+        GPIO.output(self.GPIO_TRIGGER, False)
+        Time.sleep(0.01)
         GPIO.output(self.GPIO_TRIGGER, True)
-        time.sleep(0.00001)
+        Time.sleep(0.00001)
         GPIO.output(self.GPIO_TRIGGER, False)
 
-        StartTime = time.time()
-        StopTime = time.time()
+        StartTime = Time.time()
+        timeout = StartTime + self.maxTime
 
-        while GPIO.input(self.GPIO_ECHO) == 0:
-            StartTime = time.time()
+        while GPIO.input(self.GPIO_ECHO) == 0 and StartTime < timeout:
+            StartTime = Time.time()
 
-        while GPIO.input(self.GPIO_ECHO) == 1:
-            StopTime = time.time()
+        if (StartTime > timeout):
+            distance = self.sense()
+            return int(distance)
+
+        StopTime = Time.time()
+        timeout = StopTime + self.maxTime
+
+        while GPIO.input(self.GPIO_ECHO) == 1 and StopTime < timeout:
+            StopTime = Time.time()
+
+        if (StopTime > timeout):
+            distance = self.sense()
+            return int(distance)
 
         TimeElapsed = StopTime - StartTime
         distance = (TimeElapsed * 34300) / 2
 
         if distance < 2:
-            distance = sense()
+            distance = self.sense()
             return int(distance)
         elif distance > 400:
-            distance = sense()
-            return int(distance)
+            return 400
         else:
             return int(distance)
+
+    def publish(self):
+        values = []
+        for i in range(3):
+            values.append(self.sense())
+        distance = statistics.median(values)
+
+        self.data.ultrasonic = int(distance)
+        self.arm_pub.publish(self.data)
+
 
 if __name__ == "__main__":
     rospy.init_node("arm_sensor")

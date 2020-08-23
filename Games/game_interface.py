@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 import rospy
 from std_msgs.msg import Int16, String
 from mcgreen_control.msg import Array
@@ -27,7 +26,7 @@ class Game_Interface:
         self.face_pub.publish(self.expression)
 
     def face_update(self, face):
-        self.expression.data =  int(face)
+        self.expression.data = int(face)
         self.face_pub.publish(self.expression)
 
     def game_update(self, game):

@@ -8,6 +8,8 @@ from PIL import Image
 import random
 import sys
 import threading
+import textwrap
+
 #UNCOMMENT BOTTOM TWO LINES BEFORE USING BOTTOM TWO LINES
 # sys.path.append("../")
 # from head_controller import Head_comm
@@ -174,8 +176,18 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
     #Need to include rects here for selective updating later
 
     #Prepare question text and location
-    QuestionSurf, QuestionRect = text_objects(question, mediumText, white)
-    QuestionRect.center = ((window_size[0] / 2), (window_size[1] / 8))
+    surfaceName.fill(white)
+
+    surfaceName.blit(background, backgroundRect)
+    questionList = textwrap.wrap(question)
+    index = 0
+    #print(questionList[0])
+    for i in range(len(questionList)):
+        #print("hi")
+        QuestionSurf, QuestionRect = text_objects(questionList[i], mediumText, white)
+        QuestionRect.center = ((window_size[0] / 2), (window_size[1] / 8) + index)
+        surfaceName.blit(QuestionSurf, QuestionRect)
+        index += 60
 
     ScoreSurf, ScoreRect = text_objects('Score: ' + str(status[0]) + ' points', mediumText, white)
     ScoreRect.center = ((0.80 * window_size[0]), (window_size[1] / 16))
@@ -184,12 +196,11 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
     ElectricRect.topleft = ((0.10 * window_size[0]), (0.70 * window_size[1]))
 
     #Make entire screen 'white' to 'clean' it
-    surfaceName.fill(white)
 
-    surfaceName.blit(background, backgroundRect)
 
     #Write text to buffer
-    surfaceName.blit(QuestionSurf, QuestionRect)
+
+
     surfaceName.blit(ScoreSurf, ScoreRect)
     surfaceName.blit(ElectricSurf, ElectricRect)
 

@@ -163,7 +163,7 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
     #Shuffle answers from choices
     random.shuffle(choices)
 
-    buttonText = pygame.font.Font('FreeSansBold.ttf', 32)
+    buttonText = pygame.font.Font('FreeSansBold.ttf', 20)
 
 
     up_left_button = Button(surfaceName, darker_red, red, (ref_x, ref_y, button_w, button_h), choices[0], buttonText)
@@ -174,7 +174,7 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
     #Need to include rects here for selective updating later
 
     #Prepare question text and location
-    QuestionSurf, QuestionRect = text_objects(question, largeText, white)
+    QuestionSurf, QuestionRect = text_objects(question, mediumText, white)
     QuestionRect.center = ((window_size[0] / 2), (window_size[1] / 8))
 
     ScoreSurf, ScoreRect = text_objects('Score: ' + str(status[0]) + ' points', mediumText, white)
@@ -419,6 +419,7 @@ pygame.init() #SUPER IMPORTANT
 
 #Define basic text sizes
 largeText = pygame.font.Font('FreeSansBold.ttf', 64)   #Large text, ideal for headings
+
 mediumText = pygame.font.Font('FreeSansBold.ttf', 48)   #Medium text, ideal for subheadings
 smallText =  pygame.font.Font('FreeSansBold.ttf', 16)   #Small text, ideal for small buttons
 

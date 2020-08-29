@@ -710,16 +710,16 @@ def game_menu(surface, point_vals, q_set):
 
 def game_over(surface, status):
     #Set Face to Happy, regardless of score
-    controller.face_update(getFaceNum(1))
+    #controller.face_update(getFaceNum(1))
 
     #Button Dimensions
     button_w = 750 / 2; button_h = 250 / 2
 
-    quit_button = Button(surface, darker_red, red, (window_size[0] / 2 - (0.5 * 375), 0.75 * window_size[1], button_w, button_h), 'Quit', mediumText)
+    menu_button = Button(surface, darker_blue, blue, (window_size[0] / 2 - (0.5 * 375), 0.75 * window_size[1], button_w, button_h), 'Menu', mediumText)
 
-    quit_button_rect = quit_button.get_rect()
+    menu_button_rect = menu_button.get_rect()
 
-    updateList = [quit_button_rect]
+    updateList = [menu_button_rect]
 
 
     #Prepare title text and location
@@ -766,22 +766,28 @@ def game_over(surface, status):
                 touch_status = True
 
                 #Check if buttons are pressed if mouse button is down
-                if quit_button.is_pressed(touch_status):    #If 'Quit' button is tapped
+                if menu_button.is_pressed(touch_status):    #If 'Quit' button is tapped
                     #Set Face to Neutral
                     # controller.face_update(getFaceNum())
-                    pygame.quit()
-                    quit()
+
+                    #Old code for quitting instead of returning to menu
+                    #pygame.quit()
+                    #quit()
+                    pygame.display.update(updateList)
+                    clock.tick(FPS)
+                    game_intro(gameDisplay)
 
             else:
                 touch_status = False
 
-        quit_button.generate()
+        menu_button.generate()
 
         #Update only the portions that need to be updated
         pygame.display.update(updateList)
         clock.tick(FPS)
 
 #Execute game
+
 game_intro(gameDisplay)
 
 #Set Face to Neutral

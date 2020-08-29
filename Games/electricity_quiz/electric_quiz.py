@@ -186,7 +186,7 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
     QuestionRect.center = ((window_size[0] / 2), (window_size[1] / 8))
 
     ScoreSurf, ScoreRect = text_objects('Score: ' + str(status[0]) + ' points', mediumText, yellow)
-    ScoreRect.center = ((0.80 * window_size[0]), (window_size[1] / 16))
+    ScoreRect.center = ((0.10 * window_size[0]), (window_size[1] / 16))
 
     ElectricSurf, ElectricRect = text_objects('Electric Bar: ', mediumText, yellow)
     ElectricRect.topleft = ((0.10 * window_size[0]), (0.70 * window_size[1]))

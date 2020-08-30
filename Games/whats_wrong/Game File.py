@@ -36,6 +36,7 @@ kitchenlvl = pygame.image.load('kitchenlvl.png')
 bedroomlvl = pygame.image.load('bedroomlvl.png')
 menu = pygame.image.load('menubkg.png')
 helps = pygame.image.load('helpback.png')
+helpbkg = pygame.image.load('helpbkg.png')
 helps = pygame.transform.scale(helps, (926, 634))
 gamewon = pygame.image.load('winner.png')
 gamelost = pygame.image.load('loser.png')
@@ -202,6 +203,8 @@ def help_screen():
     while bhelp:
 
         screen.fill((255, 255, 255))
+        screen.blit(helpbkg, (0,0))
+        '''
         screen.blit(helps, (0, 0))
         TextSurf, TextRect = text_objects('How to Play:', largeText, red)
         TextRect.center = ((window_size[0] / 2), (window_size[1] / 6))
@@ -227,7 +230,7 @@ def help_screen():
         screen.blit(Line3Surf, Line3Rect)
         #comments
         #help_message = font.render("The goal of this game is to make the room more environmentally efficient. Click items that you think need to be improved. If you are lost or would like guidance press the question mark button in the top right. Once you complete the game, press escape to play again. ", True, (0, 0, 255))
-
+        '''
         #screen.blit(help_message, (0, 0))
 
         for event in pygame.event.get():

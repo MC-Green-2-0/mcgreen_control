@@ -415,21 +415,21 @@ def level_select(lvl):
         if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
             screen.blit(invlvl1, (360, 80))
             if click[0] == 1:
-                lvl = 0
+                level = 0
                 game(playerX, points_value, playerX_change, milliseconds, seconds, level)
         else:
             screen.blit(lvl1, (360, 80))
         if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
             screen.blit(invlvl2, (360, 170))
             if click[0] == 1:
-                lvl = 1
+                level = 1
                 game(playerX, points_value, playerX_change, milliseconds, seconds, level)
         else:
             screen.blit(lvl2, (360, 170))
         if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
             screen.blit(invlvl3, (360, 260))
             if click[0] == 1:
-                lvl = 2
+                level = 2
                 game(playerX, points_value, playerX_change, milliseconds, seconds, level)
         else:
             screen.blit(lvl3, (360, 260))

@@ -45,27 +45,34 @@
 	[
 
 		{
-			"question": "",
-			"choices": ["", "", "", ""],
-			"answer": ""
+			"question": 
+			"Which source of alternative energy is th emost efficient?",
+			"choices":
+		       	["Wind Energy", "Land Energy", "Chemical Energy", "Water Energy"],
+			"answer": "Wind Energy"
 		},
 		
 		{
-			"question": "",
-			"choices": ["", "", "", ""],
-			"answer": ""
+			"question": "How efficient are solar panels?",
+			"choices":
+		       	["11-15%", "20-27%", "4-12%", "30-45%"],
+			"answer": "11-15%"
 		},
 
 		{
-			"question": "",
-			"choices": ["", "", "", ""],
-			"answer": ""
+			"question": 
+			"What do our everyday energy choices affect?",
+			"choices": 
+			["Air & Water Quality", "Our Hairstyles", "Soil Quality", "Food We Eat"],
+			"answer": "Air & Water Quality"
 		},
 
 		{
-			"question": "",
-			"choices": ["", "", "", ""],
-			"answer": ""
+			"question":
+		       	"What do photo-voltaic cells convert sunlight into?",
+			"choices": 
+			["Electricity", "Energy", "Power", "Wind"],
+			"answer": "Electricity"
 		}
 
 	],

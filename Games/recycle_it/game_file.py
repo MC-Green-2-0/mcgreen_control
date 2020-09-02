@@ -19,7 +19,8 @@ active_head = 0
 active_face = 0
 
 # Screen Size (x,y)
-screen = pygame.display.set_mode((926, 634))
+window = (926, 634)
+screen = pygame.display.set_mode(window)
 
 # Background
 background = pygame.image.load('gamebkg.png')
@@ -323,60 +324,17 @@ def intro():
 
 
 def ready():
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Ready ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Ready. ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Ready.. ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Ready... ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Set ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Set. ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Set.. ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Set... ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("GO! ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
+    message = ["Ready ", "Ready. ", "Ready.. ", "Ready... ", "Set ", "Set. ", "Set.. ", "Set... ", "GO! " ]
+    for i in range(9):
+        screen.fill((255, 255, 255))
+        screen.blit(background, (0, 0))
+        ready = font.render(message[i], True, (0, 0, 0))
+        screen.blit(ready, (window[0]/2, window[1]/2))
+        pygame.display.update()
+        pygame.time.delay(750)
+
+
+
 
 
 def help_screen():

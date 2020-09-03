@@ -408,6 +408,12 @@ def level_select(lvl):
     while bmenu:
         screen.fill((0, 0, 0))
         screen.blit(menu, (0, 0))
+        lvl1b = Button(invlvl1, lvl1, (360, 80, 220, 70))
+        lvl1b.generate()
+        lvl2b = Button(invlvl2, lvl2, (360, 170, 220, 70))
+        lvl2b.generate()
+        lvl3b = Button(invlvl3, lvl3, (360, 260, 220, 70))
+        lvl3b.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
@@ -416,29 +422,20 @@ def level_select(lvl):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     intro()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                touch_status = True
+                if(lvl1b.is_pressed(touch_status)):
+                    game(playerX, points_value, playerX_change, milliseconds, seconds, 0)
+                if(lvl2b.is_pressed(touch_status)):
+                    game(playerX, points_value, playerX_change, milliseconds, seconds, 1)
+                if(lvl3b.is_pressed(touch_status)):
+                    game(playerX, points_value, playerX_change, milliseconds, seconds, 2)
+
+
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
-        if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
-            screen.blit(invlvl1, (360, 80))
-            if click[0] == 1:
-                level = 0
-                game(playerX, points_value, playerX_change, milliseconds, seconds, level)
-        else:
-            screen.blit(lvl1, (360, 80))
-        if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
-            screen.blit(invlvl2, (360, 170))
-            if click[0] == 1:
-                level = 1
-                game(playerX, points_value, playerX_change, milliseconds, seconds, level)
-        else:
-            screen.blit(lvl2, (360, 170))
-        if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
-            screen.blit(invlvl3, (360, 260))
-            if click[0] == 1:
-                level = 2
-                game(playerX, points_value, playerX_change, milliseconds, seconds, level)
-        else:
-            screen.blit(lvl3, (360, 260))
+
+
         pygame.display.update()
 
 

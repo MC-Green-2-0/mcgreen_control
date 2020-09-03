@@ -122,6 +122,52 @@ milliseconds = 0
 
 level = 0
 
+class Button:
+    def __init__ (self, ac, ic, rectVals):
+        self.ac = ac #Active color of button
+        self.ic = ic #Inactive color of button
+        self.rectAttrs = rectVals #(x, y, w, h) of button
+
+    def generate(self):
+        x, y, w, h = self.rectAttrs
+        mouse = pygame.mouse.get_pos()
+
+        #Check if mouse is on button
+        if x + w > mouse[0] > x and y + h > mouse[1] > y:
+            screen.blit(self.ac, (self.rectAttrs[0], self.rectAttrs[1]))
+
+        #Else just show darker button
+        else:
+            screen.blit(self.ic, (self.rectAttrs[0], self.rectAttrs[1]))
+
+
+
+
+        pygame.display.update()
+
+
+
+    def is_pressed(self, touch_status):
+        x, y, w, h = self.rectAttrs
+        mouse = pygame.mouse.get_pos()
+
+        #Check if mouse is hovering over button or not
+        if x + w > mouse[0] > x and y + h > mouse[1] > y:
+            if touch_status == True:
+                #print('CLICK DETECTED')
+                return True
+
+            elif touch_status == False:
+                return False
+
+        #If mouse is not hovering over button, button must obviously not be pressed
+        else:
+            return False
+
+#Render text to a surface and a corresponding rectangle
+def text_objects(text, font, color=(0,0,0)):
+    textSurface = font.render(text, True, color)
+    return textSurface, textSurface.get_rect()
 
 # Creating Player/Enemy/Good Object on-screen
 # Enemy and Good Object have third unused parameter for selection of enemy/object picture
@@ -292,33 +338,35 @@ def intro():
     while bmenu:
         screen.fill((255, 255, 255))
         screen.blit(menu, (0, 0))
+        playbutton = Button(invplayb, playb, (360, 80, 220, 70))
+        playbutton.generate()
+        helpbutton = Button(invhelpb, helpb, (360, 170, 220, 70))
+        helpbutton.generate()
+        quitbutton = Button(invexitb, exitb, (360, 260, 220, 70))
+        quitbutton.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+            touch_status = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                touch_status = True
+                if(playbutton.is_pressed(touch_status)):
+                    level_select(level)
+                if(helpbutton.is_pressed(touch_status)):
+                    help_screen()
+                if(quitbutton.is_pressed(touch_status)):
+                    pygame.quit()
+                    quit()
+
+
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         # print(click)
-        if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
-            screen.blit(invplayb, (360, 80))
-            if click[0] == 1:
-                level_select(level)
-        else:
-            screen.blit(playb, (360, 80))
-        if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
-            screen.blit(invhelpb, (360, 170))
-            if click[0] == 1:
-                help_screen()
-        else:
-            screen.blit(helpb, (360, 170))
-        if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
-            screen.blit(invexitb, (360, 260))
-            if click[0] == 1:
-                pygame.quit()
-                quit()
-        else:
-            screen.blit(exitb, (360, 260))
+
+
+
 
         pygame.display.update()
 

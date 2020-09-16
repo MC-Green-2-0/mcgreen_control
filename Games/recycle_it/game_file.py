@@ -173,16 +173,10 @@ def text_objects(text, font, color=(0,0,0)):
 # Enemy and Good Object have third unused parameter for selection of enemy/object picture
 def player(x, y):
     screen.blit(playerImg, (x, y))
-
-
 def enemy(x, y, i):
     screen.blit(enemyImg[i], (x, y))
-
-
 def good(x, y, i):
     screen.blit(goodImg[i], (x, y))
-
-
 def show_score(pts, x, y):
     score = font.render("Score: " + str(pts), True, (0, 0, 0))
     screen.blit(score, (x, y))
@@ -198,8 +192,7 @@ def isCollision(varX, varY, playerX, playerY):
         return False
 
 
-def game_over(pts
-):
+def game_over(pts):
     if level == 0:
         if pts >= 1000:
             game_won(pts)
@@ -334,15 +327,16 @@ def game_lost(pts):
 
 def intro():
     bmenu = True
+    screen.fill((255, 255, 255))
+    screen.blit(menu, (0, 0))
     # controller.face_update(4)  # HEEEEEEEEEEEEEERRRREEEEEEEEEEEEE
+    playbutton = Button(invplayb, playb, (360, 80, 220, 70))
+    helpbutton = Button(invhelpb, helpb, (360, 170, 220, 70))
+    quitbutton = Button(invexitb, exitb, (360, 260, 220, 70))
     while bmenu:
-        screen.fill((255, 255, 255))
-        screen.blit(menu, (0, 0))
-        playbutton = Button(invplayb, playb, (360, 80, 220, 70))
+
         playbutton.generate()
-        helpbutton = Button(invhelpb, helpb, (360, 170, 220, 70))
         helpbutton.generate()
-        quitbutton = Button(invexitb, exitb, (360, 260, 220, 70))
         quitbutton.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
@@ -361,8 +355,7 @@ def intro():
                     quit()
 
 
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
+
         # print(click)
 
 
@@ -405,14 +398,15 @@ def help_screen():
 def level_select(lvl):
     pygame.time.delay(750)
     bmenu = True
+    screen.fill((0, 0, 0))
+    screen.blit(menu, (0, 0))
+    lvl1b = Button(invlvl1, lvl1, (360, 80, 220, 70))
+    lvl2b = Button(invlvl2, lvl2, (360, 170, 220, 70))
+    lvl3b = Button(invlvl3, lvl3, (360, 260, 220, 70))
+
     while bmenu:
-        screen.fill((0, 0, 0))
-        screen.blit(menu, (0, 0))
-        lvl1b = Button(invlvl1, lvl1, (360, 80, 220, 70))
         lvl1b.generate()
-        lvl2b = Button(invlvl2, lvl2, (360, 170, 220, 70))
         lvl2b.generate()
-        lvl3b = Button(invlvl3, lvl3, (360, 260, 220, 70))
         lvl3b.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window

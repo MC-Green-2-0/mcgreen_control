@@ -69,51 +69,7 @@ playerY = 550
 playerX_change = 0
 
 # enemy -- non-recyclables
-enemyImg = []
-enemyX = []
-enemyY = []
-enemyY_change = []
-for i in range(num_of_each):
-    # choosing which enemy to show
-    enemySelect = random.randint(1, 5)
-    if enemySelect == 1:
-        enemyImg.append(pygame.image.load('enemy_banana.png'))
-    if enemySelect == 2:
-        enemyImg.append(pygame.image.load('enemy_core.png'))
-    if enemySelect == 3:
-        enemyImg.append(pygame.image.load('enemy_trash.png'))
-    if enemySelect == 4:
-        enemyImg.append(pygame.image.load('plastic6.png'))
-    if enemySelect == 5:
-        enemyImg.append(pygame.image.load('plastic3.png'))
-    # random spawn location of enemy
-    enemyX.append(random.randint(0, 862))
-    enemyY.append(random.randint(0, 200) - 100)
-    # speed of fall
-    enemyY_change.append(2)
 
-# good -- recyclable
-goodX = []
-goodY = []
-goodY_change = []
-goodImg = []
-
-for i in range(num_of_each):
-    # choosing which good object to show
-    goodSelect = random.randint(1, 4)
-    if goodSelect == 1:
-        goodImg.append(pygame.image.load('good_bag.png'))
-    if goodSelect == 2:
-        goodImg.append(pygame.image.load('good_soda.png'))
-    if goodSelect == 3:
-        goodImg.append(pygame.image.load('plastic1.png'))
-    if goodSelect == 4:
-        goodImg.append(pygame.image.load('plastic2.png'))
-    # random spawn of good object
-    goodX.append(random.randint(0, 862))
-    goodY.append(random.randint(0, 200) - 100)
-    # speed of fall
-    goodY_change.append(2)
 
 # timer + level
 clock = pygame.time.Clock()
@@ -169,14 +125,7 @@ def text_objects(text, font, color=(0,0,0)):
     textSurface = font.render(text, True, color)
     return textSurface, textSurface.get_rect()
 
-# Creating Player/Enemy/Good Object on-screen
-# Enemy and Good Object have third unused parameter for selection of enemy/object picture
-def player(x, y):
-    screen.blit(playerImg, (x, y))
-def enemy(x, y, i):
-    screen.blit(enemyImg[i], (x, y))
-def good(x, y, i):
-    screen.blit(goodImg[i], (x, y))
+
 def show_score(pts, x, y):
     score = font.render("Score: " + str(pts), True, (0, 0, 0))
     screen.blit(score, (x, y))
@@ -262,12 +211,6 @@ def game_won(pts):
     # # controller.head_update([90, 90])
     # rotate=threading.Thread(target=rotate_head, args=(True, [45, 135, 90]))
     # rotate.start()
-    for i in range(num_of_each):
-        enemyY[i] = 2000
-        goodY[i] = 2000
-        enemy(enemyX[i], enemyY[i], i)
-        good(goodX[i], goodY[i], i)
-
     mixer.music.load('game_won.wav')
     mixer.music.play()
     pause = True
@@ -298,11 +241,7 @@ def game_lost(pts):
     # controller.head_update([90, 90])
     # rotate=threading.Thread(target=rotate_head, args=(False, [45, 135, 90]))
     # rotate.start()
-    for i in range(num_of_each):
-        enemyY[i] = 2000
-        goodY[i] = 2000
-        enemy(enemyX[i], enemyY[i], i)
-        good(goodX[i], goodY[i], i)
+
 
     mixer.music.load('game_lose.wav')
     mixer.music.play()
@@ -433,19 +372,28 @@ def level_select(lvl):
         pygame.display.update()
 
 
+
+
+
+
+
+
+
 # Game Loop
 def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
     mixer.music.load('backgroundmsc.wav')
     mixer.music.play(-1)
     ready()
-    for i in range(num_of_each):
-        if lvl == 0:
-            goodY_change.append(1)
-            enemyY_change.append(1)
-        if lvl == 1 or lvl == 2:
-            goodY_change.append(10)
-            enemyY_change.append(10)
     bgame = True
+
+    goodX = []
+    goodY = []
+    goodY_change = []
+    goodImg = []
+    enemyImg = []
+    enemyX = []
+    enemyY = []
+    enemyY_change = []
     while bgame:
         # RGB Screen Fill - Red, Green, Blue
         screen.fill((255, 255, 255))
@@ -460,18 +408,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 pygame.quit()
                 quit()
             # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
-            '''
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    playerX_change = -5
-                if event.key == pygame.K_RIGHT:
-                    playerX_change = 5
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    playerX_change = 0
-                if event.key == pygame.K_ESCAPE:
-                    level_select(level)
-                        '''
+
         # changes X position of player character
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[pygame.K_LEFT] and keys_pressed[pygame.K_RIGHT]:
@@ -485,15 +422,66 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
 
         if keys_pressed[pygame.K_ESCAPE]:
                 level_select(level)
+
+
         playerX += playerX_change
 
+        randol = random.randint(1, 10)
+        if(len(goodImg) <= num_of_each and randol == 1):
+            # choosing which good object to show
+            goodSelect = random.randint(1, 4)
+            if goodSelect == 1:
+                goodImg.append(pygame.image.load('good_bag.png'))
+            if goodSelect == 2:
+                goodImg.append(pygame.image.load('good_soda.png'))
+            if goodSelect == 3:
+                goodImg.append(pygame.image.load('plastic1.png'))
+            if goodSelect == 4:
+                goodImg.append(pygame.image.load('plastic2.png'))
+            # random spawn of good object
+            goodX.append(random.randint(0, 862))
+            goodY.append(random.randint(0, 200) - 100)
+            # speed of fall
+            goodY_change.append(2)
+
+
+        if(len(enemyImg) <= num_of_each and randol == 2):
+            # choosing which enemy to show
+            enemySelect = random.randint(1, 7)
+            if enemySelect == 1:
+                enemyImg.append(pygame.image.load('enemy_banana.png'))
+            if enemySelect == 2:
+                enemyImg.append(pygame.image.load('enemy_core.png'))
+            if enemySelect == 3:
+                enemyImg.append(pygame.image.load('enemy_trash.png'))
+            if enemySelect == 4:
+                enemyImg.append(pygame.image.load('plastic6.png'))
+            if enemySelect == 5:
+                enemyImg.append(pygame.image.load('plastic3.png'))
+            if enemySelect == 6:
+                enemyImg.append(pygame.image.load('pizza.png'))
+            if enemySelect == 7:
+                enemyImg.append(pygame.image.load('bag.png'))
+            # random spawn location of enemy
+            enemyX.append(random.randint(0, 862))
+            enemyY.append(random.randint(0, 200) - 100)
+            # speed of fall
+            enemyY_change.append(2)
+
+
+
+
+
+
         # Changes y position of enemies and good objects
-        for i in range(num_of_each):
+        for i in range(len(goodImg)):
+            if(i >= len(goodImg)):
+                break
             goodY[i] += goodY_change[i]
-            enemyY[i] += enemyY_change[i]
+
 
             # Checking for collision
-            badCollision = isCollision(enemyX[i], enemyY[i], playerX, playerY)
+
             goodCollision = isCollision(goodX[i], goodY[i], playerX, playerY)
 
             # Adding points to score
@@ -512,9 +500,25 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 pts += 100
                 print(pts)
                 # Sending good object to top of screen in a New location
-                goodX[i] = random.randint(0, 862)
-                goodY[i] = 0
+                del goodX[i]
+                del goodY[i]
+                del goodY_change[i]
+                del goodImg[i]
+                i -= 1
+            elif goodY[i] > 600:
+                del goodX[i]
+                del goodY[i]
+                del goodY_change[i]
+                del goodImg[i]
+                i -= 1
+            else:
+                screen.blit(goodImg[i], (goodX[i], goodY[i]))
 
+        for i in range(len(enemyImg)):
+            if(i >= len(enemyImg)):
+                break
+            enemyY[i] += enemyY_change[i]
+            badCollision = isCollision(enemyX[i], enemyY[i], playerX, playerY)
             if badCollision:
                 bad_catch = mixer.Sound('bad_catch.wav')
                 # DISPLAY THE SURPRISED FACE HERE FOR 1 SECOND AND REVERT BACK TO NEUTRAL
@@ -530,16 +534,22 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 pts -= 50
                 print(pts)
                 # Sending bad object to top of screen in a new location
-                enemyX[i] = random.randint(0, 862)
-                enemyY[i] = 0
+                del enemyX[i]
+                del enemyY[i]
+                del enemyY_change[i]
+                del enemyImg[i]
+                i -= 1
 
-            if enemyY[i] > 600:
-                enemyY[i] = random.randint(0, 200) - 100
-            if goodY[i] > 600:
-                goodY[i] = random.randint(0, 200) - 100
+            elif enemyY[i] > 600:
+                del enemyX[i]
+                del enemyY[i]
+                del enemyY_change[i]
+                del enemyImg[i]
+                i -= 1
 
-            enemy(enemyX[i], enemyY[i], i)
-            good(goodX[i], goodY[i], i)
+            else:
+
+                screen.blit(enemyImg[i], (enemyX[i], enemyY[i]))
 
         # Setting Boundaries for Recycle Bin --> Doesn't go out of game window
         if playerX <= 0:
@@ -548,8 +558,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
             playerX = 862
 
         # Creating Player Object
-        player(playerX, playerY)
-
+        screen.blit(playerImg, (playerX, playerY))
         # Show Score Function
         show_score(pts, textX, textY)
 

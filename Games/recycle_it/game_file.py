@@ -384,8 +384,14 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
     mixer.music.load('backgroundmsc.wav')
     mixer.music.play(-1)
     ready()
+    if(lvl == 1):
+        fallspeed = 3
+    else:
+        fallspeed = 2
     bgame = True
-
+    num_of_each = 3
+    if(lvl == 2):
+        num_of_each = 2
     goodX = []
     goodY = []
     goodY_change = []
@@ -446,28 +452,28 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
             goodX.append(random.randint(0, 862))
             goodY.append(random.randint(0, 200) - 100)
             # speed of fall
-            goodY_change.append(2)
-
-        if(len(neutImg) <= num_of_each and randol == 3):
-            # choosing which good object to show
-            goodSelect = random.randint(1, 6)
-            if goodSelect == 1:
-                neutImg.append(pygame.image.load('clothes.png'))
-            if goodSelect == 2:
-                neutImg.append(pygame.image.load('computer.png'))
-            if goodSelect == 3:
-                neutImg.append(pygame.image.load('medicine.png'))
-            if goodSelect == 4:
-                neutImg.append(pygame.image.load('shreddedpaper.png'))
-            if goodSelect == 5:
-                neutImg.append(pygame.image.load('plasticbag.png'))
-            if goodSelect == 6:
-                neutImg.append(pygame.image.load('tire.png'))
-            # random spawn of good object
-            neutX.append(random.randint(0, 862))
-            neutY.append(random.randint(0, 200) - 100)
-            # speed of fall
-            neutY_change.append(2)
+            goodY_change.append(fallspeed)
+        if(lvl == 2):
+            if(len(neutImg) <= num_of_each and randol == 3):
+                # choosing which good object to show
+                goodSelect = random.randint(1, 6)
+                if goodSelect == 1:
+                    neutImg.append(pygame.image.load('clothes.png'))
+                if goodSelect == 2:
+                    neutImg.append(pygame.image.load('computer.png'))
+                if goodSelect == 3:
+                    neutImg.append(pygame.image.load('medicine.png'))
+                if goodSelect == 4:
+                    neutImg.append(pygame.image.load('shreddedpaper.png'))
+                if goodSelect == 5:
+                    neutImg.append(pygame.image.load('plasticbag.png'))
+                if goodSelect == 6:
+                    neutImg.append(pygame.image.load('tire.png'))
+                # random spawn of good object
+                neutX.append(random.randint(0, 862))
+                neutY.append(random.randint(0, 200) - 100)
+                # speed of fall
+                neutY_change.append(fallspeed)
 
         if(len(enemyImg) <= num_of_each and randol == 2):
             # choosing which enemy to show
@@ -490,7 +496,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
             enemyX.append(random.randint(0, 862))
             enemyY.append(random.randint(0, 200) - 100)
             # speed of fall
-            enemyY_change.append(2)
+            enemyY_change.append(fallspeed)
 
 
 
@@ -574,43 +580,43 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
             else:
 
                 screen.blit(enemyImg[i], (enemyX[i], enemyY[i]))
+        if(lvl == 2):
+            for i in range(len(neutImg)):
+                if(i >= len(neutImg)):
+                    break
+                neutY[i] += neutY_change[i]
+                neutCollision = isCollision(neutX[i], neutY[i], playerX, playerY)
+                if neutCollision:
 
-        for i in range(len(neutImg)):
-            if(i >= len(neutImg)):
-                break
-            neutY[i] += neutY_change[i]
-            neutCollision = isCollision(neutX[i], neutY[i], playerX, playerY)
-            if neutCollision:
+                    # DISPLAY THE SURPRISED FACE HERE FOR 1 SECOND AND REVERT BACK TO NEUTRAL
+                    #bad_catch.play()
+                    # face = random.randint(5, 7)  # HHHHHHHEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEE
+                    # controller.face_update(face)
+                    # # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
+                    # # either way i'll include and u can play around
+                    # # time.sleep(2)
+                    # controller.face_update(4)
+                    # bad_face = threading.Thread(target=change_face, args=(face, 0.5,))
+                    # bad_face.start()
+                    pts -= 0
+                    print(pts)
+                    # Sending bad object to top of screen in a new location
+                    del neutX[i]
+                    del neutY[i]
+                    del neutY_change[i]
+                    del neutImg[i]
+                    i -= 1
 
-                # DISPLAY THE SURPRISED FACE HERE FOR 1 SECOND AND REVERT BACK TO NEUTRAL
-                #bad_catch.play()
-                # face = random.randint(5, 7)  # HHHHHHHEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEE
-                # controller.face_update(face)
-                # # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # # either way i'll include and u can play around
-                # # time.sleep(2)
-                # controller.face_update(4)
-                # bad_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                # bad_face.start()
-                pts -= 0
-                print(pts)
-                # Sending bad object to top of screen in a new location
-                del neutX[i]
-                del neutY[i]
-                del neutY_change[i]
-                del neutImg[i]
-                i -= 1
+                elif neutY[i] > 600:
+                    del neutX[i]
+                    del neutY[i]
+                    del neutY_change[i]
+                    del neutImg[i]
+                    i -= 1
 
-            elif neutY[i] > 600:
-                del neutX[i]
-                del neutY[i]
-                del neutY_change[i]
-                del neutImg[i]
-                i -= 1
+                else:
 
-            else:
-
-                screen.blit(neutImg[i], (neutX[i], neutY[i]))
+                    screen.blit(neutImg[i], (neutX[i], neutY[i]))
 
         # Setting Boundaries for Recycle Bin --> Doesn't go out of game window
         if playerX <= 0:

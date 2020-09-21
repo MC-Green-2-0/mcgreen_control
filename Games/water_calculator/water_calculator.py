@@ -425,14 +425,19 @@ def game_tips(surface):
     x, y = window_size[0] / 2, (window_size[1] / 4) + 150
     count = 1
 
-    for i in range(len(limits)):
-        flag = limits[i]
-        if flag:
-            LineSurf, LineRect = text_objects(str(count) + '.) ' + advice[i], mediumText, white)
-            LineRect.center = (x, y)
-            surface.blit(LineSurf, LineRect)
-            y += 1.5 * line_spacing
-            count += 1
+    if not any(limits):
+        LineSurf, LineRect = text_objects(str(count) + '.) Good Job for using water efficiently!', mediumText, white)
+        LineRect.center = (x, y)
+        surface.blit(LineSurf, LineRect)
+    else:
+        for i in range(len(limits)):
+            flag = limits[i]
+            if flag:
+                LineSurf, LineRect = text_objects(str(count) + '.) ' + advice[i], mediumText, white)
+                LineRect.center = (x, y)
+                surface.blit(LineSurf, LineRect)
+                y += 1.5 * line_spacing
+                count += 1
 
     #Update ENTIRE screen just once
     pygame.display.update()

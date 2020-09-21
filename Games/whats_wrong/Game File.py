@@ -1,15 +1,90 @@
-#!/usr/bin/python3
 import pygame
 from pygame import mixer
 import time
 import sys
-
-# sys.path.append("../")
-# from head_controller import Head_comm
 import random
 import threading
 
-# controller = Head_comm("W Wrong?")
+class Level:
+    def __init__(self):
+        self.background = None
+        self.objs = []
+        self.flipped = []
+        self.hints = []
+        self.isTimer = False
+        self.timer = 0
+
+    def setBackground(self, bg):
+        self.background = bg
+
+    def setTimer(self, timer):
+        self.isTimer = True
+        self.timer = timer
+
+    def addObj(self, obj, flippedobj, x_pos, y_pos, x_off, y_off, hint):
+        xuplimit = x_pos + x_off
+        xlowlimit = x_pos - 10
+        yuplimit = y_pos + y_off
+        ylowlimit = y_pos - 10
+        self.objs.append([obj,flippedobj, x_pos, y_pos, xuplimit, xlowlimit, yuplimit, ylowlimit])
+        self.hints.append(hint)
+        self.flipped.append(0)
+
+    def run(self):
+
+        start_tick = pygame.time.get_ticks()
+        self.flipped = [0 for _ in self.objs]
+        hint = font.render(" ", True, (0, 0, 0))
+        mixer.music.load('backgroundmsc.wav')
+        mixer.music.play(-1)
+
+        while True:
+            screen.blit(self.background, (0, 0))
+            screen.blit(hint, (50,25))
+            mouse = pygame.mouse.get_pos()
+            click = pygame.mouse.get_pressed()
+            print(mouse)
+
+            for event in pygame.event.get():
+                # Quitting the Game by X-ing out Window
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        level_select()
+
+            for num, object in enumerate(self.objs):
+                screen.blit(object[0 + self.flipped[num]], (object[2], object[3]))
+                if object[-4] > mouse[0] > object[-3] and object[-2] > mouse[1] > object[-1] and click[0] == 1:
+                    self.flipped[num] = 1
+
+            else:
+                screen.blit(hintp, (815, 25))
+                if 900 > mouse[0] > 815 and 100 > mouse[1] > 25:
+                    screen.blit(hintp, (815, 25))
+                    if click[0] == 1:
+                        for objnum, flip in enumerate(self.flipped):
+                            if not flip:
+                                hint = font.render(self.hints[objnum], True, (0, 0, 0))
+                                break
+                else:
+                    screen.blit(hintp, (815, 25))
+
+
+            if self.isTimer:
+                    time = self.timer
+                    seconds_elapsed = (pygame.time.get_ticks()-start_tick)//1000
+                    time_left = time-seconds_elapsed
+                    time_text = font.render(str(time_left), True, (0, 0, 0))
+                    screen.blit(time_text, (25, 50))
+                    if time_left <= 0:
+                        gamelose()
+
+            if all(flip == 1 for flip in self.flipped):
+                gamewin()
+            pygame.display.update()
 
 pygame.init()
 window_size = (926, 634)
@@ -49,7 +124,8 @@ can = pygame.image.load('can.png')
 looseplant = pygame.image.load('loose_plant.png')
 papertowel = pygame.image.load('paper_towel.png')
 pottedplant = pygame.image.load('potted_plant.png')
-recyclingarrow = pygame.image.load('recycling_arrow.png')
+#recyclingarrow = pygame.image.load('recycling_arrow.png')
+recyclingarrow = pygame.image.load('paper_towel_recycling.png')
 runningfaucet = pygame.image.load('running_faucet.png')
 towels = pygame.image.load('towels.png')
 tick = pygame.image.load('tick.png')
@@ -98,55 +174,30 @@ pygame.display.set_icon(icon)
 
 font = pygame.font.Font('Bubblegum.ttf', 32)
 
-clock = pygame.time.Clock()
+level1 = Level()
+level1.setBackground(classroomlvl)
+level1.addObj(closedcurtains, opencurtains, 750, 100, 100, 130,"Hint: Always try to use Natural Sunlight")
+level1.addObj(papertrash, paperrecycling, 280, 320, 100, 130, "Hint: Always Recycle Paper")
+level1.addObj(trash, compost, 58, 265, 107, 145, "Hint: Turn food waste into Compost")
+level1.addObj(laptopon, laptopoff, 440, 315, 110, 65,"Hint: Turn off things you aren't using")
 
-start_time = pygame.time.get_ticks()
+level2 = Level()
+level2.setBackground(bedroomlvl)
+level2.addObj(blank, ipad, 540, 370, 55, 55, "Hint: Turn off things you aren't using")
+level2.addObj(loosepaper,whiteboard, 240, 365, 80, 45, "Hint: Recycle Paper as much as Possible")
+level2.addObj(waterbottle, reusablewb, 20, 420, 40, 80, "Hint: Use Very Little Plastic (Bottles, Bags, etc.) ")
+level2.addObj(openwindow, closedwindow,650, 120, 170, 170, "Hint: Close Windows to Keep Your House Warm/Cold")
+level2.addObj(lighton, lightoff, 290, 240, 55, 50, "Hint: Turn off things you aren't using")
 
-#threading trackers
-active_head = 0
-active_face = 0
+level3 = Level()
+level3.setBackground(kitchenlvl)
+level3.setTimer(90)
+level3.addObj(papertowel, recyclingarrow, 550, 540, 75, 65, "Hint: Use Things made from Recycled Materials")
+level3.addObj(papertowel, towels, 375, 325, 75, 55, "Hint: Avoid Using Paper as much as you can")
+level3.addObj(can, pottedplant, 640, 305, 40, 65, "Hint: Create your own projects with recyclables ")
+level3.addObj(runningfaucet, blank, 265, 300, 75, 55, "Hint: Don't leave the water running")
+level3.addObj(blank, tick, 5, 345, 155, 190, "Hint: Turn off/Close things you aren't using")
 
-#threaded function
-#set vertical = true for vertical movement (auto x = 90) false for opposite
-# def rotate_head(vertical, positions):
-#     global active_head
-#     print("---------------", flush=True)
-#     print("vertical: ", vertical, flush=True)
-#     print("positions: ", positions, flush=True)
-#     if active_head == 0:
-#         active_head +=1
-#         current_pos = 90
-#         for x in positions:
-#             print("x: ", x, flush=True)
-#             if vertical == True:
-#                 controller.head_update([90, x])
-#             else:
-#                 controller.head_update([x,90])
-#             print("servo update sent", flush=True)
-#             delay = float(abs(current_pos - x)) / 60. *.14*5
-#             print("delay: ", delay, flush=True)
-#             time.sleep(delay)
-#             current_pos = x
-#         active_head -= 1
-#
-# #threaded function
-# #change face and then revert to normal after x time
-#
-# def change_face(expression, delay):
-#     global active_face
-#     print("+++++++++++++++++++++++++++++++++=", flush=True)
-#     print ("expression: ", expression, flush=True)
-#     print("delay: ", delay, flush=True)
-#     #print("name: ", str(threading.current_thread().name))
-#     print("count: ", active_face)
-#     if active_face == 0:
-#         active_face += 1
-#         controller.face_update(expression)
-#         print("face update sent", flush=True)
-#         time.sleep(delay)
-#         controller.face_update(4)
-#         print("face reset sent", flush=True)
-#         active_face -= 1
 
 
 def text_objects(text, font, color=(0,0,0)):
@@ -266,19 +317,19 @@ def level_select():
         if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
             screen.blit(invlvl1, (360, 80))
             if click[0] == 1:
-                level1()
+                level1.run()
         else:
             screen.blit(lvl1, (360, 80))
         if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
             screen.blit(invlvl2, (360, 170))
             if click[0] == 1:
-                level2()
+                level2.run()
         else:
             screen.blit(lvl2, (360, 170))
         if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
             screen.blit(invlvl3, (360, 260))
             if click[0] == 1:
-                level3()
+                level3.run()
         else:
             screen.blit(lvl3, (360, 260))
         pygame.display.update()
@@ -335,397 +386,5 @@ def gamelose():
                 if event.key == pygame.K_ESCAPE:
                     level_select()
         pygame.display.update()
-
-
-def level1():
-    obj1 = True
-    obj2 = True
-    obj3 = True
-    obj4 = True
-    lvl1 = True
-    hint = font.render(" ", True, (0, 0, 0))
-    obj1pic = closedcurtains
-    obj2pic = papertrash
-    obj3pic = trash
-    obj4pic = laptopon
-    mixer.music.load('backgroundmsc.wav')
-    mixer.music.play(-1)
-    while lvl1:
-        screen.blit(classroomlvl, (0, 0))
-        screen.blit(hint, (50, 25))
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
-        print(mouse)
-        for event in pygame.event.get():
-            # Quitting the Game by X-ing out Window
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-            # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    level_select()
-        if 850 > mouse[0] > 750 and 220 > mouse[1] > 90:
-            screen.blit(obj1pic, (750, 90))
-            if click[0] == 1:
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                #good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                #good_face.daemon=True
-                #good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj1pic = opencurtains
-                obj1 = False
-        else:
-            screen.blit(obj1pic, (750, 90))
-        if 380 > mouse[0] > 280 and 360 > mouse[1] > 210:
-            screen.blit(obj2pic, (280, 230))
-            if click[0] == 1:
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                # = threading.Thread(target=change_face, args=(face, 0.5,))
-            #    good_face.daemon=True
-                #good_face.start()
-                # controller.face_update(face)
-                # # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj2pic = paperrecycling
-                obj2 = False
-        else:
-            screen.blit(obj2pic, (280, 230))
-        if 165 > mouse[0] > 58 and 410 > mouse[1] > 265:
-            screen.blit(obj3pic, (58, 265))
-            if click[0] == 1:
-                #face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                #good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-            #    good_face.daemon=True
-                #good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj3pic = compost
-                obj3 = False
-        else:
-            screen.blit(obj3pic, (58, 265))
-        if 550 > mouse[0] > 440 and 380 > mouse[1] > 315:
-            screen.blit(obj4pic, (440, 315))
-            if click[0] == 1:
-                #face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-            #    good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                #good_face.daemon=True
-                #good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj4pic = laptopoff
-                obj4 = False
-        else:
-            screen.blit(obj4pic, (440, 315))
-        if 900 > mouse[0] > 815 and 100 > mouse[1] > 25:
-            screen.blit(hintp, (815, 25))
-            if click[0] == 1:
-                if obj1:
-                    hint = font.render("Hint: Always try to use Natural Sunlight", True, (0, 0, 0))
-                elif obj2:
-                    hint = font.render("Hint: Always Recycle Paper", True, (0, 0, 0))
-                elif obj3:
-                    hint = font.render("Hint: Turn food waste into Compost", True, (0, 0, 0))
-                elif obj4:
-                    hint = font.render("Hint: Turn off things you aren't using", True, (0, 0, 0))
-        else:
-            screen.blit(hintp, (815, 25))
-        if obj1 is False and obj2 is False and obj3 is False and obj4 is False:
-            gamewin()
-        pygame.display.update()
-
-
-def level2():
-    obj1 = True
-    obj2 = True
-    obj3 = True
-    obj4 = True
-    obj5 = True
-    lvl2 = True
-    hint = font.render(" ", True, (0, 0, 0))
-    obj1pic = blank
-    obj2pic = loosepaper
-    obj3pic = waterbottle
-    obj4pic = openwindow
-    obj5pic = lighton
-    mixer.music.load('backgroundmsc.wav')
-    mixer.music.play(-1)
-    while lvl2:
-        screen.blit(bedroomlvl, (0, 0))
-        screen.blit(hint, (50, 25))
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
-        print(mouse)
-        for event in pygame.event.get():
-            # Quitting the Game by X-ing out Window
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-            # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    level_select()
-        if 605 > mouse[0] > 550 and 425 > mouse[1] > 390:
-            screen.blit(obj1pic, (540, 370))
-            if click[0] == 1:
-                #face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                #good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                #good_face.daemon=True
-                #good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj1pic = ipad
-                obj1 = False
-        else:
-            screen.blit(obj1pic, (540, 370))
-        if 320 > mouse[0] > 240 and 410 > mouse[1] > 365:
-            screen.blit(obj2pic, (240, 365))
-            if click[0] == 1:
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                #good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                #good_face.daemon=True
-                #good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj2pic = whiteboard
-                obj2 = False
-        else:
-            screen.blit(obj2pic, (240, 365))
-        if 60 > mouse[0] > 20 and 500 > mouse[1] > 420:
-            screen.blit(obj3pic, (20, 420))
-            if click[0] == 1:
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                #good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                #good_face.daemon=True
-                #good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj3pic = reusablewb
-                obj3 = False
-        else:
-            screen.blit(obj3pic, (20, 420))
-        if 820 > mouse[0] > 650 and 290 > mouse[1] > 120:
-            screen.blit(obj4pic, (650, 120))
-            if click[0] == 1:
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                #good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                #good_face.daemon=True
-            #    good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj4pic = closedwindow
-                obj4 = False
-        else:
-            screen.blit(obj4pic, (650, 120))
-        if 345 > mouse[0] > 280 and 290 > mouse[1] > 230:
-            screen.blit(obj5pic, (290, 240))
-            if click[0] == 1:
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                #good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                #good_face.daemon=True
-                #good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj5pic = lightoff
-                obj5 = False
-        else:
-            screen.blit(obj5pic, (290, 240))
-        if 900 > mouse[0] > 815 and 100 > mouse[1] > 25:
-            screen.blit(hintp, (815, 25))
-            if click[0] == 1:
-                if obj1:
-                    hint = font.render("Hint: Turn off things you aren't using", True, (0, 0, 0))
-                elif obj2:
-                    hint = font.render("Hint: Recycle Paper as much as Possible", True, (0, 0, 0))
-                elif obj3:
-                    hint = font.render("Hint: Use Very Little Plastic (Bottles, Bags, etc.) ", True, (0, 0, 0))
-                elif obj4:
-                    hint = font.render("Hint: Close Windows to Keep Your House Warm/Cold", True, (0, 0, 0))
-                elif obj5:
-                    hint = font.render("Hint: Turn off things you aren't using", True, (0, 0, 0))
-        else:
-            screen.blit(hintp, (815, 25))
-
-        if obj1 is False and obj2 is False and obj3 is False and obj4 is False and obj5 is False:
-            gamewin()
-        pygame.display.update()
-
-
-def level3():
-    obj1 = True
-    obj2 = True
-    obj3 = True
-    obj4 = True
-    obj5 = True
-    lvl3 = True
-    hint = font.render(" ", True, (0, 0, 0))
-    obj1pic = papertowel
-    obj2pic = papertowel
-    obj3pic = can
-    obj4pic = runningfaucet
-    obj5pic = blank
-    passed_time = pygame.time.get_ticks() - start_time
-    milliseconds = 0
-    seconds = -round(passed_time/1000)
-    mixer.music.load('backgroundmsc.wav')
-    mixer.music.play(-1)
-    while lvl3:
-        screen.blit(kitchenlvl, (0, 0))
-        screen.blit(hint, (50, 25))
-        screen.blit(papertowel, (550, 540))
-        time = font.render(str(seconds), True, (0, 0, 0))
-        screen.blit(time, (25, 50))
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
-        print(mouse)
-        for event in pygame.event.get():
-            # Quitting the Game by X-ing out Window
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-            # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    level_select()
-        if 625 > mouse[0] > 550 and 605 > mouse[1] > 540:
-            screen.blit(obj1pic, (550, 540))
-            if click[0] == 1:
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                #good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                #good_face.daemon=True
-                #good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj1pic = recyclingarrow
-                obj1 = False
-        else:
-            screen.blit(obj1pic, (550, 540))
-        if 450 > mouse[0] > 350 and 380 > mouse[1] > 300:
-            screen.blit(obj2pic, (375, 325))
-            if click[0] == 1:
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                # good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                # good_face.daemon=True
-                # good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj2pic = towels
-                obj2 = False
-        else:
-            screen.blit(obj2pic, (375, 325))
-        if 680 > mouse[0] > 640 and 370 > mouse[1] > 335:
-            screen.blit(obj3pic, (640, 305))
-            if click[0] == 1:
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                # good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                # good_face.daemon=True
-                # good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj3pic = pottedplant
-                obj3 = False
-        else:
-            screen.blit(obj3pic, (640, 305))
-        if 340 > mouse[0] > 265 and 355 > mouse[1] > 300:
-            screen.blit(obj4pic, (265, 300))
-            if click[0] == 1:
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                # good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                # good_face.daemon=True
-                # good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj4pic = blank
-                obj4 = False
-        else:
-            screen.blit(obj4pic, (265, 300))
-        if 160 > mouse[0] > 5 and 535 > mouse[1] > 345:
-            screen.blit(obj5pic, (5, 345))
-            if click[0] == 1:
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                # good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                # good_face.daemon=True
-                # good_face.start()
-                # controller.face_update(face)
-                # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
-                # either way i'll include and u can play around
-                # time.sleep(2)
-                # controller.face_update(4)
-                obj5pic = tick
-                obj5 = False
-        else:
-            screen.blit(obj5pic, (5, 345))
-        if 900 > mouse[0] > 815 and 100 > mouse[1] > 25:
-            screen.blit(hintp, (815, 25))
-            if click[0] == 1:
-                if obj1:
-                    hint = font.render("Hint: Use Things made from Recycled Materials", True, (0, 0, 0))
-                elif obj2:
-                    hint = font.render("Hint: Avoid Using Paper as much as you can", True, (0, 0, 0))
-                elif obj3:
-                    hint = font.render("Hint: Create your own projects with recyclables ", True, (0, 0, 0))
-                elif obj4:
-                    hint = font.render("Hint: Don't leave the water running", True, (0, 0, 0))
-                elif obj5:
-                    hint = font.render("Hint: Turn off/Close things you aren't using", True, (0, 0, 0))
-        else:
-            screen.blit(hintp, (815, 25))
-
-        if obj1 is False and obj2 is False and obj3 is False and obj4 is False and obj5 is False:
-            gamewin()
-
-        if milliseconds > 1000:
-            seconds -= 1
-            milliseconds -= 1000
-        if seconds < 0:
-            seconds = 92
-        if seconds == 0:
-            if obj1 is False and obj2 is False and obj3 is False and obj4 is False and obj5 is False:
-                gamewin()
-            else:
-                gamelose()
-
-        milliseconds += clock.tick_busy_loop(60)
-        pygame.display.update()
-
 
 intro()

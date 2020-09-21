@@ -85,8 +85,8 @@ class Appliance:
                 print(event)
 
                 if event.type == pygame.QUIT:
-                    os.chdir(os.getcwd() + '/..')
-                    exec(open("./menu.py").read())
+                    pygame.quit()
+                    quit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     touch_status = True
@@ -298,8 +298,8 @@ def game_intro(surface):
             print(event)
 
             if event.type == pygame.QUIT:
-                os.chdir(os.getcwd() + '/..')
-                exec(open("./menu.py").read())
+                pygame.quit()
+                quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 #print('Pressed')
@@ -307,8 +307,8 @@ def game_intro(surface):
 
                 #Check if buttons are pressed if mouse button is down
                 if quit_button.is_pressed(touch_status):    #If 'Quit' button is tapped
-                    os.chdir(os.getcwd() + '/..')
-                    exec(open("./menu.py").read())
+                    pygame.quit()
+                    quit()
 
                 if play_button.is_pressed(touch_status):    #If 'Play' button is tapped
                     game_menu(gameDisplay)
@@ -370,8 +370,9 @@ def game_help(surface):
             print(event)
 
             if event.type == pygame.QUIT:
-                os.chdir(os.getcwd() + '/..')
-                exec(open("./menu.py").read())
+                pygame.quit()
+                quit()
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 #print('Pressed')
                 touch_status = True
@@ -450,8 +451,8 @@ def game_tips(surface):
             print(event)
 
             if event.type == pygame.QUIT:
-                os.chdir(os.getcwd() + '/..')
-                exec(open("./menu.py").read())
+                pygame.quit()
+                quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 touch_status = True
@@ -580,8 +581,8 @@ def game_menu(surface):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                os.chdir(os.getcwd() + '/..')
-                exec(open("./menu.py").read())
+                pygame.quit()
+                quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 touch_status = True
@@ -619,9 +620,8 @@ def game_menu(surface):
                     faucet.unitAmt = 0
                     game_menu(surface)
                 if quit_button.is_pressed(touch_status):
-                    os.chdir(os.getcwd() + '/..')
-                    exec(open("./menu.py").read())
-
+                    pygame.quit()
+                    quit()
 
         dish_button.generate()
         wash_button.generate()

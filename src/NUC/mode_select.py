@@ -60,7 +60,7 @@ class Mode_Selector:
             if self.up_down == 0:
                 upper_data[0] = (self.joystick_rockers[4]/500)-3#change to 0 and 1 here (USING ROCKERS)
                 upper_data[1] = (self.joystick_rockers[5]/500)-3#change to 0 and 1 here
-                #convert values (index of reciever_joystick) from 1000-2000 range to 0-180 range
+                #convert values (index of receiver_joystick) from 1000-2000 range to 0-180 range
                 upper_data[2] = int((self.joystick_rockers[0] - 1000) / 1000 * 180)
                 upper_data[3] = int((self.joystick_rockers[1] - 1000) / 1000 * 180)
 

@@ -16,15 +16,9 @@ def resource_path(relative):
 
 
 #UNCOMMENT BOTTOM TWO LINES BEFORE USING BOTTOM TWO LINES
-# sys.path.append("../")
-# from head_controller import Head_comm
-# controller = Head_comm("elec quiz")
-
-def resource_path(relative):
-    if hasattr(sys, "_MEIPASS"):
-        return os.path.join(sys._MEIPASS, relative)
-    return os.path.join(relative)
-
+sys.path.append("../")
+from game_interface import Game_interface
+controller = Game_interface("elec quiz")
 
 #Screen size of window
 window_size = (1920,1080)

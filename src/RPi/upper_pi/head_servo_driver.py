@@ -1,53 +1,41 @@
 #!/usr/bin/env python3
-#USING PWM, but maybe change to another rotate-type movement?
 import rospy
 import RPi.GPIO as GPIO
 import time
 from mcgreen_control.msg import Array
 
-#vertical controller attached to GPIO 12
-#horizontal controller attached to GPIO 13
-
 class Head_Servo_Driver:
     SERVO_TOPIC = "/upper_motors"
 
-    def __init__(self):
+    def __init__(self,vertical,horizontal):
         self.tog_sub = rospy.Subscriber(self.SERVO_TOPIC, Array, self.servo_callback)
-        GPIO.setwarnings(False)			#disable warnings
-        GPIO.setmode(GPIO.BOARD)		#set pin numbering system
-        GPIO.setup(11,GPIO.OUT)
-        GPIO.setup(13, GPIO.OUT)
-        self.vertical_controller = GPIO.PWM(11,50)		#create PWM instance with frequency
-        self.horizontal_controller = GPIO.PWM(13, 50)
-        self.vertical_controller.start(50)				#start PWM of required Duty Cycle
-        self.horizontal_controller.start(50)
-	for x in range(0,90):
-		self.vertical_controller.ChangeDutyCycle(2+float(x*2)/18)
-		#time.sleep(0.1)
-		#self.vertical_controller.ChangeDutyCycle(0)
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(vertical,GPIO.OUT)
+        GPIO.setup(horizontal, GPIO.OUT)
+        self.vertical_controller = GPIO.PWM(vertical,50)
+        self.horizontal_controller = GPIO.PWM(horizontal, 50)
+        self.vertical_controller.start(0)
+        self.horizontal_controller.start(0)
+
     def servo_callback(self, data):
-        print("raw: " + str(data.arr))
-	    horizontal_angle = 2 + float(180 - data.arr[2])/18
-        vertical_angle=2+float(data.arr[3])/18
-	    self.vertical_controller.ChangeDutyCycle(vertical_angle)
+        horizontal_angle = int(2 + (data.arr[2]/18))#will have to fix once position of servos is determined
+        vertical_angle = int(2 + (data.arr[3]/18))#will have to fix once position of servos is determined
+        self.vertical_controller.ChangeDutyCycle(vertical_angle)
         self.horizontal_controller.ChangeDutyCycle(horizontal_angle)
-	#time.sleep(0.5)
-	#self.vertical_controller.ChangeDutyCycle(0)
-	#self.horizontal_controller.ChangeDutyCycle(0)
-	print(vertical_angle, horizontal_angle)
 
     def clean(self):
         self.vertical_controller.ChangeDutyCycle(7)
         self.horizontal_controller.ChangeDutyCycle(7)
-        print("base position")
 
 if __name__ == "__main__":
     try:
-        rospy.init_node("head_controller")
-        controller = Head_Servo_Driver()
+        rospy.init_node("Head_Servo_Driver")
+        args = {"vertical": rospy.get_param("~vertical"), "horizontal": rospy.get_param("~horizontal")}
+        controller = Head_Servo_Driver(args["vertical"], args["horizontal"])
         rospy.spin()
         rospy.on_shutdown(controller.clean)
     except KeyboardInterrupt:
-		pass
-	except rospy.ROSInterruptException:
-		pass
+        pass
+    except rospy.ROSInterruptException:
+        pass

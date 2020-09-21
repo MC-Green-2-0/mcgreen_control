@@ -1,52 +1,77 @@
 #!/usr/bin/env python3
-import time
+import time as Time
 import rospy
 from mcgreen_control.msg import Arm
-import math
-from collections import namedtuple
-import struct
-import FT232H
 import argparse
-
-class MAXBOTIX_I2C():
-
-    def __init__(self, ft232h, address=112):
-        self.i2c = FT232H.I2CDevice(ft232h,112)
-
-    def start_sensor(self):
-        self.i2c.writeRaw8(81)
-
-    def read_sensor(self):
-        val = self.i2c.readU16(225)
-
-        print(val >> 8), "cm"
-        return val >> 8
+import RPi.GPIO as GPIO
+import statistics
 
 class Arm_Sensor:
 
-    def __init__(self, topic):
+    def __init__(self, topic, trigger, echo):
         self.arm_pub = rospy.Publisher(topic, Arm, queue_size=1)
         self.data = Arm()
-        FT232H.use_FT232H()
-        self.ft232h = FT232H.FT232H(serial='black')
-        self.address_lis = 0x18
-        self.address_maxbotix = 112
-        self.maxbotix = MAXBOTIX_I2C(self.ft232h, self.address_maxbotix)
+        GPIO.setmode(GPIO.BOARD)
+        self.GPIO_TRIGGER = trigger
+        self.GPIO_ECHO = echo
+        self.maxTime = 0.04
+        GPIO.setup(self.GPIO_TRIGGER, GPIO.OUT)
+        GPIO.setup(self.GPIO_ECHO, GPIO.IN)
 
-    def data_publish(self):
-        self.maxbotix.start_sensor()
-        time.sleep(0.15)
-        self.data.ultrasonic = self.maxbotix.read_sensor()
+    def sense(self):
+        GPIO.output(self.GPIO_TRIGGER, False)
+        Time.sleep(0.01)
+        GPIO.output(self.GPIO_TRIGGER, True)
+        Time.sleep(0.00001)
+        GPIO.output(self.GPIO_TRIGGER, False)
+
+        StartTime = Time.time()
+        timeout = StartTime + self.maxTime
+
+        while GPIO.input(self.GPIO_ECHO) == 0 and StartTime < timeout:
+            StartTime = Time.time()
+
+        if (StartTime > timeout):
+            distance = self.sense()
+            return int(distance)
+
+        StopTime = Time.time()
+        timeout = StopTime + self.maxTime
+
+        while GPIO.input(self.GPIO_ECHO) == 1 and StopTime < timeout:
+            StopTime = Time.time()
+
+        if (StopTime > timeout):
+            distance = self.sense()
+            return int(distance)
+
+        TimeElapsed = StopTime - StartTime
+        distance = (TimeElapsed * 34300) / 2
+
+        if distance < 2:
+            distance = self.sense()
+            return int(distance)
+        elif distance > 400:
+            return 400
+        else:
+            return int(distance)
+
+    def publish(self):
+        values = []
+        for i in range(3):
+            values.append(self.sense())
+        distance = statistics.median(values)
+
+        self.data.ultrasonic = int(distance)
         self.arm_pub.publish(self.data)
 
+
 if __name__ == "__main__":
-    try:
-        rospy.init_node("arm_sensor")
-        args = {"topic": rospy.get_param("~topic"), "rate": rospy.get_param("/Sensors/rate")}
-        sense = Arm_Sensor(args["topic"])
-        r = rospy.Rate(args["rate"])
-        while not rospy.is_shutdown():
-            sense.data_publish()
-            r.sleep()
-    except:
-        pass
+    rospy.init_node("arm_sensor")
+    args = {"topic": rospy.get_param("~topic"), "rate": rospy.get_param("/Sensors/rate"), "trigger": rospy.get_param("~trigger"), "echo": rospy.get_param("~echo")}
+    sensor = Arm_Sensor(args["topic"], args["trigger"], args["echo"])
+    r = rospy.Rate(args["rate"])
+    while not rospy.is_shutdown():
+        sensor.publish()
+        r.sleep()
+    GPIO.cleanup()

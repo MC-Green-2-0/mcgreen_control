@@ -1,7 +1,5 @@
 #!/usr/bin/python
-
 import rospy
-import rosnode
 from std_msgs.msg import Int16, String
 from mcgreen_control.msg import Array
 
@@ -13,8 +11,7 @@ class Game_Interface:
     HEAD_TOPIC = "/game_motors"
     GAME_TOPIC = "/current_game"
 
-    def __init__ (self, game):
-        rospy.on_shutdown(self.game_cleanup)
+    def __init__ (self):
         self.face_pub=rospy.Publisher(self.FACE_EXPRESSION, Int16, queue_size=1)
         self.head_pub=rospy.Publisher(self.HEAD_TOPIC, Array, queue_size=1)
         self.game_pub=rospy.Publisher(self.GAME_TOPIC, String, queue_size=1)
@@ -23,30 +20,29 @@ class Game_Interface:
         self.head=Array()
         self.head.arr=[90,90]
         self.name=String()
-        self.name.data = game
+        self.name.data = "None"
         self.game_pub.publish(self.name)
-        self.head_pub.publish(self.head.arr)
-        self.face_pub.publish(self.expression.data)
+        self.head_pub.publish(self.head)
+        self.face_pub.publish(self.expression)
 
     def face_update(self, face):
-        self.expression.data=face
+        self.expression.data = int(face)
         self.face_pub.publish(self.expression)
+
+    def game_update(self, game):
+        self.name.data = str(game)
         self.game_pub.publish(self.name)
 
     def head_update(self, angle):
         self.head.arr = angle
         self.head_pub.publish(self.head)
 
-    def game_cleanup(self):
-        self.name.data = ""
-        self.game_pub.publish(self.name)
-
 if __name__=="__main__":
     try:
         rospy.init_node("Game_Interface")
-        face_controller = Game_Interface("init")
+        face_controller = Game_Interface()
         rospy.spin()
     except KeyboardInterrupt:
-		pass
-	except rospy.ROSInterruptException:
-		pass
+        pass
+    except rospy.ROSInterruptException:
+        pass

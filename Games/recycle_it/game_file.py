@@ -7,10 +7,16 @@ import math
 import sys
 import threading
 
+sys.path.append("../")
+from game_interface import Game_interface
+
+controller = Game_interface("Recycle It")
+
 # sys.path.append("../")
 # from head_controller import Head_comm
 #
 # controller = Head_comm("Recycle It")
+
 # Initialize pygame
 pygame.init()
 

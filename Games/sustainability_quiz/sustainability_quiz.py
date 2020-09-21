@@ -230,8 +230,9 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
                 #Set Face to Neutral
                 # controller.face_update(getFaceNum())
 
-                os.chdir(os.getcwd() + '/..')
-                exec(open("./menu.py").read())
+                pygame.quit()
+                quit()
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 touch_status = True
 
@@ -322,8 +323,8 @@ def generate_correct_page(surface, status, point_inc):
                 #Change face to neutral
                 # controller.face_update(getFaceNum())
 
-                os.chdir(os.getcwd() + '/..')
-                exec(open("./menu.py").read())
+                pygame.quit()
+                quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 touch_status = True
@@ -404,8 +405,9 @@ def generate_incorrect_page(surface, status, pt_dec, correct_ans):
                 #Set Face to Neutral
                 # controller.face_update(getFaceNum())
 
-                os.chdir(os.getcwd() + '/..')
-                exec(open("./menu.py").read())
+                pygame.quit()
+                quit()
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 touch_status = True
 
@@ -495,16 +497,16 @@ def game_intro(surface):
                 #Set Face to Neutral
                 # controller.face_update(getFaceNum())
 
-                os.chdir(os.getcwd() + '/..')
-                exec(open("./menu.py").read())
+                pygame.quit()
+                quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 touch_status = True
 
                 #Check if buttons are pressed if mouse button is down
                 if quit_button.is_pressed(touch_status):    #If 'Quit' button is tapped
-                    os.chdir(os.getcwd() + '/..')
-                    exec(open("./menu.py").read())
+                    pygame.quit()
+                    quit()
 
                 if play_button.is_pressed(touch_status):    #If 'Play' button is tapped
                     select_level(gameDisplay)
@@ -571,8 +573,8 @@ def game_help(surface):
                 #Set Face to Neutral
                 # controller.face_update(getFaceNum())
 
-                os.chdir(os.getcwd() + '/..')
-                exec(open("./menu.py").read())
+                pygame.quit()
+                quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 touch_status = True
@@ -637,8 +639,8 @@ def select_level(surface):
                 #Set Face to Neutral
                 # controller.face_update(getFaceNum())
 
-                os.chdir(os.getcwd() + '/..')
-                exec(open("./menu.py").read())
+                pygame.quit()
+                quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 touch_status = True
@@ -754,8 +756,8 @@ def game_over(surface, status):
                 #Set Face to Neutral
                 # controller.face_update(getFaceNum())
                 #
-                os.chdir(os.getcwd() + '/..')
-                exec(open("./menu.py").read())
+                pygame.quit()
+                quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 touch_status = True
@@ -791,5 +793,5 @@ game_intro(gameDisplay)
 # controller.face_update(getFaceNum())
 # #Orient Head to proper position
 # controller.head_update([90, 90])
-pos.chdir(os.getcwd() + '/..')
-exec(open("./menu.py").read())
+pygame.quit()
+quit()

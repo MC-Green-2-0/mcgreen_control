@@ -109,26 +109,26 @@ while True:
 
             #Check if buttons are pressed if mouse button is down
             if electricityButton.is_pressed(touch_status):
-                os.chdir(homedir + '\electricity_quiz')
+                os.chdir(homedir + '/electricity_quiz')
                 exec(open("./electric_quiz.py").read())
                 os.chdir(homedir)
 
             elif sustainabilityButton.is_pressed(touch_status):
-                os.chdir(homedir + '\sustainability_quiz')
+                os.chdir(homedir + '/sustainability_quiz')
                 exec(open("./sustainability_quiz.py").read())
                 os.chdir(homedir)
 
             elif whatswrongButton.is_pressed(touch_status):
-                os.chdir(homedir + '\whats_wrong')
+                os.chdir(homedir + '/whats_wrong')
                 exec(open("./Game File.py").read())
                 os.chdir(homedir)
             elif RecycleItButton.is_pressed(touch_status):
-                os.chdir(homedir + '\recycle_it')
+                os.chdir(homedir + '/recycle_it')
                 exec(open("./game_file.py").read())
                 os.chdir(homedir)
 
             elif WaterButton.is_pressed(touch_status):
-                os.chdir(homedir + '\water_calculator')
+                os.chdir(homedir + '/water_calculator')
                 exec(open("./water_calculator.py").read())
                 os.chdir(homedir)
 

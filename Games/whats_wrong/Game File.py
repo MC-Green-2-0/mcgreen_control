@@ -48,8 +48,9 @@ class Level:
             for event in pygame.event.get():
                 # Quitting the Game by X-ing out Window
                 if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
+                    os.chdir(os.getcwd() + '/..')
+                    exec(open("./menu.py").read())
+
                 # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
@@ -218,8 +219,9 @@ def intro():
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+                os.chdir(os.getcwd() + '/..')
+                exec(open("./menu.py").read())
+
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         print(click)
@@ -238,8 +240,9 @@ def intro():
         if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
             screen.blit(invexitb, (360, 260))
             if click[0] == 1:
-                pygame.quit()
-                quit()
+                os.chdir(os.getcwd() + '/..')
+                exec(open("./menu.py").read())
+
         else:
             screen.blit(exitb, (360, 260))
 
@@ -287,8 +290,9 @@ def help_screen():
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+                os.chdir(os.getcwd() + '/..')
+                exec(open("./menu.py").read())
+
             # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -307,8 +311,9 @@ def level_select():
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+                os.chdir(os.getcwd() + '/..')
+                exec(open("./menu.py").read())
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     intro()
@@ -354,8 +359,9 @@ def gamewin():
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+                os.chdir(os.getcwd() + '/..')
+                exec(open("./menu.py").read())
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     level_select()
@@ -380,8 +386,9 @@ def gamelose():
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+                os.chdir(os.getcwd() + '/..')
+                exec(open("./menu.py").read())
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     level_select()

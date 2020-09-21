@@ -10,65 +10,65 @@
 	[
 
 		{
-			"question": 
+			"question":
 			"What is NOT a way to prevent waste?",
-			"choices": 
+			"choices":
 			["Littering", "Reduce", "Reuse", "Recycle"],
 			"answer": "Littering"
 		},
 
 		{
-			"question": 
+			"question":
 			"Which thing pollutes the earth?",
-			"choices": 
+			"choices":
 			["Cars", "Trees", "Doesn't Matter", "All of the above"],
 			"answer": "Cars"
 		},
 
 		{
-			"question": 
+			"question":
 			"By ______ there will be more plastic in the ocean than fish",
-			"choices": 
+			"choices":
 			["2050", "2020", "2080", "2100"],
 			"answer": "2050"
 		},
 
 		{
-			"question": 
+			"question":
 			"What can you ride to reduce your carbon footprint?",
-			"choices": 
+			"choices":
 			["Public Transport", "Cars", "Trucks", "Motorcycles"],
 			"answer": "Public Transport"
 		},
 
 		{
-			"question": 
+			"question":
 			"Is throwing electronics in the trash hazardous to the environment?",
-			"choices": 
+			"choices":
 			["Yes", "No", "Sometimes", "Maybe"],
 			"answer": "Yes"
 		},
 
 		{
-			"question": 
+			"question":
 			"What is something ANY kid can do to save electricity",
-			"choices": 
+			"choices":
 			["All of the above", "Set timer for bathroom fans", "Turns lights off when leaving a room", "Use powerstrips for easy turn off"],
 			"answer": "All of the above"
 		},
 
 		{
-			"question": 
+			"question":
 			"Which items can be recycled?",
-			"choices": 
+			"choices":
 			["Newspaper & Glass Bottles", "Pizza Boxes & Plastic Bags", "Birthday Cards & Paint", "Batteries & Electronics"],
 			"answer": "Newspaper & Glass Bottles"
 		},
 
 		{
-			"question": 
+			"question":
 			"Should we turn off appliances and electronic when we are not using them?",
-			"choices": 
+			"choices":
 			["Yes", "No", "Sometimes", "Maybe"],
 			"answer": "Yes"
 		}
@@ -79,13 +79,13 @@
 	[
 
 		{
-			"question": 
+			"question":
 			"Which source of alternative energy is most efficient?",
-			"choices": 
+			"choices":
 			["Wind Energy", "Land Energy", "Chemical Energy", "Water Energy"],
 			"answer": "Wind Energy"
 		},
-		
+
 		{
 			"question":
 			"Is nuclear power a renewable energy source?",
@@ -94,7 +94,7 @@
 		},
 
 		{
-			"question": "When you're not home, how many degrees should you raise/lower thermostat by?",
+			"question": "When you're not home, how many degrees should you raise/lower the thermostat by?",
 			"choices": ["7-10 F", "Keep it the same", "2-3 F", "10-12 F"],
 			"answer": "7-10 F"
 		},

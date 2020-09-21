@@ -7,10 +7,17 @@ import math
 import sys
 import threading
 
+<<<<<<< HEAD
 sys.path.append("../")
 from game_interface import Game_interface
 
 controller = Game_interface("Recycle It")
+=======
+# sys.path.append("../")
+# from head_controller import Head_comm
+#
+# controller = Head_comm("Recycle It")
+>>>>>>> 40a5b87185956359010fcfde9a15f02967e4d74a
 # Initialize pygame
 pygame.init()
 
@@ -19,7 +26,8 @@ active_head = 0
 active_face = 0
 
 # Screen Size (x,y)
-screen = pygame.display.set_mode((926, 634))
+window = (926, 634)
+screen = pygame.display.set_mode(window)
 
 # Background
 background = pygame.image.load('gamebkg.png')
@@ -35,6 +43,13 @@ exitb = pygame.image.load('exit.png')
 lvl1 = pygame.image.load('lvl1.png')
 lvl2 = pygame.image.load('lvl2.png')
 lvl3 = pygame.image.load('lvl3.png')
+invplayb = pygame.image.load('invplay.png')
+invhelpb = pygame.image.load('invhelp.png')
+invexitb = pygame.image.load('invexit.png')
+invlvl1 = pygame.image.load('invlvl1.png')
+invlvl2 = pygame.image.load('invlvl2.png')
+invlvl3 = pygame.image.load('invlvl3.png')
+
 
 # Background Music
 mixer.music.load('backgroundmsc.wav')
@@ -61,51 +76,7 @@ playerY = 550
 playerX_change = 0
 
 # enemy -- non-recyclables
-enemyImg = []
-enemyX = []
-enemyY = []
-enemyY_change = []
-for i in range(num_of_each):
-    # choosing which enemy to show
-    enemySelect = random.randint(1, 5)
-    if enemySelect == 1:
-        enemyImg.append(pygame.image.load('enemy_banana.png'))
-    if enemySelect == 2:
-        enemyImg.append(pygame.image.load('enemy_core.png'))
-    if enemySelect == 3:
-        enemyImg.append(pygame.image.load('enemy_trash.png'))
-    if enemySelect == 4:
-        enemyImg.append(pygame.image.load('plastic6.png'))
-    if enemySelect == 5:
-        enemyImg.append(pygame.image.load('plastic3.png'))
-    # random spawn location of enemy
-    enemyX.append(random.randint(0, 862))
-    enemyY.append(random.randint(0, 200) - 100)
-    # speed of fall
-    enemyY_change.append(2)
 
-# good -- recyclable
-goodX = []
-goodY = []
-goodY_change = []
-goodImg = []
-
-for i in range(num_of_each):
-    # choosing which good object to show
-    goodSelect = random.randint(1, 4)
-    if goodSelect == 1:
-        goodImg.append(pygame.image.load('good_bag.png'))
-    if goodSelect == 2:
-        goodImg.append(pygame.image.load('good_soda.png'))
-    if goodSelect == 3:
-        goodImg.append(pygame.image.load('plastic1.png'))
-    if goodSelect == 4:
-        goodImg.append(pygame.image.load('plastic2.png'))
-    # random spawn of good object
-    goodX.append(random.randint(0, 862))
-    goodY.append(random.randint(0, 200) - 100)
-    # speed of fall
-    goodY_change.append(2)
 
 # timer + level
 clock = pygame.time.Clock()
@@ -114,19 +85,52 @@ milliseconds = 0
 
 level = 0
 
+class Button:
+    def __init__ (self, ac, ic, rectVals):
+        self.ac = ac #Active color of button
+        self.ic = ic #Inactive color of button
+        self.rectAttrs = rectVals #(x, y, w, h) of button
 
-# Creating Player/Enemy/Good Object on-screen
-# Enemy and Good Object have third unused parameter for selection of enemy/object picture
-def player(x, y):
-    screen.blit(playerImg, (x, y))
+    def generate(self):
+        x, y, w, h = self.rectAttrs
+        mouse = pygame.mouse.get_pos()
+
+        #Check if mouse is on button
+        if x + w > mouse[0] > x and y + h > mouse[1] > y:
+            screen.blit(self.ac, (self.rectAttrs[0], self.rectAttrs[1]))
+
+        #Else just show darker button
+        else:
+            screen.blit(self.ic, (self.rectAttrs[0], self.rectAttrs[1]))
 
 
-def enemy(x, y, i):
-    screen.blit(enemyImg[i], (x, y))
 
 
-def good(x, y, i):
-    screen.blit(goodImg[i], (x, y))
+        pygame.display.update()
+
+
+
+    def is_pressed(self, touch_status):
+        x, y, w, h = self.rectAttrs
+        mouse = pygame.mouse.get_pos()
+
+        #Check if mouse is hovering over button or not
+        if x + w > mouse[0] > x and y + h > mouse[1] > y:
+            if touch_status == True:
+                #print('CLICK DETECTED')
+                return True
+
+            elif touch_status == False:
+                return False
+
+        #If mouse is not hovering over button, button must obviously not be pressed
+        else:
+            return False
+
+#Render text to a surface and a corresponding rectangle
+def text_objects(text, font, color=(0,0,0)):
+    textSurface = font.render(text, True, color)
+    return textSurface, textSurface.get_rect()
 
 
 def show_score(pts, x, y):
@@ -144,8 +148,7 @@ def isCollision(varX, varY, playerX, playerY):
         return False
 
 
-def game_over(pts
-):
+def game_over(pts):
     if level == 0:
         if pts >= 1000:
             game_won(pts)
@@ -204,23 +207,17 @@ def change_face(expression, delay):
         controller.face_update(4)
         print("face reset sent", flush=True)
         active_face -= 1
-        
-def game_won(pts):
-    face = random.randint(1, 3)  # HEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRREEEEEEEEEEEEEE
-    controller.face_update(face)
-    # These commands won't over write themselves right? like if i say these three in a row
-    # it'll hit all of the positions before going back to [90,90]?
-    # controller.head_update([90, 45])
-    # controller.head_update([90, 135])
-    # controller.head_update([90, 90])
-    rotate=threading.Thread(target=rotate_head, args=(True, [45, 135, 90]))
-    rotate.start()
-    for i in range(num_of_each):
-        enemyY[i] = 2000
-        goodY[i] = 2000
-        enemy(enemyX[i], enemyY[i], i)
-        good(goodX[i], goodY[i], i)
 
+def game_won(pts):
+    # face = random.randint(1, 3)  # HEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRREEEEEEEEEEEEEE
+    # controller.face_update(face)
+    # # These commands won't over write themselves right? like if i say these three in a row
+    # # it'll hit all of the positions before going back to [90,90]?
+    # # controller.head_update([90, 45])
+    # # controller.head_update([90, 135])
+    # # controller.head_update([90, 90])
+    # rotate=threading.Thread(target=rotate_head, args=(True, [45, 135, 90]))
+    # rotate.start()
     mixer.music.load('game_won.wav')
     mixer.music.play()
     pause = True
@@ -243,19 +240,15 @@ def game_won(pts):
 
 
 def game_lost(pts):
-    face = random.randint(5, 7)  # HHHHHHHHHHHHHHEEEEEEEEEEEEERRRRRRRRRRRREEEEEEEEEEEE
-    controller.face_update(face)
+    # face = random.randint(5, 7)  # HHHHHHHHHHHHHHEEEEEEEEEEEEERRRRRRRRRRRREEEEEEEEEEEE
+    # controller.face_update(face)
     #See game_won head update comments
     # controller.head_update([45, 90])
     # controller.head_update([135, 90])
     # controller.head_update([90, 90])
-    rotate=threading.Thread(target=rotate_head, args=(False, [45, 135, 90]))
-    rotate.start()
-    for i in range(num_of_each):
-        enemyY[i] = 2000
-        goodY[i] = 2000
-        enemy(enemyX[i], enemyY[i], i)
-        good(goodX[i], goodY[i], i)
+    # rotate=threading.Thread(target=rotate_head, args=(False, [45, 135, 90]))
+    # rotate.start()
+
 
     mixer.music.load('game_lose.wav')
     mixer.music.play()
@@ -280,93 +273,55 @@ def game_lost(pts):
 
 def intro():
     bmenu = True
-    controller.face_update(4)  # HEEEEEEEEEEEEEERRRREEEEEEEEEEEEE
+    screen.fill((255, 255, 255))
+    screen.blit(menu, (0, 0))
+    # controller.face_update(4)  # HEEEEEEEEEEEEEERRRREEEEEEEEEEEEE
+    playbutton = Button(invplayb, playb, (360, 80, 220, 70))
+    helpbutton = Button(invhelpb, helpb, (360, 170, 220, 70))
+    quitbutton = Button(invexitb, exitb, (360, 260, 220, 70))
     while bmenu:
-        screen.fill((255, 255, 255))
-        screen.blit(menu, (0, 0))
+
+        playbutton.generate()
+        helpbutton.generate()
+        quitbutton.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
+            touch_status = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                touch_status = True
+                if(playbutton.is_pressed(touch_status)):
+                    level_select(level)
+                if(helpbutton.is_pressed(touch_status)):
+                    help_screen()
+                if(quitbutton.is_pressed(touch_status)):
+                    pygame.quit()
+                    quit()
+
+
+
         # print(click)
-        if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
-            if click[0] == 1:
-                level_select(level)
-        else:
-            screen.blit(playb, (360, 80))
-        if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
-            if click[0] == 1:
-                help_screen()
-        else:
-            screen.blit(helpb, (360, 170))
-        if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
-            if click[0] == 1:
-                pygame.quit()
-                quit()
-        else:
-            screen.blit(exitb, (360, 260))
+
+
+
 
         pygame.display.update()
 
 
 def ready():
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Ready ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Ready. ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Ready.. ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Ready... ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Set ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Set. ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Set.. ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("Set... ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
-    screen.fill((255, 255, 255))
-    screen.blit(background, (0, 0))
-    ready = font.render("GO! ", True, (0, 0, 0))
-    screen.blit(ready, (410, 200))
-    pygame.display.update()
-    pygame.time.delay(750)
+    message = ["Ready ", "Ready. ", "Ready.. ", "Ready... ", "Set ", "Set. ", "Set.. ", "Set... ", "GO! " ]
+    for i in range(9):
+        screen.fill((255, 255, 255))
+        screen.blit(background, (0, 0))
+        ready = font.render(message[i], True, (0, 0, 0))
+        screen.blit(ready, (window[0]/2, window[1]/2))
+        pygame.display.update()
+        pygame.time.delay(750)
+
+
+
 
 
 def help_screen():
@@ -389,9 +344,16 @@ def help_screen():
 def level_select(lvl):
     pygame.time.delay(750)
     bmenu = True
+    screen.fill((0, 0, 0))
+    screen.blit(menu, (0, 0))
+    lvl1b = Button(invlvl1, lvl1, (360, 80, 220, 70))
+    lvl2b = Button(invlvl2, lvl2, (360, 170, 220, 70))
+    lvl3b = Button(invlvl3, lvl3, (360, 260, 220, 70))
+
     while bmenu:
-        screen.fill((0, 0, 0))
-        screen.blit(menu, (0, 0))
+        lvl1b.generate()
+        lvl2b.generate()
+        lvl3b.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
@@ -400,27 +362,28 @@ def level_select(lvl):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     intro()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                touch_status = True
+                if(lvl1b.is_pressed(touch_status)):
+                    game(playerX, points_value, playerX_change, milliseconds, seconds, 0)
+                if(lvl2b.is_pressed(touch_status)):
+                    game(playerX, points_value, playerX_change, milliseconds, seconds, 1)
+                if(lvl3b.is_pressed(touch_status)):
+                    game(playerX, points_value, playerX_change, milliseconds, seconds, 2)
+
+
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
-        if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
-            if click[0] == 1:
-                lvl = 0
-                game(playerX, points_value, playerX_change, milliseconds, seconds, level)
-        else:
-            screen.blit(lvl1, (360, 80))
-        if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
-            if click[0] == 1:
-                lvl = 1
-                game(playerX, points_value, playerX_change, milliseconds, seconds, level)
-        else:
-            screen.blit(lvl2, (360, 170))
-        if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
-            if click[0] == 1:
-                lvl = 2
-                game(playerX, points_value, playerX_change, milliseconds, seconds, level)
-        else:
-            screen.blit(lvl3, (360, 260))
+
+
         pygame.display.update()
+
+
+
+
+
+
+
 
 
 # Game Loop
@@ -428,14 +391,26 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
     mixer.music.load('backgroundmsc.wav')
     mixer.music.play(-1)
     ready()
-    for i in range(num_of_each):
-        if lvl == 0:
-            goodY_change.append(1)
-            enemyY_change.append(1)
-        if lvl == 1 or lvl == 2:
-            goodY_change.append(10)
-            enemyY_change.append(10)
+    if(lvl == 1):
+        fallspeed = 3
+    else:
+        fallspeed = 2
     bgame = True
+    num_of_each = 3
+    if(lvl == 2):
+        num_of_each = 2
+    goodX = []
+    goodY = []
+    goodY_change = []
+    goodImg = []
+    neutX = []
+    neutY = []
+    neutY_change = []
+    neutImg = []
+    enemyImg = []
+    enemyX = []
+    enemyY = []
+    enemyY_change = []
     while bgame:
         # RGB Screen Fill - Red, Green, Blue
         screen.fill((255, 255, 255))
@@ -450,37 +425,110 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 pygame.quit()
                 quit()
             # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    playerX_change = -5
-                if event.key == pygame.K_RIGHT:
-                    playerX_change = 5
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    playerX_change = 0
-                if event.key == pygame.K_ESCAPE:
-                    level_select(level)
 
         # changes X position of player character
+        keys_pressed = pygame.key.get_pressed()
+        if keys_pressed[pygame.K_LEFT] and keys_pressed[pygame.K_RIGHT]:
+            playerX_change = 0
+        elif keys_pressed[pygame.K_LEFT] :
+            playerX_change = -5
+        elif keys_pressed[pygame.K_RIGHT]:
+            playerX_change = 5
+        else:
+            playerX_change = 0
+
+        if keys_pressed[pygame.K_ESCAPE]:
+                level_select(level)
+
+
         playerX += playerX_change
 
+        randol = random.randint(1, 10)
+        if(len(goodImg) <= num_of_each and randol == 1):
+            # choosing which good object to show
+            goodSelect = random.randint(1, 4)
+            if goodSelect == 1:
+                goodImg.append(pygame.image.load('good_bag.png'))
+            if goodSelect == 2:
+                goodImg.append(pygame.image.load('good_soda.png'))
+            if goodSelect == 3:
+                goodImg.append(pygame.image.load('plastic1.png'))
+            if goodSelect == 4:
+                goodImg.append(pygame.image.load('plastic2.png'))
+            # random spawn of good object
+            goodX.append(random.randint(0, 862))
+            goodY.append(random.randint(0, 200) - 100)
+            # speed of fall
+            goodY_change.append(fallspeed)
+        if(lvl == 2):
+            if(len(neutImg) <= num_of_each and randol == 3):
+                # choosing which good object to show
+                goodSelect = random.randint(1, 6)
+                if goodSelect == 1:
+                    neutImg.append(pygame.image.load('clothes.png'))
+                if goodSelect == 2:
+                    neutImg.append(pygame.image.load('computer.png'))
+                if goodSelect == 3:
+                    neutImg.append(pygame.image.load('medicine.png'))
+                if goodSelect == 4:
+                    neutImg.append(pygame.image.load('shreddedpaper.png'))
+                if goodSelect == 5:
+                    neutImg.append(pygame.image.load('plasticbag.png'))
+                if goodSelect == 6:
+                    neutImg.append(pygame.image.load('tire.png'))
+                # random spawn of good object
+                neutX.append(random.randint(0, 862))
+                neutY.append(random.randint(0, 200) - 100)
+                # speed of fall
+                neutY_change.append(fallspeed)
+
+        if(len(enemyImg) <= num_of_each and randol == 2):
+            # choosing which enemy to show
+            enemySelect = random.randint(1, 7)
+            if enemySelect == 1:
+                enemyImg.append(pygame.image.load('enemy_banana.png'))
+            if enemySelect == 2:
+                enemyImg.append(pygame.image.load('enemy_core.png'))
+            if enemySelect == 3:
+                enemyImg.append(pygame.image.load('enemy_trash.png'))
+            if enemySelect == 4:
+                enemyImg.append(pygame.image.load('plastic6.png'))
+            if enemySelect == 5:
+                enemyImg.append(pygame.image.load('plastic3.png'))
+            if enemySelect == 6:
+                enemyImg.append(pygame.image.load('pizza.png'))
+            if enemySelect == 7:
+                enemyImg.append(pygame.image.load('bag.png'))
+            # random spawn location of enemy
+            enemyX.append(random.randint(0, 862))
+            enemyY.append(random.randint(0, 200) - 100)
+            # speed of fall
+            enemyY_change.append(fallspeed)
+
+
+
+
+
+
         # Changes y position of enemies and good objects
-        for i in range(num_of_each):
+        for i in range(len(goodImg)):
+            if(i >= len(goodImg)):
+                break
             goodY[i] += goodY_change[i]
-            enemyY[i] += enemyY_change[i]
+
 
             # Checking for collision
-            badCollision = isCollision(enemyX[i], enemyY[i], playerX, playerY)
+
             goodCollision = isCollision(goodX[i], goodY[i], playerX, playerY)
 
             # Adding points to score
             if goodCollision:
                 good_catch = mixer.Sound('good_catch.wav')
                 #good_catch.play()
-                face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
-                good_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                good_face.daemon=True
-                good_face.start()
+                # face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
+                # good_face = threading.Thread(target=change_face, args=(face, 0.5,))
+                # good_face.daemon=True
+                # good_face.start()
                 # controller.face_update(face)
                 # # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
                 # # either way i'll include and u can play around
@@ -489,34 +537,93 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 pts += 100
                 print(pts)
                 # Sending good object to top of screen in a New location
-                goodX[i] = random.randint(0, 862)
-                goodY[i] = 0
+                del goodX[i]
+                del goodY[i]
+                del goodY_change[i]
+                del goodImg[i]
+                i -= 1
+            elif goodY[i] > 600:
+                del goodX[i]
+                del goodY[i]
+                del goodY_change[i]
+                del goodImg[i]
+                i -= 1
+            else:
+                screen.blit(goodImg[i], (goodX[i], goodY[i]))
 
+        for i in range(len(enemyImg)):
+            if(i >= len(enemyImg)):
+                break
+            enemyY[i] += enemyY_change[i]
+            badCollision = isCollision(enemyX[i], enemyY[i], playerX, playerY)
             if badCollision:
                 bad_catch = mixer.Sound('bad_catch.wav')
                 # DISPLAY THE SURPRISED FACE HERE FOR 1 SECOND AND REVERT BACK TO NEUTRAL
                 #bad_catch.play()
-                face = random.randint(5, 7)  # HHHHHHHEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEE
+                # face = random.randint(5, 7)  # HHHHHHHEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEE
                 # controller.face_update(face)
                 # # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
                 # # either way i'll include and u can play around
                 # # time.sleep(2)
                 # controller.face_update(4)
-                bad_face = threading.Thread(target=change_face, args=(face, 0.5,))
-                bad_face.start()
+                # bad_face = threading.Thread(target=change_face, args=(face, 0.5,))
+                # bad_face.start()
                 pts -= 50
                 print(pts)
                 # Sending bad object to top of screen in a new location
-                enemyX[i] = random.randint(0, 862)
-                enemyY[i] = 0
+                del enemyX[i]
+                del enemyY[i]
+                del enemyY_change[i]
+                del enemyImg[i]
+                i -= 1
 
-            if enemyY[i] > 600:
-                enemyY[i] = random.randint(0, 200) - 100
-            if goodY[i] > 600:
-                goodY[i] = random.randint(0, 200) - 100
+            elif enemyY[i] > 600:
+                del enemyX[i]
+                del enemyY[i]
+                del enemyY_change[i]
+                del enemyImg[i]
+                i -= 1
 
-            enemy(enemyX[i], enemyY[i], i)
-            good(goodX[i], goodY[i], i)
+            else:
+
+                screen.blit(enemyImg[i], (enemyX[i], enemyY[i]))
+        if(lvl == 2):
+            for i in range(len(neutImg)):
+                if(i >= len(neutImg)):
+                    break
+                neutY[i] += neutY_change[i]
+                neutCollision = isCollision(neutX[i], neutY[i], playerX, playerY)
+                if neutCollision:
+
+                    # DISPLAY THE SURPRISED FACE HERE FOR 1 SECOND AND REVERT BACK TO NEUTRAL
+                    #bad_catch.play()
+                    # face = random.randint(5, 7)  # HHHHHHHEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEE
+                    # controller.face_update(face)
+                    # # should i delay here? cuz it's gonna delay the entire program or is that on ur end?
+                    # # either way i'll include and u can play around
+                    # # time.sleep(2)
+                    # controller.face_update(4)
+                    # bad_face = threading.Thread(target=change_face, args=(face, 0.5,))
+                    # bad_face.start()
+                    pts -= 0
+                    print(pts)
+                    # Sending bad object to top of screen in a new location
+                    del neutX[i]
+                    del neutY[i]
+                    del neutY_change[i]
+                    del neutImg[i]
+                    i -= 1
+
+                elif neutY[i] > 600:
+                    del neutX[i]
+                    del neutY[i]
+                    del neutY_change[i]
+                    del neutImg[i]
+                    i -= 1
+
+                else:
+
+                    screen.blit(neutImg[i], (neutX[i], neutY[i]))
 
         # Setting Boundaries for Recycle Bin --> Doesn't go out of game window
         if playerX <= 0:
@@ -525,8 +632,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
             playerX = 862
 
         # Creating Player Object
-        player(playerX, playerY)
-
+        screen.blit(playerImg, (playerX, playerY))
         # Show Score Function
         show_score(pts, textX, textY)
 

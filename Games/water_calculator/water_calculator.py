@@ -31,14 +31,14 @@ class Appliance:
         size = img_resized.size
         data = img_resized.tobytes()
         appliance_img = pygame.image.fromstring(data, size, mode).convert_alpha()
-        
+
         screen.blit(appliance_img, (img_dims[0], img_dims[1]))
 
     def generate_usage(self, surface, x, y, font, color=(0,0,0)):
         TextSurf, TextRect = text_objects(self.name + ': ' + '{0:.0f}'.format(self.gallonsUsed) + ' gallons', font, color)
         TextRect.center = (x, y)
         surface.blit(TextSurf, TextRect)
-    
+
     def menu(self, screen):
         #Button Dimensions
         button_w = 100 / 2; button_h = 125 / 2
@@ -50,11 +50,11 @@ class Appliance:
         up_button = Button(screen, darker_green, green, (button_x, up_button_y, button_w, button_h), u'\u2191', mediumText)
         down_button = Button(screen, darker_red, red, (button_x, down_button_y, button_w, button_h), u'\u2193', mediumText)
         okay_button = Button(screen, darker_blue, blue, (button_x, 0.75 * window_size[1], 750 / 2, 250 / 2), 'OK', mediumText)
-        
+
         #Portions of the screen that must ONLY be updated (Improves frame rate and performance)
         setting_rect = pygame.rect.Rect(button_x, up_button_y, 512 / 2, 4 * up_button_y) #Portion of screen which adjusts value
         back_rect = pygame.rect.Rect(button_x, 0.75 * window_size[1], 750 / 2, 250 / 2) #Portion of screen for the back button
-        
+
         updateList = [setting_rect, back_rect]
 
         #Prepare title text and location
@@ -63,7 +63,7 @@ class Appliance:
 
         #Make entire screen white to 'clean' it
         screen.fill(white)
-        
+
         #Write background image to buffer
         screen.blit(background, backgroundRect)
 
@@ -115,7 +115,7 @@ class Appliance:
             #Prepare to display current unitAmt between buttons
             UnitSurf, UnitRect = text_objects(str(self.unitAmt) + ' ' + self.units, mediumText, white)
             UnitRect.topleft = (button_x, up_button_y + 1.5 * button_h)
-    
+
             #Fill the area where the unitAmt text goes with white to 'refresh' it
             #screen.fill(white, UnitRect)
             #screen.blit(background, dest=UnitRect, area=UnitRect)
@@ -168,7 +168,7 @@ class Button:
     def is_pressed(self, touch_status):
         x, y, w, h = self.rectAttrs
         mouse = pygame.mouse.get_pos()
-        
+
         #Check if mouse is hovering over button or not
         if x + w > mouse[0] > x and y + h > mouse[1] > y:
             if touch_status == True:
@@ -219,27 +219,27 @@ pygame.display.set_caption('Water Calculator')
 clock = pygame.time.Clock()
 
 #ok
-dishwasher_info = {'img_src': 'dishwasher.png', 'img_resize': (256,256), 'coordinates': (window_size[0] / 4, window_size[1] / 4), 
+dishwasher_info = {'img_src': 'dishwasher.png', 'img_resize': (256,256), 'coordinates': (window_size[0] / 4, window_size[1] / 4),
                    'name': 'Dishwasher', 'sliderQuestion': 'How Often Do You Use The Dishwasher in a Week?',
                    'units': 'times', 'unitRate': 6, 'usageRange':(0, 10)}
 #ok
-washing_machine_info = {'img_src': 'washing_machine.png', 'img_resize': (300,400), 'coordinates': (window_size[0] / 4, window_size[1] / 4), 
+washing_machine_info = {'img_src': 'washing_machine.png', 'img_resize': (300,400), 'coordinates': (window_size[0] / 4, window_size[1] / 4),
                    'name': 'Washing Machine', 'sliderQuestion': 'How Often Do You Use The Washing Machine in a Week?',
                    'units': 'times', 'unitRate': 40, 'usageRange':(0, 10)}
 #ok
-shower_info = {'img_src': 'shower.png', 'img_resize': (512 // 2,512 // 2), 'coordinates': (window_size[0] / 4, window_size[1] / 4), 
+shower_info = {'img_src': 'shower.png', 'img_resize': (512 // 2,512 // 2), 'coordinates': (window_size[0] / 4, window_size[1] / 4),
                    'name': 'Shower', 'sliderQuestion': 'How Often Do You Use The Shower in a Week?',
                    'units': 'times', 'unitRate': 17.2, 'usageRange':(0, 20)}
 #ok
-toilet_info = {'img_src': 'toilet.png', 'img_resize': (312 // 2,512  // 2), 'coordinates': (window_size[0] / 4, window_size[1] / 4), 
+toilet_info = {'img_src': 'toilet.png', 'img_resize': (312 // 2,512  // 2), 'coordinates': (window_size[0] / 4, window_size[1] / 4),
                    'name': 'Toilet', 'sliderQuestion': 'How Often Do You Use The Toilet in a Week?',
                    'units': 'times', 'unitRate': 1.6, 'usageRange':(0, 30)}
 
-sink_info = {'img_src': 'sink.png', 'img_resize': (728 // 2 ,512 // 2), 'coordinates': (window_size[0] / 4, window_size[1] / 4), 
+sink_info = {'img_src': 'sink.png', 'img_resize': (728 // 2 ,512 // 2), 'coordinates': (window_size[0] / 4, window_size[1] / 4),
                    'name': 'Sink', 'sliderQuestion': 'How Many Hours Do You Use The Kitchen Sink in a Week?',
                    'units': 'hours', 'unitRate': 2.2*60, 'usageRange':(0, 168)}
 #ok
-faucet_info = {'img_src': 'faucet.png', 'img_resize': (333 // 2 ,512 // 2), 'coordinates': (window_size[0] / 4, window_size[1] / 4), 
+faucet_info = {'img_src': 'faucet.png', 'img_resize': (333 // 2 ,512 // 2), 'coordinates': (window_size[0] / 4, window_size[1] / 4),
                    'name': 'Faucet', 'sliderQuestion': 'How Many Hours Do You Use The Faucet in a Week?',
                    'units': 'hours', 'unitRate': 1.5*60, 'usageRange':(0, 168)}
 
@@ -259,12 +259,12 @@ def game_intro(surface):
     button_spacing = 237 / 2   #spacing between buttons in px
     play_button_x = help_button_x + button_w + button_spacing
     quit_button_x = play_button_x + button_w + button_spacing
-    
+
     #Instantiate buttons (Only needs to be done once)
     help_button = Button(surface, blue, darker_blue, (help_button_x, button_y, button_w, button_h), 'Help', mediumText)
     play_button = Button(surface, green, darker_green, (play_button_x, button_y, button_w, button_h), 'Play', mediumText)
     quit_button = Button(surface, red, darker_red, (quit_button_x, button_y, button_w, button_h), 'Quit', mediumText)
-    
+
     #Portion of the screen that must ONLY be updated
     help_button_rect = help_button.get_rect()
     play_button_rect = play_button.get_rect()
@@ -335,21 +335,21 @@ def game_help(surface):
     #back_button_rect = pygame.rect.Rect(back_button.rectAttrs[0], back_button.rectAttrs[1], back_button.rectAttrs[2], back_button.rectAttrs[3])
     back_button_rect = back_button.get_rect()
     updateList = [back_button_rect]
-    
+
     TextSurf, TextRect = text_objects('How to Play:', largeText, white)
     TextRect.center = ((window_size[0] / 2), (window_size[1] / 4))
-    
+
     line_spacing = 75   #Spacing between each line of instructions
 
     Line1Surf, Line1Rect = text_objects('1.) Select a button under an appliance to set its value', mediumText, white)
     Line1Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 150)
-    
+
     Line2Surf, Line2Rect = text_objects('2.) After you are done, tap the \'Back\' button to return to the main screen', mediumText, white)
     Line2Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 150 + (2 * line_spacing))
 
     #Make entire screen white to clean it
     surface.fill(white)
-    
+
     #Write background image to buffer
     surface.blit(background, backgroundRect)
 
@@ -398,10 +398,10 @@ def game_tips(surface):
     #back_button_rect = pygame.rect.Rect(back_button.rectAttrs[0], back_button.rectAttrs[1], back_button.rectAttrs[2], back_button.rectAttrs[3])
     back_button_rect = back_button.get_rect()
     updateList = [back_button_rect]
-    
+
     #Make entire screen white to clean it
     surface.fill(white)
-    
+
     #Write background image to buffer
     surface.blit(background, backgroundRect)
 
@@ -410,30 +410,35 @@ def game_tips(surface):
     surface.blit(TextSurf, TextRect)
 
     line_spacing = 50   #Spacing between each line of instructions
-    
+
     #set limits for each appliance usage
     limits = [dishwasher.unitAmt > 7, washing_machine.unitAmt > 3, shower.unitAmt > 14,
-              toilet.unitAmt > 14, sink.unitAmt > 10, faucet.unitAmt > 10]
+              toilet.unitAmt > 14, sink.unitAmt > 5, faucet.unitAmt > 3]
     advice = ['Use the dishwasher less often, settle for washing with your hands',
               'Use the washing machine less often, or invest in a water-efficient one',
-              'Try investing in a water-efficient shower head', 
+              'Try investing in a water-efficient shower head',
               'Try investing in a water-efficient toilet',
               'Turn off the sink when you finish using it',
               'Turn off the faucet when you finish using it']
-    
+
 
     x, y = window_size[0] / 2, (window_size[1] / 4) + 150
     count = 1
 
-    for i in range(len(limits)):
-        flag = limits[i]
-        if flag:
-            LineSurf, LineRect = text_objects(str(count) + '.) ' + advice[i], mediumText, white)
-            LineRect.center = (x, y)
-            surface.blit(LineSurf, LineRect)
-            y += 1.5 * line_spacing
-            count += 1
-            
+    if not any(limits):
+        LineSurf, LineRect = text_objects(str(count) + '.) Good Job for using water efficiently!', mediumText, white)
+        LineRect.center = (x, y)
+        surface.blit(LineSurf, LineRect)
+    else:
+        for i in range(len(limits)):
+            flag = limits[i]
+            if flag:
+                LineSurf, LineRect = text_objects(str(count) + '.) ' + advice[i], mediumText, white)
+                LineRect.center = (x, y)
+                surface.blit(LineSurf, LineRect)
+                y += 1.5 * line_spacing
+                count += 1
+
     #Update ENTIRE screen just once
     pygame.display.update()
 
@@ -472,10 +477,10 @@ def game_menu(surface):
 
     #row spacing is distance between the top left corners of two horizontally distant buttons
     row_spacing = button_w + 150
-    
+
     #same as row spacing but for column
     column_spacing = button_h + 300
-    
+
     #x and y values of top left button
     ref_x = 0.125 * window_size[0]; ref_y = 0.45 * window_size[1]
 
@@ -483,17 +488,17 @@ def game_menu(surface):
     dish_dims =   (ref_x, ref_y, button_w, button_h)
     wash_dims =   (ref_x + row_spacing, ref_y, button_w, button_h)
     shower_dims = (ref_x + 2 * row_spacing, ref_y, button_w, button_h)
-    
+
     #Bottom Row
     toilet_dims = (ref_x, ref_y + column_spacing, button_w, button_h)
     sink_dims =   (ref_x + row_spacing, ref_y + column_spacing, button_w, button_h)
     faucet_dims = (ref_x + 2 * row_spacing, ref_y + column_spacing, button_w, button_h)
-    
+
     #Back/Tips/Quit button dimensions
     back_dims = (0.575 * window_size[0], 0.75 * window_size[1], button_w, button_h)
     tips_dims = (0.575 * window_size[0] + (row_spacing - 60), 0.75 * window_size[1], button_w, button_h)
     quit_dims = (0.575 * window_size[0] + 2.0 * (row_spacing - 60), 0.75 * window_size[1], button_w, button_h)
-    
+    reset_dims = (0.575 * window_size[0] + (row_spacing - 60), 0.75 * window_size[1] + 1.5 * button_h, button_w, button_h)
     #INSTANTIATE BUTTONS HERE
     dish_button =   Button(surface, green, darker_green, dish_dims, dishwasher.name, smallText)
     wash_button =   Button(surface, green, darker_green, wash_dims, washing_machine.name, smallText)
@@ -504,6 +509,7 @@ def game_menu(surface):
     back_button =   Button(surface, blue, darker_blue, back_dims, 'Back', mediumText)
     quit_button =   Button(surface, red, darker_red, quit_dims, 'Quit', mediumText)
     tips_button =   Button(surface, green, darker_green, tips_dims, 'Tips', mediumText)
+    reset_button =  Button(surface, green, darker_green, reset_dims, 'Reset', mediumText)
 
     #Instantiate areas to update
     dish_rect = dish_button.get_rect()
@@ -515,15 +521,16 @@ def game_menu(surface):
     back_rect = back_button.get_rect()
     quit_rect = quit_button.get_rect()
     tips_rect = tips_button.get_rect()
+    reset_rect = reset_button.get_rect()
 
     updateList = [dish_rect, wash_rect, shower_rect, toilet_rect,
-                  sink_rect, faucet_rect, back_rect, quit_rect, tips_rect]
-    
+                  sink_rect, faucet_rect, back_rect, quit_rect, tips_rect, reset_rect]
+
 
     #Prepare titles, text and locations
     TextSurf, TextRect = text_objects('How Much Water Do You Use At Home?', largeText, white)
     TextRect.center = ((window_size[0] / 2), (window_size[1] / 8))
-    
+
     #Prepare subheading
     TotalSurf, TotalRect = text_objects('Total Water Usage:', mediumText, white)
     TotalRect.center = ((0.75 * window_size[0]), (window_size[1] / 4))
@@ -560,14 +567,14 @@ def game_menu(surface):
     dishwasher.generate_img(surface, (ref_x - 20, ref_y - 225, 200, 200))
     washing_machine.generate_img(surface, (ref_x + row_spacing + 5, ref_y - 225, 150, 200))
     shower.generate_img(surface, (ref_x + 2 * row_spacing + 20, ref_y - 225, 200, 200))
-    
+
     toilet.generate_img(surface, (ref_x + 20, ref_y + column_spacing - 225, 120, 200))
     sink.generate_img(surface, (ref_x + row_spacing - 30, ref_y + column_spacing - 225, 280, 200))
     faucet.generate_img(surface, (ref_x + 2 * row_spacing + 20, ref_y + column_spacing - 225, 120, 200))
 
     #Refresh ENTIRE screen ONCE
     pygame.display.update()
-    
+
     running = True
 
     while running:
@@ -597,10 +604,25 @@ def game_menu(surface):
                     game_intro(surface)
                 if tips_button.is_pressed(touch_status):
                     game_tips(surface)
+                if reset_button.is_pressed(touch_status):
+                    dishwasher.gallonsUsed = 0
+                    washing_machine.gallonsUsed = 0
+                    shower.gallonsUsed = 0
+                    toilet.gallonsUsed = 0
+                    sink.gallonsUsed = 0
+                    faucet.gallonsUsed = 0
+
+                    dishwasher.unitAmt = 0
+                    washing_machine.unitAmt = 0
+                    shower.unitAmt = 0
+                    toilet.unitAmt = 0
+                    sink.unitAmt = 0
+                    faucet.unitAmt = 0
+                    game_menu(surface)
                 if quit_button.is_pressed(touch_status):
                     pygame.quit()
                     quit()
-    
+
         dish_button.generate()
         wash_button.generate()
         shower_button.generate()
@@ -610,6 +632,7 @@ def game_menu(surface):
         back_button.generate()
         quit_button.generate()
         tips_button.generate()
+        reset_button.generate()
 
         pygame.display.update(updateList)
 

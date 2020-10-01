@@ -5,13 +5,13 @@ from mcgreen_control.msg import Array
 from binascii import hexlify
 
 class Remote_Control:
-	RECIEVER_TOPIC = "/receiver_output"
+	RECEIVER_TOPIC = "/receiver_output"
 	ser = serial.Serial( port='/dev/ttyS0', baudrate=115200, timeout=1)
 	counter = 0
 	self.out = [1500] * 10
 
 	def __init__ (self, rate):
-		self.pub = rospy.Publisher(self.RECIEVER_TOPIC, Array, queue_size=1)
+		self.pub = rospy.Publisher(self.RECEIVER_TOPIC, Array, queue_size=1)
 		self.rate = rospy.Rate(rate)
 
 	def recieve(self):
@@ -29,7 +29,7 @@ class Remote_Control:
 
 if __name__ == '__main__':
 	try:
-		rospy.init_node("Remote_Control_Reciever")
+		rospy.init_node("Remote_Control_Receiver")
 		args = {"rate": rospy.get_param("~rate")}
 		controller = Remote_Control(args["rate"])
 		controller.recieve()

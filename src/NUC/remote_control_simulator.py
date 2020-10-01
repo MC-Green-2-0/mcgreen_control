@@ -15,8 +15,8 @@ class ControlApp(Tk, object):
         self.xy = [1000,1500,1500,1500]
         # Initialize the teleop node
         rospy.init_node("Remote Control Sim")
-        self.RECIEVER_TOPIC = "/receiver_output"
-        self.pub = rospy.Publisher(self.RECIEVER_TOPIC, Array, queue_size=1)
+        self.RECEIVER_TOPIC = "/receiver_output"
+        self.pub = rospy.Publisher(self.RECEIVER_TOPIC, Array, queue_size=1)
         self.data = Array()
         self.data.arr = self.xy + self.ts
         self.pub.publish(self.data)

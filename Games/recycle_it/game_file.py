@@ -435,8 +435,9 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
 
 
         playerX += playerX_change
-
-        randol = random.randint(1, 10)
+        caphold = 76
+        cap = caphold
+        randol = random.randint(1, cap)
         if(len(goodImg) <= num_of_each and randol == 1):
             # choosing which good object to show
             goodSelect = random.randint(1, 4)
@@ -450,32 +451,12 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 goodImg.append(pygame.image.load('plastic2.png'))
             # random spawn of good object
             goodX.append(random.randint(0, 862))
-            goodY.append(random.randint(0, 200) - 100)
+            goodY.append(random.randint(0, 200) - 300)
             # speed of fall
             goodY_change.append(fallspeed)
-        if(lvl == 2):
-            if(len(neutImg) <= num_of_each and randol == 3):
-                # choosing which good object to show
-                goodSelect = random.randint(1, 6)
-                if goodSelect == 1:
-                    neutImg.append(pygame.image.load('clothes.png'))
-                if goodSelect == 2:
-                    neutImg.append(pygame.image.load('computer.png'))
-                if goodSelect == 3:
-                    neutImg.append(pygame.image.load('medicine.png'))
-                if goodSelect == 4:
-                    neutImg.append(pygame.image.load('shreddedpaper.png'))
-                if goodSelect == 5:
-                    neutImg.append(pygame.image.load('plasticbag.png'))
-                if goodSelect == 6:
-                    neutImg.append(pygame.image.load('tire.png'))
-                # random spawn of good object
-                neutX.append(random.randint(0, 862))
-                neutY.append(random.randint(0, 200) - 100)
-                # speed of fall
-                neutY_change.append(fallspeed)
+            cap = caphold
 
-        if(len(enemyImg) <= num_of_each and randol == 2):
+        elif(len(enemyImg) <= num_of_each and randol == 2):
             # choosing which enemy to show
             enemySelect = random.randint(1, 7)
             if enemySelect == 1:
@@ -494,9 +475,35 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 enemyImg.append(pygame.image.load('bag.png'))
             # random spawn location of enemy
             enemyX.append(random.randint(0, 862))
-            enemyY.append(random.randint(0, 200) - 100)
+            enemyY.append(random.randint(0, 200) - 300)
             # speed of fall
             enemyY_change.append(fallspeed)
+            cap = caphold
+        else:
+            cap -= 5
+
+
+        if(lvl == 2):
+            if(len(neutImg) <= num_of_each and randol == 3):
+                # choosing which good object to show
+                goodSelect = random.randint(1, 6)
+                if goodSelect == 1:
+                    neutImg.append(pygame.image.load('clothes.png'))
+                if goodSelect == 2:
+                    neutImg.append(pygame.image.load('computer.png'))
+                if goodSelect == 3:
+                    neutImg.append(pygame.image.load('medicine.png'))
+                if goodSelect == 4:
+                    neutImg.append(pygame.image.load('shreddedpaper.png'))
+                if goodSelect == 5:
+                    neutImg.append(pygame.image.load('plasticbag.png'))
+                if goodSelect == 6:
+                    neutImg.append(pygame.image.load('tire.png'))
+                # random spawn of good object
+                neutX.append(random.randint(0, 862))
+                neutY.append(random.randint(0, 200) - 300)
+                # speed of fall
+                neutY_change.append(fallspeed)
 
 
 

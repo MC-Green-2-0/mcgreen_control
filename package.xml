@@ -2,7 +2,7 @@
 <package format="2">
   <name>mcgreen_control</name>
   <version>2.0.0</version>
-  <description>The McGreen 2.0 control package</description>
+  <description>The MCGreen 2.0 control package</description>
 
   <maintainer email="geeky2307@gmail.com">mcgreen</maintainer>
 
@@ -16,6 +16,7 @@
   <author email="shteymang@mcvts.net">Gil Shteyman</author>
   <author email="nishil.patel13@gmail.com">Nishil Patel</author>
   <author email="grebinskiym@mcvts.net">Maxim Grebinskiy</author>
+  <author email="gundas@mcvts.net">Sanjana Gunda</author>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>

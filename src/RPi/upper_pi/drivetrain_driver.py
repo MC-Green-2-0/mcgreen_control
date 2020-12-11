@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 import rospy
 import RPi.GPIO as GPIO
 import time
@@ -42,7 +42,7 @@ class Head_Servo_Driver:
 		# IN1 = 0, IN2 = 0 -> Brake regardless of PWM
 		# IN1 = 0, IN2 = 1 -> Reverse Speed @ PWM
 		# IN1 = 1, IN2 = 0 -> Forward Speed @ PWM
-		
+
 		left_joy = data.arr[0] # left value (1000-2000)
 		right_joy = data.arr[1] # right value (1000-2000)
 

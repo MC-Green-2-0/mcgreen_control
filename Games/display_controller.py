@@ -19,10 +19,10 @@ class Display_Controller:
             #you can play games
             #Perhaps call the game menu function?
 
-        def safety_update(self, safety):
-            if safety.data == False:
-                pass
-                #display Caution Picture
+    def safety_update(self, safety):
+        if safety.data == False:
+            pass
+            #display Caution Picture
 
 if __name__=="__main__":
     try:

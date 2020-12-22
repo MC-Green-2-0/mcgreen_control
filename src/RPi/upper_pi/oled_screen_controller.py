@@ -19,6 +19,7 @@ class OLED:
 	MODE_TOPIC = "/mode_status"
 	UP_DOWN_TOPIC =  "/up_down_status"
 	SAFETY_TOPIC = "/safety_status"
+	FAILSAFE_TOPIC = "/override_status"
 	GAME_TOPIC = "/current_game"
 	EXPRESSION_TOPIC = "/facial_expression"
 	UPPER_TOPIC = "/upper_motors"
@@ -32,8 +33,10 @@ class OLED:
 		self.lower_sub = rospy.Subscriber(self.LOWER_TOPIC, Array, self.lower_set)
 		self.face_sub  = rospy.Subscriber(self.EXPRESSION_TOPIC, Int16, self.face_set)
 		self.safety_sub = rospy.Subscriber(self.SAFETY_TOPIC, Bool, self.safety_set)
+		self.failsafe_sub = rospy.Subscriber(self.FAILSAFE_TOPIC, Bool, self.failsafe_set)
 		self.mode = 1
 		self.up_down = 1
+		self.fs = 1
 		self.game = "None"
 		self.face = "Neutral"
 		self.upper=[0] * 2 + [90] * 2
@@ -48,6 +51,8 @@ class OLED:
 	def up_down_set(self, data):
 		self.up_down = data.data
 
+	def failsafe_set(self, data):
+		self.fs = data.data
 
 	def safety_set(self, data):
 		if data.data == True:
@@ -88,15 +93,8 @@ class OLED:
 			self.write_text("L_Motors: ", draw)
 			self.write_text(str(self.lower), draw)
 
-			self.write_text("Status: ", draw)
-
-			if self.safe == "SAFE":
-				self.write_text(self.safe, draw)
-			elif self.time >= 5:
-				self.write_text(self.safe, draw)
-			if self.time == 10:
-				self.time = 0
-		self.time += 1
+			self.write_text("Status: " + self.safe, draw)
+			self.write_text("Sensor Override: " + self.fs, draw)
 
 	def write_text(self, text, draw): # if text is too long it returns the text with \n
 		w = font.getsize(text)[0]

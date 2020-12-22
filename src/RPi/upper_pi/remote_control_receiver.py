@@ -6,8 +6,7 @@ from binascii import hexlify
 
 class Remote_Control:
 	RECEIVER_TOPIC = "/receiver_output"
-	ser = serial.Serial( port='/dev/ttyS0', baudrate=115200, timeout=1)
-	counter = 0
+	ser = serial.Serial( port='/dev/serial0', baudrate=115200, timeout=1)
 	self.out = [1500] * 10
 
 	def __init__ (self, rate):
@@ -17,11 +16,11 @@ class Remote_Control:
 	def recieve(self):
 		while not rospy.is_shutdown():
 			hex = hexlify(ser.read(2))
-			if hex == "2040":
+			if hex.decode() == "2040":
 				for i in range(10):
 					lower_byte = ser.read(1)
 					upper_byte = ser.read(1)
-					if hexlify(a+b) != "":
+					if hexlify(lower_byte+upper_byte) != "":
 						self.out[i] = int(hexlify(upper_byte+lower_byte),16)
 			msg = Array()
 			msg.arr = out

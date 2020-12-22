@@ -87,11 +87,10 @@ class OLED:
 			self.write_text("Game: " + self.game, draw)
 			self.write_text("Face: " + str(self.face), draw)
 
-			self.write_text("U_Motors: ", draw)
-			self.write_text(str(self.upper), draw)
+			self.write_text("LA: " + str(self.upper[:2]), draw)
+			self.write_text("Servo: " + str(self.upper[3:]), draw)
 
-			self.write_text("L_Motors: ", draw)
-			self.write_text(str(self.lower), draw)
+			self.write_text("D_Motors: " + str(self.lower[1:3], draw))
 
 			self.write_text("Status: " + self.safe, draw)
 			self.write_text("Sensor Override: " + self.fs, draw)

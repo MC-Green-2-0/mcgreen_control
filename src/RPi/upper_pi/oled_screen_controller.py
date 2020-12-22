@@ -17,6 +17,7 @@ font = ImageFont.truetype(font_name, font_size)
 
 class OLED:
 	MODE_TOPIC = "/mode_status"
+	UP_DOWN_TOPIC =  "/up_down_status"
 	SAFETY_TOPIC = "/safety_status"
 	GAME_TOPIC = "/current_game"
 	EXPRESSION_TOPIC = "/facial_expression"
@@ -25,12 +26,14 @@ class OLED:
 
 	def __init__(self):
 		self.mode_sub = rospy.Subscriber(self.MODE_TOPIC, Int16, self.mode_set)
+		self.up_down_sub = rospy.Subscriber(self.UP_DOWN_TOPIC, Int16, self.up_down_set)
 		self.game_sub = rospy.Subscriber(self.GAME_TOPIC, String, self.game_set)
 		self.upper_sub = rospy.Subscriber(self.UPPER_TOPIC, Array, self.upper_set)
 		self.lower_sub = rospy.Subscriber(self.LOWER_TOPIC, Array, self.lower_set)
 		self.face_sub  = rospy.Subscriber(self.EXPRESSION_TOPIC, Int16, self.face_set)
 		self.safety_sub = rospy.Subscriber(self.SAFETY_TOPIC, Bool, self.safety_set)
 		self.mode = 1
+		self.up_down = 1
 		self.game = "None"
 		self.face = "Neutral"
 		self.upper=[0] * 2 + [90] * 2
@@ -41,6 +44,10 @@ class OLED:
 
 	def mode_set(self, data):
 		self.mode = data.data
+
+	def up_down_set(self, data):
+		self.up_down = data.data
+
 
 	def safety_set(self, data):
 		if data.data == True:
@@ -71,14 +78,14 @@ class OLED:
 	def display(self):
 		self.line = 0
 		with canvas(device) as draw:
-			self.write_text("Mode: " + str(self.mode), draw)
+			self.write_text("M: " + str(self.mode) + " U/D: " + str(self.up_down), draw)
 			self.write_text("Game: " + self.game, draw)
 			self.write_text("Face: " + str(self.face), draw)
 
-			self.write_text("Upper Motors: ", draw)
+			self.write_text("U_Motors: ", draw)
 			self.write_text(str(self.upper), draw)
 
-			self.write_text("Lower Motors: ", draw)
+			self.write_text("L_Motors: ", draw)
 			self.write_text(str(self.lower), draw)
 
 			self.write_text("Status: ", draw)

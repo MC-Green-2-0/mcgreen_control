@@ -33,7 +33,7 @@ class OLED:
 		self.lower_sub = rospy.Subscriber(self.LOWER_TOPIC, Array, self.lower_set)
 		self.face_sub  = rospy.Subscriber(self.EXPRESSION_TOPIC, Int16, self.face_set)
 		self.safety_sub = rospy.Subscriber(self.SAFETY_TOPIC, Bool, self.safety_set)
-		self.failsafe_sub = rospy.Subscriber(self.FAILSAFE_TOPIC, Bool, self.failsafe_set)
+		self.failsafe_sub = rospy.Subscriber(self.FAILSAFE_TOPIC, Int16, self.failsafe_set)
 		self.mode = 1
 		self.up_down = 1
 		self.fs = 1
@@ -88,12 +88,13 @@ class OLED:
 			self.write_text("Face: " + str(self.face), draw)
 
 			self.write_text("LA: " + str(self.upper[:2]), draw)
-			self.write_text("Servo: " + str(self.upper[3:]), draw)
+			self.write_text("Servo: " + str(self.upper[2:]), draw)
 
-			self.write_text("D_Motors: " + str(self.lower[1:3], draw))
+			self.write_text("D_Motors: ", draw)
+			self.write_text(str(self.lower[1:3]), draw)
 
 			self.write_text("Status: " + self.safe, draw)
-			self.write_text("Sensor Override: " + self.fs, draw)
+			self.write_text("Sensor Override: " + str(self.fs), draw)
 
 	def write_text(self, text, draw): # if text is too long it returns the text with \n
 		w = font.getsize(text)[0]

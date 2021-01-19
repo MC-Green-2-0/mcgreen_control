@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 from __future__ import division
 import rospy
 from mcgreen_control.msg import Array

@@ -43,7 +43,7 @@ class Remote_Sensor_Processor:
 
     def receiver_splice(self):
         self.out_receiver.ts = self.receiver_data[4:]
-        self.out_receiver.xy = self.receiver_data[3:1:-1] + self.receiver_data[:2]
+        self.out_receiver.xy = self.receiver_data[3::-1]
 
     def data_publish(self):
         self.sensor_pub.publish(self.sensors)

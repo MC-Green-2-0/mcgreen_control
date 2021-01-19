@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 import time as Time
 import rospy
 from mcgreen_control.msg import Arm
@@ -49,8 +49,7 @@ class Arm_Sensor:
         distance = (TimeElapsed * 34300) / 2
 
         if distance < 2:
-            distance = self.sense()
-            return int(distance)
+            return 400
         elif distance > 400:
             return 400
         else:

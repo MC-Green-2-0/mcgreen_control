@@ -412,27 +412,45 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
         screen.blit(background, (0, 0))
 
         # Checking for events (keypress)
-        for event in pygame.event.get():
+        #for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+
             # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
 
         # changes X position of player character
         keys_pressed = pygame.key.get_pressed()
+        mousepos = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+
+        #print(mousepos[0], " ", window[0])
+                if mousepos[0] < window[0]/2:
+                    playerX_change = -5
+                elif mousepos[0] >= window[0]/2:
+                    playerX_change = 5
+                else:
+                    playerX_change = 0
+            else:
+                playerX_change = 0
+
+        tplayerX_change = 0
         if keys_pressed[pygame.K_LEFT] and keys_pressed[pygame.K_RIGHT]:
-            playerX_change = 0
+            tplayerX_change = 0
         elif keys_pressed[pygame.K_LEFT] :
-            playerX_change = -5
+            tplayerX_change = -5
         elif keys_pressed[pygame.K_RIGHT]:
-            playerX_change = 5
+            tplayerX_change = 5
         else:
-            playerX_change = 0
+            tplayerX_change = 0
 
         if keys_pressed[pygame.K_ESCAPE]:
                 level_select(level)
-
+        if(tplayerX_change != 0):
+            playerX_change = tplayerX_change
 
         playerX += playerX_change
         caphold = 76

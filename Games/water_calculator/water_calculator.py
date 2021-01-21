@@ -13,7 +13,8 @@ class Appliance:
                       'img_resize',     #desired width and length resize image
                       'coordinates',    #coordinates to put image
                       'name',           #name of appliance
-                      'sliderQuestion', #question to ask user
+                      'sliderQuestion1',
+                      'sliderQuestion2', #question to ask user
                       'units',          #units of use (ex. times, flushes, etc.)
                       'unitRate',       #number of gallons used per unit
                       'usageRange']     #min and max usage in units
@@ -43,32 +44,36 @@ class Appliance:
         #Button Dimensions
         button_w = 100 / 2; button_h = 125 / 2
         button_x = 0.5 * window_size[0] - 0.5 * button_w
-        up_button_y = 0.25 * window_size[1]
+        up_button_y = 0.5 * window_size[1] - .5 * button_h
         down_button_y = up_button_y + (3 * button_h)
-
+        #Make entire screen white to 'clean' it
+        screen.fill(white)
         #Instantiate buttons
         up_button = Button(screen, darker_green, green, (button_x, up_button_y, button_w, button_h), u'\u2191', mediumText)
         down_button = Button(screen, darker_red, red, (button_x, down_button_y, button_w, button_h), u'\u2193', mediumText)
-        okay_button = Button(screen, darker_blue, blue, (button_x, 0.75 * window_size[1], 750 / 2, 250 / 2), 'OK', mediumText)
+        okay_button = Button(screen, darker_blue, blue, ((window_size[0] - 750)/2, 0.75 * window_size[1], 750, 250), 'OK', mediumText)
 
+
+        #help_button_rect = help_button.get_rect()
         #Portions of the screen that must ONLY be updated (Improves frame rate and performance)
-        setting_rect = pygame.rect.Rect(button_x, up_button_y, 512 / 2, 4 * up_button_y) #Portion of screen which adjusts value
-        back_rect = pygame.rect.Rect(button_x, 0.75 * window_size[1], 750 / 2, 250 / 2) #Portion of screen for the back button
+        #setting_rect = up_button.get_rect() #Portion of screen which adjusts value
+        #back_rect = down_button.get_rect() #Portion of screen for the back button
 
-        updateList = [setting_rect, back_rect]
+        #updateList = [setting_rect, back_rect]
 
         #Prepare title text and location
-        QuestionSurf, QuestionRect = text_objects(self.sliderQuestion, largeText, white)
-        QuestionRect.center = ((window_size[0] / 2), (window_size[1] / 8))
+        QuestionSurf1, QuestionRect1 = text_objects(self.sliderQuestion1, kindalargeText, white)
+        QuestionSurf2, QuestionRect2 = text_objects(self.sliderQuestion2, kindalargeText, white)
+        QuestionRect1.center = ((window_size[0] / 2), (window_size[1] / 8))
+        QuestionRect2.center = ((window_size[0] / 2), (window_size[1] / 8) + 120)
 
-        #Make entire screen white to 'clean' it
-        screen.fill(white)
 
         #Write background image to buffer
         screen.blit(background, backgroundRect)
 
         #Write text and image to buffer
-        screen.blit(QuestionSurf, QuestionRect)
+        screen.blit(QuestionSurf1, QuestionRect1)
+        screen.blit(QuestionSurf2, QuestionRect2)
         self.generate_img(screen, self.coordinates + self.img_resize)
 
         #Update ENTIRE screen just once
@@ -125,7 +130,7 @@ class Appliance:
             down_button.generate()
             okay_button.generate()
 
-            pygame.display.update(updateList)
+            pygame.display.update()
             clock.tick(FPS)
 
 #Render text to a surface and a corresponding rectangle
@@ -186,7 +191,7 @@ class Button:
 pygame.init() #SUPER IMPORTANT
 
 #Screen size of window
-window_size = (1920,1080)
+window_size = (1080, 1920)
 
 #Max FPS (frames per second) of game
 FPS = 30
@@ -202,7 +207,8 @@ blue = (50, 89, 250)
 darker_blue = (35, 67, 250)
 
 #Define basic text sizes
-largeText = pygame.font.Font('FreeSansBold.ttf', 64)   #Large text, ideal for headings
+largeText = pygame.font.Font('FreeSansBold.ttf', 100)   #Large text, ideal for headings
+kindalargeText = pygame.font.Font('FreeSansBold.ttf', 70)
 mediumText = pygame.font.Font('FreeSansBold.ttf', 48)   #Medium text, ideal for subheadings
 mediumText2 = pygame.font.Font('FreeSansBold.ttf', 24)
 smallText =  pygame.font.Font('FreeSansBold.ttf', 16)   #Small text, ideal for small buttons
@@ -219,28 +225,28 @@ pygame.display.set_caption('Water Calculator')
 clock = pygame.time.Clock()
 
 #ok
-dishwasher_info = {'img_src': 'dishwasher.png', 'img_resize': (256,256), 'coordinates': (window_size[0] / 4, window_size[1] / 4),
-                   'name': 'Dishwasher', 'sliderQuestion': 'How Often Do You Use The Dishwasher in a Week?',
+dishwasher_info = {'img_src': 'dishwasher.png', 'img_resize': (256,256), 'coordinates': (window_size[0] / 2 - 256/2, window_size[1] / 4),
+                   'name': 'Dishwasher', 'sliderQuestion1': 'How Often Do You Use the', 'sliderQuestion2' : 'Dishwasher in a Week?',
                    'units': 'times', 'unitRate': 6, 'usageRange':(0, 10)}
 #ok
-washing_machine_info = {'img_src': 'washing_machine.png', 'img_resize': (300,400), 'coordinates': (window_size[0] / 4, window_size[1] / 4),
-                   'name': 'Washing Machine', 'sliderQuestion': 'How Often Do You Use The Washing Machine in a Week?',
+washing_machine_info = {'img_src': 'washing_machine.png', 'img_resize': (300,400), 'coordinates': (window_size[0] / 2 - 150, window_size[1] / 4),
+                   'name': 'Washing Machine', 'sliderQuestion1': 'How Often Do You Use the', 'sliderQuestion2' : 'Washing Machine in a Week?',
                    'units': 'times', 'unitRate': 40, 'usageRange':(0, 10)}
 #ok
-shower_info = {'img_src': 'shower.png', 'img_resize': (512 // 2,512 // 2), 'coordinates': (window_size[0] / 4, window_size[1] / 4),
-                   'name': 'Shower', 'sliderQuestion': 'How Often Do You Use The Shower in a Week?',
+shower_info = {'img_src': 'shower.png', 'img_resize': (512 // 2,512 // 2), 'coordinates': (window_size[0] / 2 - 512/4, window_size[1] / 4),
+                   'name': 'Shower',  'sliderQuestion1': 'How Often Do You Use the', 'sliderQuestion2' : 'Shower in a Week?',
                    'units': 'times', 'unitRate': 17.2, 'usageRange':(0, 20)}
 #ok
-toilet_info = {'img_src': 'toilet.png', 'img_resize': (312 // 2,512  // 2), 'coordinates': (window_size[0] / 4, window_size[1] / 4),
-                   'name': 'Toilet', 'sliderQuestion': 'How Often Do You Use The Toilet in a Week?',
+toilet_info = {'img_src': 'toilet.png', 'img_resize': (312 // 2,512  // 2), 'coordinates': (window_size[0] / 2 - 312/4, window_size[1] / 4),
+                   'name': 'Toilet',  'sliderQuestion1': 'How Often Do You Use the', 'sliderQuestion2' : 'Toilet in a Week?',
                    'units': 'times', 'unitRate': 1.6, 'usageRange':(0, 30)}
 
-sink_info = {'img_src': 'sink.png', 'img_resize': (728 // 2 ,512 // 2), 'coordinates': (window_size[0] / 4, window_size[1] / 4),
-                   'name': 'Sink', 'sliderQuestion': 'How Many Hours Do You Use The Kitchen Sink in a Week?',
+sink_info = {'img_src': 'sink.png', 'img_resize': (728 // 2 ,512 // 2), 'coordinates': (window_size[0] / 2 - 728/4, window_size[1] / 4),
+                   'name': 'Sink',  'sliderQuestion1': 'How many Hours Do You Use', 'sliderQuestion2' : 'the Kitchen Sink in a Week?',
                    'units': 'hours', 'unitRate': 2.2*60, 'usageRange':(0, 168)}
 #ok
-faucet_info = {'img_src': 'faucet.png', 'img_resize': (333 // 2 ,512 // 2), 'coordinates': (window_size[0] / 4, window_size[1] / 4),
-                   'name': 'Faucet', 'sliderQuestion': 'How Many Hours Do You Use The Faucet in a Week?',
+faucet_info = {'img_src': 'faucet.png', 'img_resize': (333 // 2 ,512 // 2), 'coordinates': (window_size[0] / 2 - 333//4, window_size[1] / 4),
+                   'name': 'Faucet', 'sliderQuestion1': 'How many Hours Do You Use ', 'sliderQuestion2' : 'the Faucet in a Week?',
                    'units': 'hours', 'unitRate': 1.5*60, 'usageRange':(0, 168)}
 
 #Instantiate appliance objects
@@ -254,16 +260,18 @@ faucet = Appliance(faucet_info)
 #Start Menu for Game
 def game_intro(surface):
     #Button Dimensions
-    button_w = 750 / 2; button_h = 250 / 2
-    help_button_x = 270; button_y = 1300 / 2
+    button_w = 750; button_h = 250
+    button_x = (window_size[0] - button_w)/2; help_button_y = 3/6*window_size[1]
     button_spacing = 237 / 2   #spacing between buttons in px
-    play_button_x = help_button_x + button_w + button_spacing
-    quit_button_x = play_button_x + button_w + button_spacing
+    play_button_y = 2/6*window_size[1]
+    quit_button_y = 4/6*window_size[1]
+    #play_button_x = help_button_x + button_w + button_spacing
+    #quit_button_x = play_button_x + button_w + button_spacing
 
     #Instantiate buttons (Only needs to be done once)
-    help_button = Button(surface, blue, darker_blue, (help_button_x, button_y, button_w, button_h), 'Help', mediumText)
-    play_button = Button(surface, green, darker_green, (play_button_x, button_y, button_w, button_h), 'Play', mediumText)
-    quit_button = Button(surface, red, darker_red, (quit_button_x, button_y, button_w, button_h), 'Quit', mediumText)
+    help_button = Button(surface, blue, darker_blue, (button_x, help_button_y, button_w, button_h), 'Help', mediumText)
+    play_button = Button(surface, green, darker_green, (button_x, play_button_y, button_w, button_h), 'Play', mediumText)
+    quit_button = Button(surface, red, darker_red, (button_x, quit_button_y, button_w, button_h), 'Quit', mediumText)
 
     #Portion of the screen that must ONLY be updated
     help_button_rect = help_button.get_rect()
@@ -272,9 +280,11 @@ def game_intro(surface):
     updateList = [help_button_rect, play_button_rect, quit_button_rect]
 
     #Prepare title text and location
-    TextSurf, TextRect = text_objects('How Much Water Do You Use At Home?', largeText, white)
-    TextRect.center = ((window_size[0] / 2), (window_size[1] / 4))
-
+    TextSurf, TextRect = text_objects('How Much Water Do', largeText, white)
+    TextSurf2, TextRect2 = text_objects('You Use At Home?', largeText, white)
+     #Use At Home
+    TextRect.center = ((window_size[0] / 2), (window_size[1] / 6))
+    TextRect2.center = ((window_size[0] / 2), (window_size[1] / 6) + 120 )
     #Make entire screen white to 'clean' the screen
     surface.fill(white)
 
@@ -283,7 +293,7 @@ def game_intro(surface):
 
     #Write text to buffer
     surface.blit(TextSurf, TextRect)
-
+    surface.blit(TextSurf2, TextRect2)
     #Update ENTIRE screen just once
     pygame.display.update()
 
@@ -330,22 +340,28 @@ def game_intro(surface):
 #Help Menu for Game
 def game_help(surface):
     #Instantiate button for returning back to intro page
-    back_button = Button(surface, darker_green, green, (0.5 * window_size[0] - 150 , 0.75 * window_size[1], 750 / 2, 250 / 2), 'Back', mediumText)
+    back_button = Button(surface, darker_green, green, ((window_size[0] - 750) / 2 , 0.75 * window_size[1], 750  , 250), 'Back', mediumText)
 
     #back_button_rect = pygame.rect.Rect(back_button.rectAttrs[0], back_button.rectAttrs[1], back_button.rectAttrs[2], back_button.rectAttrs[3])
     back_button_rect = back_button.get_rect()
     updateList = [back_button_rect]
 
     TextSurf, TextRect = text_objects('How to Play:', largeText, white)
-    TextRect.center = ((window_size[0] / 2), (window_size[1] / 4))
+    TextRect.center = ((window_size[0] / 2), (window_size[1] / 6))
 
     line_spacing = 75   #Spacing between each line of instructions
 
-    Line1Surf, Line1Rect = text_objects('1.) Select a button under an appliance to set its value', mediumText, white)
+    Line1Surf, Line1Rect = text_objects('1.) Select a button under an appliance to', mediumText, white)
     Line1Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 150)
 
-    Line2Surf, Line2Rect = text_objects('2.) After you are done, tap the \'Back\' button to return to the main screen', mediumText, white)
+    Line12Surf, Line12Rect = text_objects('set its value', mediumText, white)
+    Line12Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 200)
+
+    Line2Surf, Line2Rect = text_objects('2.) After you are done, tap the \'Back\'', mediumText, white)
     Line2Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 150 + (2 * line_spacing))
+
+    Line22Surf, Line22Rect = text_objects('button to return to the main screen', mediumText, white)
+    Line22Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 150 + (2 * line_spacing) + 50)
 
     #Make entire screen white to clean it
     surface.fill(white)
@@ -356,8 +372,9 @@ def game_help(surface):
     #Write text to buffer
     surface.blit(TextSurf, TextRect)
     surface.blit(Line1Surf, Line1Rect)
+    surface.blit(Line12Surf, Line12Rect)
     surface.blit(Line2Surf, Line2Rect)
-
+    surface.blit(Line22Surf, Line22Rect)
     #Update ENTIRE screen just once
     pygame.display.update()
 
@@ -405,18 +422,20 @@ def game_tips(surface):
     #Write background image to buffer
     surface.blit(background, backgroundRect)
 
-    TextSurf, TextRect = text_objects('Ways to reduce your water consumption:', largeText, white)
-    TextRect.center = ((window_size[0] / 2), (window_size[1] / 4))
+    TextSurf, TextRect = text_objects('Ways to reduce your', largeText, white)
+    TextSurf2, TextRect2 = text_objects('water consumption:', largeText, white)
+    TextRect.center = ((window_size[0] / 2), (window_size[1] / 6))
+    TextRect2.center = ((window_size[0] / 2), (window_size[1] / 6) + 120)
     surface.blit(TextSurf, TextRect)
-
+    surface.blit(TextSurf2, TextRect2)
     line_spacing = 50   #Spacing between each line of instructions
 
     #set limits for each appliance usage
     limits = [dishwasher.unitAmt > 7, washing_machine.unitAmt > 3, shower.unitAmt > 14,
               toilet.unitAmt > 14, sink.unitAmt > 5, faucet.unitAmt > 3]
-    advice = ['Use the dishwasher less often, settle for washing with your hands',
-              'Use the washing machine less often, or invest in a water-efficient one',
-              'Try investing in a water-efficient shower head',
+    advice = ['Use the dishwasher less often, settle for | washing with your hands',
+              'Use the washing machine less often, or | invest in a water-efficient one',
+              'Try investing in a water-efficient shower | head',
               'Try investing in a water-efficient toilet',
               'Turn off the sink when you finish using it',
               'Turn off the faucet when you finish using it']
@@ -433,12 +452,21 @@ def game_tips(surface):
         for i in range(len(limits)):
             flag = limits[i]
             if flag:
-                LineSurf, LineRect = text_objects(str(count) + '.) ' + advice[i], mediumText, white)
-                LineRect.center = (x, y)
-                surface.blit(LineSurf, LineRect)
-                y += 1.5 * line_spacing
-                count += 1
-
+                if '|' not in advice[i]:
+                    LineSurf, LineRect = text_objects(str(count) + '.) ' + advice[i], mediumText, white)
+                    LineRect.center = (x, y)
+                    surface.blit(LineSurf, LineRect)
+                    y += 1.5 * line_spacing
+                    count += 1
+                else:
+                    LineSurf1, LineRect1 = text_objects(str(count) + '.) ' + advice[i].split('|')[0], mediumText, white)
+                    LineSurf2, LineRect2 = text_objects(advice[i].split('|')[1], mediumText, white)
+                    LineRect1.center = (x, y)
+                    LineRect2.center = (x, y + 50)
+                    surface.blit(LineSurf1, LineRect1)
+                    surface.blit(LineSurf2, LineRect2)
+                    y += 2.5 * line_spacing
+                    count += 1
     #Update ENTIRE screen just once
     pygame.display.update()
 
@@ -528,12 +556,14 @@ def game_menu(surface):
 
 
     #Prepare titles, text and locations
-    TextSurf, TextRect = text_objects('How Much Water Do You Use At Home?', largeText, white)
-    TextRect.center = ((window_size[0] / 2), (window_size[1] / 8))
+    TextSurf, TextRect = text_objects('How Much Water Do', largeText, white)
+    TextRect.center = ((window_size[0] / 2), (window_size[1] / 9))
+    TextSurf2, TextRect2 = text_objects('You Use At Home?', largeText, white)
+    TextRect2.center = ((window_size[0] / 2), (window_size[1] / 9) + 120)
 
     #Prepare subheading
     TotalSurf, TotalRect = text_objects('Total Water Usage:', mediumText, white)
-    TotalRect.center = ((0.75 * window_size[0]), (window_size[1] / 4))
+    TotalRect.center = ((1/4 * window_size[0]), (5/7 *window_size[1] ))
 
     #Prepare title for total
     gallon_sum = dishwasher.gallonsUsed + washing_machine.gallonsUsed + shower.gallonsUsed + toilet.gallonsUsed + sink.gallonsUsed + faucet.gallonsUsed
@@ -541,7 +571,7 @@ def game_menu(surface):
     #SumSurf, SumRect = text_objects('Total: ' + str(gallon_sum) + ' gallons per day', mediumText, white)
     SumSurf, SumRect = text_objects('Total: ' + '{0:.0f}'.format(gallon_sum) + ' gallons per week', mediumText, white)
 
-    SumRect.center = ((0.75 * window_size[0]), (window_size[1] / 4 + 450))
+    SumRect.center = ((1/4 * window_size[0]) + 80, (5/7 *window_size[1]  + 450))
 
     #Make entire screen white to 'clean' it
     surface.fill(white)
@@ -551,16 +581,17 @@ def game_menu(surface):
 
     #Write text to buffer
     surface.blit(TextSurf, TextRect)
+    surface.blit(TextSurf2, TextRect2)
     surface.blit(TotalSurf, TotalRect)
     surface.blit(SumSurf, SumRect)
 
     #Write water usage for each item to buffer
-    dishwasher.generate_usage(surface, (0.75 * window_size[0]), (window_size[1] / 4 + 100), mediumText2, white)
-    washing_machine.generate_usage(surface, (0.75 * window_size[0]), (window_size[1] / 4 + 150), mediumText2, white)
-    shower.generate_usage(surface, (0.75 * window_size[0]), (window_size[1] / 4 + 200), mediumText2, white)
-    toilet.generate_usage(surface, (0.75 * window_size[0]), (window_size[1] / 4 + 250), mediumText2, white)
-    sink.generate_usage(surface, (0.75 * window_size[0]), (window_size[1] / 4 + 300), mediumText2, white)
-    faucet.generate_usage(surface, (0.75 * window_size[0]), (window_size[1] / 4 + 350), mediumText2, white)
+    dishwasher.generate_usage(surface, (1/4 * window_size[0]), (5/7 *window_size[1]  + 100), mediumText2, white)
+    washing_machine.generate_usage(surface, (1/4 * window_size[0]), (5/7 *window_size[1]  + 150), mediumText2, white)
+    shower.generate_usage(surface, (1/4 * window_size[0]), (5/7 *window_size[1]  + 200), mediumText2, white)
+    toilet.generate_usage(surface,(1/4 * window_size[0]), (5/7 *window_size[1]  + 250), mediumText2, white)
+    sink.generate_usage(surface, (1/4 * window_size[0]), (5/7 *window_size[1]  + 300), mediumText2, white)
+    faucet.generate_usage(surface, (1/4 * window_size[0]), (5/7 *window_size[1] + 350), mediumText2, white)
 
 
     #Write images to buffer

@@ -260,7 +260,7 @@ faucet = Appliance(faucet_info)
 #Start Menu for Game
 def game_intro(surface):
     #Button Dimensions
-    button_w = 750; button_h = 250
+    button_w = 1.3*750/2; button_h = 1.3*250/2
     button_x = (window_size[0] - button_w)/2; help_button_y = 3/6*window_size[1]
     button_spacing = 237 / 2   #spacing between buttons in px
     play_button_y = 2/6*window_size[1]

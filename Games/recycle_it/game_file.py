@@ -95,7 +95,7 @@ num_of_each = 3
 # Player + Starting Coordinates
 playerImg = pygame.image.load('character_bin.png')
 playerX = window[0]/2
-playerY = window[1]/2
+playerY = 3*window[1]/4
 playerX_change = 0
 
 # enemy -- non-recyclables
@@ -246,7 +246,7 @@ def game_won(pts):
     pause = True
     while pause:
         screen.fill((255, 255, 255))
-        screen.blit(game_wn, (0, window[1])/4)
+        screen.blit(game_wn, (50, window[1]/4))
         show_score(pts, window[0]/2 - 70, 2*window[1]/3)
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
@@ -259,8 +259,8 @@ def game_won(pts):
                 if event.key == pygame.K_SPACE:
                     pts = 0
                     game(playerX, points_value, playerX_change, milliseconds, seconds, level)
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    level_select()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                level_select(level)
         pygame.display.update()
 
 
@@ -281,7 +281,7 @@ def game_lost(pts):
     pause = True
     while pause:
         screen.fill((255, 255, 255))
-        screen.blit(game_lst, (0, window[1]/4))
+        screen.blit(game_lst, (50, window[1]/4))
         show_score(pts, window[0]/2 - 70, 2*window[1]/3)
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
@@ -294,8 +294,8 @@ def game_lost(pts):
                 if event.key == pygame.K_SPACE:
                     pts = 0
                     game(playerX, points_value, playerX_change, milliseconds, seconds, level)
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    level_select()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                level_select(level)
         pygame.display.update()
 
 
@@ -600,7 +600,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 del goodY_change[i]
                 del goodImg[i]
                 i -= 1
-            elif goodY[i] > window[1]/2 + 50:
+            elif goodY[i] > 3*window[1]/4 + 50:
                 del goodX[i]
                 del goodY[i]
                 del goodY_change[i]
@@ -635,7 +635,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 del enemyImg[i]
                 i -= 1
 
-            elif enemyY[i]> window[1]/2 + 50:
+            elif enemyY[i]> 3*window[1]/4 + 50:
                 del enemyX[i]
                 del enemyY[i]
                 del enemyY_change[i]
@@ -698,7 +698,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
         if milliseconds > 1000:
             seconds += 1
             milliseconds -= 1000
-        if seconds == 60:
+        if seconds == 5:
             game_over(pts)
 
         milliseconds += clock.tick_busy_loop(60)

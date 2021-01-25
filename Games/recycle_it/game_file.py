@@ -19,29 +19,47 @@ active_head = 0
 active_face = 0
 
 # Screen Size (x,y)
-window = (926, 634)
+window = (1080, 1920)
 screen = pygame.display.set_mode(window)
 
 # Background
 background = pygame.image.load('gamebkg.png')
+background = pygame.transform.scale(background, (window[0], window[1]//2))
 game_lst = pygame.image.load('gameLostBkg.png')
+game_1st = pygame.transform.scale(game_lst, (window[0], window[1]//2))
 game_wn = pygame.image.load('gameWonBkg.png')
+game_wn = pygame.transform.scale(game_wn, (window[0], window[1]//2))
 menu = pygame.image.load('menubkg.png')
+menu = pygame.transform.scale(menu, (window[0], window[1]//2))
+menuForHelps = pygame.transform.scale(menu, (1080,590))
 helps = pygame.image.load('helpbkg.png')
+helps = pygame.transform.scale(helps, (1080, 740))
 
 # Buttons
 playb = pygame.image.load('play.png')
+playb = pygame.transform.scale(playb, (700,222))
 helpb = pygame.image.load('help.png')
+helpb = pygame.transform.scale(helpb, (700,222))
 exitb = pygame.image.load('exit.png')
+exitb = pygame.transform.scale(exitb, (700,222))
 lvl1 = pygame.image.load('lvl1.png')
+lvl1 = pygame.transform.scale(lvl1, (700,222))
 lvl2 = pygame.image.load('lvl2.png')
+lvl2 = pygame.transform.scale(lvl2, (700,222))
 lvl3 = pygame.image.load('lvl3.png')
+lvl3 = pygame.transform.scale(lvl3, (700,222))
 invplayb = pygame.image.load('invplay.png')
+invplayb = pygame.transform.scale(invplayb, (700,222))
 invhelpb = pygame.image.load('invhelp.png')
+invhelpb = pygame.transform.scale(invhelpb, (700,222))
 invexitb = pygame.image.load('invexit.png')
+invexitb = pygame.transform.scale(invexitb, (700,222))
 invlvl1 = pygame.image.load('invlvl1.png')
+invlvl1 = pygame.transform.scale(invlvl1, (700,222))
 invlvl2 = pygame.image.load('invlvl2.png')
+invlvl2 = pygame.transform.scale(invlvl2, (700,222))
 invlvl3 = pygame.image.load('invlvl3.png')
+invlvl3 = pygame.transform.scale(invlvl3, (700,222))
 
 
 # Background Music
@@ -55,6 +73,18 @@ pygame.display.set_icon(icon)
 
 # Score
 points_value = 0
+largeText = pygame.font.Font('Bubblegum.ttf', 100)   #Large text, ideal for headings
+mediumText = pygame.font.Font('Bubblegum.ttf', 48)   #Medium text, ideal for subheadings
+mediumText2 = pygame.font.Font('Bubblegum.ttf', 24)
+smallText =  pygame.font.Font('Bubblegum.ttf', 16)   #Small text, ideal for small buttons
+black = (0, 0, 0)
+white = (255, 255, 255)
+red = (255, 0, 0)
+darker_red = (200, 0, 0)
+green = (0, 255, 0)
+darker_green = (0, 200, 0)
+blue = (50, 89, 250)
+darker_blue = (35, 67, 250)
 font = pygame.font.Font('Bubblegum.ttf', 32)
 textX = 10
 textY = 10
@@ -64,8 +94,8 @@ num_of_each = 3
 
 # Player + Starting Coordinates
 playerImg = pygame.image.load('character_bin.png')
-playerX = 463
-playerY = 550
+playerX = window[0]/2
+playerY = window[1]/2
 playerX_change = 0
 
 # enemy -- non-recyclables
@@ -216,20 +246,23 @@ def game_won(pts):
     pause = True
     while pause:
         screen.fill((255, 255, 255))
-        screen.blit(game_wn, (0, 0))
-        show_score(pts, 410, 200)
+        screen.blit(game_wn, (0, window[1])/4)
+        show_score(pts, window[0]/2 - 70, 2*window[1]/3)
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_ESCAPE or event.type == pygame.MOUSEBUTTONDOWN:
                     level_select(level)
                 if event.key == pygame.K_SPACE:
                     pts = 0
                     game(playerX, points_value, playerX_change, milliseconds, seconds, level)
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    level_select()
         pygame.display.update()
+
 
 
 def game_lost(pts):
@@ -248,8 +281,8 @@ def game_lost(pts):
     pause = True
     while pause:
         screen.fill((255, 255, 255))
-        screen.blit(game_lst, (0, 0))
-        show_score(pts, 410, 250)
+        screen.blit(game_lst, (0, window[1]/4))
+        show_score(pts, window[0]/2 - 70, 2*window[1]/3)
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
@@ -261,6 +294,8 @@ def game_lost(pts):
                 if event.key == pygame.K_SPACE:
                     pts = 0
                     game(playerX, points_value, playerX_change, milliseconds, seconds, level)
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    level_select()
         pygame.display.update()
 
 
@@ -268,10 +303,14 @@ def intro():
     bmenu = True
     screen.fill((255, 255, 255))
     screen.blit(menu, (0, 0))
+    screen.blit(menu, (0,window[1]/2))
     # controller.face_update(4)  # HEEEEEEEEEEEEEERRRREEEEEEEEEEEEE
-    playbutton = Button(invplayb, playb, (360, 80, 220, 70))
-    helpbutton = Button(invhelpb, helpb, (360, 170, 220, 70))
-    quitbutton = Button(invexitb, exitb, (360, 260, 220, 70))
+    playbutton = Button(invplayb, playb, (window[0]/2 - 750/2, window[1]/4, 750, 222))
+    helpbutton = Button(invhelpb, helpb, (window[0]/2 - 750/2,  window[1]/2, 750, 222))
+    quitbutton = Button(invexitb, exitb, (window[0]/2 - 750/2,  3*window[1]/4, 750, 222))
+    TextSurf, TextRect = text_objects("Recycle It!", largeText, blue)
+    TextRect.center = (window[0]/2,190)
+    screen.blit(TextSurf,TextRect)
     while bmenu:
 
         playbutton.generate()
@@ -307,9 +346,9 @@ def ready():
     message = ["Ready ", "Ready. ", "Ready.. ", "Ready... ", "Set ", "Set. ", "Set.. ", "Set... ", "GO! " ]
     for i in range(9):
         screen.fill((255, 255, 255))
-        screen.blit(background, (0, 0))
+        screen.blit(background, (-50, window[1]/4))
         ready = font.render(message[i], True, (0, 0, 0))
-        screen.blit(ready, (window[0]/2, window[1]/2))
+        screen.blit(ready, (window[0]/2 - 50, window[1]/2))
         pygame.display.update()
         pygame.time.delay(750)
 
@@ -321,7 +360,9 @@ def help_screen():
     bhelp = True
     while bhelp:
         screen.fill((255, 255, 255))
-        screen.blit(helps, (0, 0))
+        screen.blit(menuForHelps, (0,0))
+        screen.blit(helps, (0, 590))
+        screen.blit(menuForHelps, (0,1330))
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
@@ -337,12 +378,15 @@ def help_screen():
 def level_select(lvl):
     pygame.time.delay(750)
     bmenu = True
-    screen.fill((0, 0, 0))
+    screen.fill((255, 255, 255))
     screen.blit(menu, (0, 0))
-    lvl1b = Button(invlvl1, lvl1, (360, 80, 220, 70))
-    lvl2b = Button(invlvl2, lvl2, (360, 170, 220, 70))
-    lvl3b = Button(invlvl3, lvl3, (360, 260, 220, 70))
-
+    screen.blit(menu, (0,window[1]/2))
+    lvl1b = Button(invlvl1, lvl1, (window[0]/2 - 750/2, window[1]/4, 700, 222))
+    lvl2b = Button(invlvl2, lvl2, (window[0]/2 - 750/2, window[1]/2, 700, 222))
+    lvl3b = Button(invlvl3, lvl3, (window[0]/2 - 750/2, 3*window[1]/4, 700, 222))
+    TextSurf, TextRect = text_objects("Select a Level", largeText, blue)
+    TextRect.center = (window[0]/2,190)
+    screen.blit(TextSurf,TextRect)
     while bmenu:
         lvl1b.generate()
         lvl2b.generate()
@@ -409,7 +453,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
         screen.fill((255, 255, 255))
 
         # setting background
-        screen.blit(background, (0, 0))
+        screen.blit(background, (-50, window[1]/4))
 
         # Checking for events (keypress)
         #for event in pygame.event.get():
@@ -418,13 +462,22 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
             # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
 
         # changes X position of player character
-        keys_pressed = pygame.key.get_pressed()
-        mousepos = pygame.mouse.get_pos()
+
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-
+            keys_pressed = pygame.key.get_pressed()
+            mousepos = pygame.mouse.get_pos()
+            if keys_pressed[pygame.K_LEFT] and keys_pressed[pygame.K_RIGHT]:
+                playerX_change = 0
+            elif keys_pressed[pygame.K_LEFT] :
+                playerX_change = -5
+            elif keys_pressed[pygame.K_RIGHT]:
+                playerX_change = 5
+            elif event.type != pygame.MOUSEBUTTONDOWN:
+                playerX_change = 0
             if event.type == pygame.MOUSEBUTTONDOWN:
 
         #print(mousepos[0], " ", window[0])
@@ -432,25 +485,12 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                     playerX_change = -5
                 elif mousepos[0] >= window[0]/2:
                     playerX_change = 5
-                else:
-                    playerX_change = 0
-            else:
-                playerX_change = 0
 
-        tplayerX_change = 0
-        if keys_pressed[pygame.K_LEFT] and keys_pressed[pygame.K_RIGHT]:
-            tplayerX_change = 0
-        elif keys_pressed[pygame.K_LEFT] :
-            tplayerX_change = -5
-        elif keys_pressed[pygame.K_RIGHT]:
-            tplayerX_change = 5
-        else:
-            tplayerX_change = 0
+
+
 
         if keys_pressed[pygame.K_ESCAPE]:
                 level_select(level)
-        if(tplayerX_change != 0):
-            playerX_change = tplayerX_change
 
         playerX += playerX_change
         caphold = 76
@@ -560,7 +600,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 del goodY_change[i]
                 del goodImg[i]
                 i -= 1
-            elif goodY[i] > 600:
+            elif goodY[i] > window[1]/2 + 50:
                 del goodX[i]
                 del goodY[i]
                 del goodY_change[i]
@@ -595,7 +635,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 del enemyImg[i]
                 i -= 1
 
-            elif enemyY[i] > 600:
+            elif enemyY[i]> window[1]/2 + 50:
                 del enemyX[i]
                 del enemyY[i]
                 del enemyY_change[i]

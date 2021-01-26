@@ -32,10 +32,12 @@ game_wn = pygame.transform.scale(game_wn, (window[0], window[1]//2))
 menu = pygame.image.load('menubkg.png')
 menu = pygame.transform.scale(menu, (window[0], window[1]//2))
 menuForHelps = pygame.transform.scale(menu, (1080,590))
-helps = pygame.image.load('helpbkg.png')
+helps = pygame.image.load('newhelpbkg.png')
 helps = pygame.transform.scale(helps, (1080, 740))
 
 # Buttons
+Back_Arrow = pygame.image.load('Back_Arrow.png')
+Back_Arrow = pygame.transform.scale(Back_Arrow, (100,70))
 playb = pygame.image.load('play.png')
 playb = pygame.transform.scale(playb, (700,222))
 helpb = pygame.image.load('help.png')
@@ -244,10 +246,14 @@ def game_won(pts):
     mixer.music.load('game_won.wav')
     mixer.music.play()
     pause = True
+    back = Button(Back_Arrow, Back_Arrow, (20, 20, 750, 222))
     while pause:
         screen.fill((255, 255, 255))
+
         screen.blit(game_wn, (50, window[1]/4))
         show_score(pts, window[0]/2 - 70, 2*window[1]/3)
+        back.generate()
+        pygame.display.update()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
@@ -260,8 +266,10 @@ def game_won(pts):
                     pts = 0
                     game(playerX, points_value, playerX_change, milliseconds, seconds, level)
             if event.type == pygame.MOUSEBUTTONDOWN:
-                level_select(level)
-        pygame.display.update()
+                touch_status = True
+                if(back.is_pressed(touch_status)):
+                    intro()
+        
 
 
 
@@ -275,7 +283,7 @@ def game_lost(pts):
     # rotate=threading.Thread(target=rotate_head, args=(False, [45, 135, 90]))
     # rotate.start()
 
-
+    back = Button(Back_Arrow, Back_Arrow, (20, 20, 750, 222))
     mixer.music.load('game_lose.wav')
     mixer.music.play()
     pause = True
@@ -283,6 +291,10 @@ def game_lost(pts):
         screen.fill((255, 255, 255))
         screen.blit(game_lst, (50, window[1]/4))
         show_score(pts, window[0]/2 - 70, 2*window[1]/3)
+
+        back.generate()
+
+        pygame.display.update()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
@@ -295,7 +307,10 @@ def game_lost(pts):
                     pts = 0
                     game(playerX, points_value, playerX_change, milliseconds, seconds, level)
             if event.type == pygame.MOUSEBUTTONDOWN:
-                level_select(level)
+                touch_status = True
+                if(back.is_pressed(touch_status)):
+                    intro()
+
         pygame.display.update()
 
 
@@ -357,14 +372,21 @@ def ready():
 
 
 def help_screen():
+
     bhelp = True
+    back = Button(Back_Arrow, Back_Arrow, (20, 20, 750, 222))
     while bhelp:
         screen.fill((255, 255, 255))
         screen.blit(menuForHelps, (0,0))
         screen.blit(helps, (0, 590))
         screen.blit(menuForHelps, (0,1330))
+        back.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                touch_status = True
+                if(back.is_pressed(touch_status)):
+                    intro()
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
@@ -384,6 +406,7 @@ def level_select(lvl):
     lvl1b = Button(invlvl1, lvl1, (window[0]/2 - 750/2, window[1]/4, 700, 222))
     lvl2b = Button(invlvl2, lvl2, (window[0]/2 - 750/2, window[1]/2, 700, 222))
     lvl3b = Button(invlvl3, lvl3, (window[0]/2 - 750/2, 3*window[1]/4, 700, 222))
+    back = Button(Back_Arrow, Back_Arrow, (20, 20, 750, 222))
     TextSurf, TextRect = text_objects("Select a Level", largeText, blue)
     TextRect.center = (window[0]/2,190)
     screen.blit(TextSurf,TextRect)
@@ -391,6 +414,7 @@ def level_select(lvl):
         lvl1b.generate()
         lvl2b.generate()
         lvl3b.generate()
+        back.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
@@ -407,7 +431,8 @@ def level_select(lvl):
                     game(playerX, points_value, playerX_change, milliseconds, seconds, 1)
                 if(lvl3b.is_pressed(touch_status)):
                     game(playerX, points_value, playerX_change, milliseconds, seconds, 2)
-
+                if(back.is_pressed(touch_status)):
+                    intro()
 
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
@@ -425,6 +450,7 @@ def level_select(lvl):
 
 # Game Loop
 def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
+    back = Button(Back_Arrow, Back_Arrow, (20, 20, 750, 222))
     mixer.music.load('backgroundmsc.wav')
     mixer.music.play(-1)
     ready()
@@ -450,8 +476,9 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
     enemyY_change = []
     while bgame:
         # RGB Screen Fill - Red, Green, Blue
+        back.generate()
         screen.fill((255, 255, 255))
-
+        show_score(pts, textX, 100)
         # setting background
         screen.blit(background, (-50, window[1]/4))
 
@@ -478,6 +505,10 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 playerX_change = 5
             elif event.type != pygame.MOUSEBUTTONDOWN:
                 playerX_change = 0
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                touch_status = True
+                if(back.is_pressed(touch_status)):
+                    level_select(level)
             if event.type == pygame.MOUSEBUTTONDOWN:
 
         #print(mousepos[0], " ", window[0])
@@ -691,8 +722,9 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
 
         # Creating Player Object
         screen.blit(playerImg, (playerX, playerY))
+        back.generate()
         # Show Score Function
-        show_score(pts, textX, textY)
+        show_score(pts, textX, 100)
 
         # Timer
         if milliseconds > 1000:

@@ -458,8 +458,8 @@ def game_intro(surface):
 
 
     #Instantiate buttons (Only needs to be done once)
-    help_button = Button(surface, darker_blue, blue, (button_x, button_y, button_w, button_h), 'Help', mediumText)
-    play_button = Button(surface, darker_green, green, (button_x, button_y + button_spacing, button_w, button_h), 'Play', mediumText)
+    play_button = Button(surface, darker_green, green, (button_x, button_y, button_w, button_h), 'Play', mediumText)
+    help_button = Button(surface, darker_blue, blue, (button_x, button_y + button_spacing, button_w, button_h), 'Help', mediumText)
     quit_button = Button(surface, darker_red, red, (button_x, button_y + (2*button_spacing), button_w, button_h), 'Quit', mediumText)
 
     #Portion of the screen that must ONLY be updated

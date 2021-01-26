@@ -269,7 +269,7 @@ def game_won(pts):
                 touch_status = True
                 if(back.is_pressed(touch_status)):
                     intro()
-        
+
 
 
 
@@ -455,9 +455,9 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
     mixer.music.play(-1)
     ready()
     if(lvl == 1):
-        fallspeed = 3
+        fallspeed = 5
     else:
-        fallspeed = 2
+        fallspeed = 4
     bgame = True
     num_of_each = 3
     if(lvl == 2):
@@ -730,7 +730,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
         if milliseconds > 1000:
             seconds += 1
             milliseconds -= 1000
-        if seconds == 5:
+        if seconds == 60:
             game_over(pts)
 
         milliseconds += clock.tick_busy_loop(60)

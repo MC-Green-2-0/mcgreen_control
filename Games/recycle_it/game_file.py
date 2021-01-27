@@ -487,6 +487,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
     rMove.generate()
     move_speed = 10
     screen.fill((255, 255, 255))
+    clock.tick_busy_loop(60)
     while bgame:
         # RGB Screen Fill - Red, Green, Blue
 
@@ -753,11 +754,16 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
         if seconds == 60:
             game_over(pts)
 
-        milliseconds += 25
-        clock.tick_busy_loop(40)
+        print(seconds)
+        #print(clock.tick_busy_loop(40))
+        #if(clock.tick_busy_loop(40) > 1000):
+        #    milliseconds += 50
+        #else:
+        #clock.tick_busy_loop(60)
+        milliseconds += clock.tick_busy_loop(60)
         new = pygame.time.get_ticks()
         dif = new - old
-        print(dif)
+        #print(dif)
         old = pygame.time.get_ticks()
 
 intro()

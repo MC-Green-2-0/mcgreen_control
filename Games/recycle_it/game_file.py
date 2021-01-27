@@ -515,8 +515,8 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 playerX_change = -5
             elif keys_pressed[pygame.K_RIGHT]:
                 playerX_change = 5
-            elif event.type != pygame.MOUSEBUTTONDOWN:
-                playerX_change = 0
+        #    elif event.type != pygame.MOUSEBUTTONDOWN:
+        #        playerX_change = 0
             if event.type == pygame.MOUSEBUTTONDOWN:
                 touch_status = True
                 if(back.is_pressed(touch_status)):

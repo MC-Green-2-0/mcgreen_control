@@ -5,6 +5,35 @@ import sys
 import random
 import threading
 
+class Button:
+    def __init__ (self, ac, ic, rectVals):
+        self.ac = ac #Active color of button
+        self.ic = ic #Inactive color of button
+        self.rectAttrs = rectVals #(x, y, w, h) of button
+    def generate(self):
+        x, y, w, h = self.rectAttrs
+        mouse = pygame.mouse.get_pos()
+        #Check if mouse is on button
+        if x + w > mouse[0] > x and y + h > mouse[1] > y:
+            screen.blit(self.ac, (self.rectAttrs[0], self.rectAttrs[1]))
+        #Else just show darker button
+        else:
+            screen.blit(self.ic, (self.rectAttrs[0], self.rectAttrs[1]))
+        pygame.display.update()
+    def is_pressed(self, touch_status):
+        x, y, w, h = self.rectAttrs
+        mouse = pygame.mouse.get_pos()
+        #Check if mouse is hovering over button or not
+        if x + w > mouse[0] > x and y + h > mouse[1] > y:
+            if touch_status == True:
+                #print('CLICK DETECTED')
+                return True
+            elif touch_status == False:
+                return False
+        #If mouse is not hovering over button, button must obviously not be pressed
+        else:
+            return False
+
 class Level:
     def __init__(self):
         self.background = None
@@ -37,9 +66,16 @@ class Level:
         hint = font.render(" ", True, (0, 0, 0))
         mixer.music.load('backgroundmsc.wav')
         mixer.music.play(-1)
+        back = Button(Back_Arrow, Back_Arrow, (10, 10, 100, 80))
+
+        back.generate()
+
+        pygame.display.update()
 
         while True:
+
             screen.blit(self.background, (0, 0))
+            screen.blit(Back_Arrow, (10, 10))
             screen.blit(hint, (50,25))
             mouse = pygame.mouse.get_pos()
             click = pygame.mouse.get_pressed()
@@ -51,13 +87,19 @@ class Level:
                     pygame.quit()
                     quit()
                 # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
+                #if event.type == pygame.KEYDOWN:
+                #    if event.key == pygame.K_ESCAPE:
+                #        level_select()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if back.is_pressed(True):
                         level_select()
 
             for num, object in enumerate(self.objs):
                 screen.blit(object[0 + self.flipped[num]], (object[2], object[3]))
                 if object[-4] > mouse[0] > object[-3] and object[-2] > mouse[1] > object[-1] and click[0] == 1:
+                    #screen.blit(self.background, (0, 0))
+                    #back.generate()
+                    pygame.display.update(pygame.Rect(object[-3], object[-1], object[-4]-object[-3], object[-2]-object[-1]))
                     self.flipped[num] = 1
 
             else:
@@ -78,7 +120,7 @@ class Level:
                     seconds_elapsed = (pygame.time.get_ticks()-start_tick)//1000
                     time_left = time-seconds_elapsed
                     time_text = font.render(str(time_left), True, (0, 0, 0))
-                    screen.blit(time_text, (25, 50))
+                    screen.blit(time_text, (40, 80))
                     if time_left <= 0:
                         gamelose()
 
@@ -106,6 +148,8 @@ mediumText = pygame.font.Font('FreeSansBold.ttf', 48)   #Medium text, ideal for 
 smallText =  pygame.font.Font('FreeSansBold.ttf', 14)   #Small text, ideal for small buttons
 
 # backgrounds
+Back_Arrow = pygame.image.load('Back_Arrow.png')
+Back_Arrow = pygame.transform.scale(Back_Arrow, (100,70))
 classroomlvl = pygame.image.load('classroomlvl.png')
 kitchenlvl = pygame.image.load('kitchenlvl.png')
 bedroomlvl = pygame.image.load('bedroomlvl.png')
@@ -220,26 +264,32 @@ def intro():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+
+            if event.type == pygame.MOUSEBUTTONUP:
+                if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
+                    level_select()
+                elif 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
+                    help_screen()
+                elif 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
+                    pygame.quit()
+                    quit()
+
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         print(click)
         if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
             screen.blit(invplayb, (360, 80))
-            if click[0] == 1:
-                level_select()
         else:
             screen.blit(playb, (360, 80))
+
         if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
             screen.blit(invhelpb, (360, 170))
-            if click[0] == 1:
-                help_screen()
         else:
             screen.blit(helpb, (360, 170))
+
         if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
             screen.blit(invexitb, (360, 260))
-            if click[0] == 1:
-                pygame.quit()
-                quit()
+
         else:
             screen.blit(exitb, (360, 260))
 
@@ -250,7 +300,7 @@ def help_screen():
     mixer.music.load('backgroundmsc.wav')
     mixer.music.play(-1)
     bhelp = True
-
+    back = Button(Back_Arrow, Back_Arrow, (10, 10, 100, 80))
     while bhelp:
 
         screen.fill((255, 255, 255))
@@ -283,6 +333,8 @@ def help_screen():
         #help_message = font.render("The goal of this game is to make the room more environmentally efficient. Click items that you think need to be improved. If you are lost or would like guidance press the question mark button in the top right. Once you complete the game, press escape to play again. ", True, (0, 0, 255))
         '''
         #screen.blit(help_message, (0, 0))
+        back.generate()
+        pygame.display.update()
 
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
@@ -290,17 +342,21 @@ def help_screen():
                 pygame.quit()
                 quit()
             # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                touch_status = True
+                if(back.is_pressed(touch_status)):
                     intro()
         pygame.display.update()
 
 
 def level_select():
-    pygame.time.delay(750)
+    #pygame.time.delay(720)
     bmenu = True
     mixer.music.load('backgroundmsc.wav')
     mixer.music.play(-1)
+    back = Button(Back_Arrow, Back_Arrow, (10, 10, 100, 80))
+    back.generate()
+    pygame.display.update()
     while bmenu:
         screen.fill((255, 255, 255))
         screen.blit(menu, (0, 0))
@@ -309,9 +365,10 @@ def level_select():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if back.is_pressed(True):
                     intro()
+
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
@@ -332,11 +389,15 @@ def level_select():
                 level3.run()
         else:
             screen.blit(lvl3, (360, 260))
+        back.generate()
+
+
+
         pygame.display.update()
 
 
 def gamewin():
-    face = random.randint(1, 3)  # HEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRREEEEEEEEEEEEEE
+    #face = random.randint(1, 3)  # HEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRREEEEEEEEEEEEEE
     #controller.face_update(face)
     # These commands won't over write themselves right? like if i say these three in a row
     # it'll hit all of the positions before going back to [90,90]?
@@ -348,17 +409,25 @@ def gamewin():
     bgame = True
     mixer.music.load('game_won.wav')
     mixer.music.play()
+    back = Button(Back_Arrow, Back_Arrow, (10, 10, 100, 80))
+
+    pygame.display.update()
     while bgame:
+        #pygame.time.delay(60)
         screen.fill((255, 255, 255))
         screen.blit(gamewon, (0,0))
+        back.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if back.is_pressed(True):
                     level_select()
+            #if event.type == pygame.KEYDOWN:
+            #    if event.key == pygame.K_ESCAPE:
+            #        level_select()
         pygame.display.update()
         #test
 
@@ -382,9 +451,12 @@ def gamelose():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    level_select()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                time.sleep(1)
+                level_select()
+            #if event.type == pygame.KEYDOWN:
+            #    if event.key == pygame.K_ESCAPE:
+            #        level_select()
         pygame.display.update()
 
 intro()

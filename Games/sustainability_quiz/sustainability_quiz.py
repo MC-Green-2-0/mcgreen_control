@@ -176,17 +176,17 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
 
     #Textwrap the Question if needed
     q_text = question.split('||')
-    QuestionSurf, QuestionRect = text_objects(q_text[0], mediumText, yellow)
+    QuestionSurf, QuestionRect = text_objects(q_text[0], mediumText, white)
     QuestionRect.center = ((window_size[0] / 2), (window_size[1] / 8))
     if '||' in question:
-        QuestionPart2Surf, QuestionPart2Rect = text_objects(q_text[1], mediumText, yellow)
+        QuestionPart2Surf, QuestionPart2Rect = text_objects(q_text[1], mediumText, white)
         QuestionPart2Rect.center = ((window_size[0] / 2), (window_size[1] / 8) + line_spacing)
 
 
 
     #Prepare question text and location
 
-    ScoreSurf, ScoreRect = text_objects('Score: ' + str(status[0]) + ' points', mediumText, yellow)
+    ScoreSurf, ScoreRect = text_objects('Score: ' + str(status[0]) + ' points', mediumText, white)
     #ScoreRect.center = ((0.20 * window_size[0]), (window_size[1] / 16))
     ScoreRect.topleft = ((0.15 * window_size[0]), (window_size[1] / 16))
 

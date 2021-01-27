@@ -26,9 +26,9 @@ screen = pygame.display.set_mode(window)
 background = pygame.image.load('gamebkg.png')
 background = pygame.transform.scale(background, (window[0], window[1]//2))
 game_lst = pygame.image.load('gameLostBkg.png')
-game_1st = pygame.transform.scale(game_lst, (window[0], window[1]//2))
+#game_1st = pygame.transform.scale(game_lst, (window[0], window[1]//2))
 game_wn = pygame.image.load('gameWonBkg.png')
-game_wn = pygame.transform.scale(game_wn, (window[0], window[1]//2))
+#game_wn = pygame.transform.scale(game_wn, (window[0], window[1]//2))
 menu = pygame.image.load('menubkg.png')
 menu = pygame.transform.scale(menu, (window[0], window[1]//2))
 menuForHelps = pygame.transform.scale(menu, (1080,590))
@@ -93,7 +93,7 @@ textX = 10
 textY = 10
 
 # Number of enemies and good objects at any given time
-num_of_each = 3
+num_of_each = 5
 
 # Player + Starting Coordinates
 playerImg = pygame.image.load('character_bin.png')
@@ -464,9 +464,9 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
     mixer.music.play(-1)
 
     if(lvl == 1):
-        fallspeed = 6
+        fallspeed = 8
     else:
-        fallspeed = 5
+        fallspeed = 7
     bgame = True
     num_of_each = 3
     if(lvl == 2):

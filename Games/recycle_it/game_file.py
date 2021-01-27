@@ -552,7 +552,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
             if goodSelect == 4:
                 goodImg.append(pygame.image.load('plastic2.png'))
             # random spawn of good object
-            goodX.append(random.randint(0, 862))
+            goodX.append(random.randint(0, window[0] - 64))
             goodY.append(random.randint(0, 200) - 300)
             # speed of fall
             goodY_change.append(fallspeed)
@@ -576,7 +576,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
             if enemySelect == 7:
                 enemyImg.append(pygame.image.load('bag.png'))
             # random spawn location of enemy
-            enemyX.append(random.randint(0, 862))
+            enemyX.append(random.randint(0, window[0] - 64))
             enemyY.append(random.randint(0, 200) - 300)
             # speed of fall
             enemyY_change.append(fallspeed)
@@ -602,7 +602,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 if goodSelect == 6:
                     neutImg.append(pygame.image.load('tire.png'))
                 # random spawn of good object
-                neutX.append(random.randint(0, 862))
+                neutX.append(random.randint(0, window[0] - 64))
                 neutY.append(random.randint(0, 200) - 300)
                 # speed of fall
                 neutY_change.append(fallspeed)
@@ -730,8 +730,8 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
         # Setting Boundaries for Recycle Bin --> Doesn't go out of game window
         if playerX <= 0:
             playerX = 0
-        elif playerX >= 862:
-            playerX = 862
+        elif playerX >= window[0] - 64:
+            playerX = window[0] - 64
 
         # Creating Player Object
         screen.blit(playerImg, (playerX, playerY))

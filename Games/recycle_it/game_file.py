@@ -38,6 +38,7 @@ helps = pygame.transform.scale(helps, (1080, 740))
 # Buttons
 Back_Arrow = pygame.image.load('Back_Arrow.png')
 Back_Arrow = pygame.transform.scale(Back_Arrow, (100,70))
+empty = pygame.image.load('Empty.png')
 playb = pygame.image.load('play.png')
 playb = pygame.transform.scale(playb, (700,222))
 helpb = pygame.image.load('help.png')
@@ -456,16 +457,16 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
     old = 0
     seconds = 0
     milliseconds = 0
-    lMove = Button(Back_Arrow, Back_Arrow, (0,0, window[0]/2, window[1]))
-    rMove = Button(Back_Arrow, Back_Arrow, (window[0]/2,0, window[0]/2, window[1]))
+    lMove = Button(empty, empty, (0,0, window[0]/2, window[1]))
+    rMove = Button(empty, empty, (window[0]/2,0, window[0]/2, window[1]))
     back = Button(Back_Arrow, Back_Arrow, (20, 20, 100, 70))
     mixer.music.load('backgroundmsc.wav')
     mixer.music.play(-1)
 
     if(lvl == 1):
-        fallspeed = 5
+        fallspeed = 6
     else:
-        fallspeed = 4
+        fallspeed = 5
     bgame = True
     num_of_each = 3
     if(lvl == 2):
@@ -484,6 +485,8 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
     enemyY_change = []
     lMove.generate()
     rMove.generate()
+    move_speed = 10
+    screen.fill((255, 255, 255))
     while bgame:
         # RGB Screen Fill - Red, Green, Blue
 
@@ -512,9 +515,9 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
             if keys_pressed[pygame.K_LEFT] and keys_pressed[pygame.K_RIGHT]:
                 playerX_change = 0
             elif keys_pressed[pygame.K_LEFT] :
-                playerX_change = -5
+                playerX_change = -move_speed
             elif keys_pressed[pygame.K_RIGHT]:
-                playerX_change = 5
+                playerX_change = move_speed
         #    elif event.type != pygame.MOUSEBUTTONDOWN:
         #        playerX_change = 0
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -525,9 +528,9 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
 
 
                 if (lMove.is_pressed(touch_status)):
-                    playerX_change = -5
+                    playerX_change = -move_speed
                 elif (rMove.is_pressed(touch_status)):
-                    playerX_change = 5
+                    playerX_change = move_speed
             if event.type == pygame.MOUSEBUTTONUP:
                 playerX_change = 0
 

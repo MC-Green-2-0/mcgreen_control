@@ -247,7 +247,7 @@ def game_won(pts):
     mixer.music.load('game_won.wav')
     mixer.music.play()
     pause = True
-    back = Button(Back_Arrow, Back_Arrow, (20, 20, 750, 222))
+    back = Button(Back_Arrow, Back_Arrow, (20, 20, 100, 70))
     while pause:
         screen.fill((255, 255, 255))
 
@@ -284,7 +284,7 @@ def game_lost(pts):
     # rotate=threading.Thread(target=rotate_head, args=(False, [45, 135, 90]))
     # rotate.start()
 
-    back = Button(Back_Arrow, Back_Arrow, (20, 20, 750, 222))
+    back = Button(Back_Arrow, Back_Arrow, (20, 20, 100, 70))
     mixer.music.load('game_lose.wav')
     mixer.music.play()
     pause = True
@@ -375,7 +375,7 @@ def ready():
 def help_screen():
 
     bhelp = True
-    back = Button(Back_Arrow, Back_Arrow, (20, 20, 750, 222))
+    back = Button(Back_Arrow, Back_Arrow, (20, 20, 100, 70))
     while bhelp:
         screen.fill((255, 255, 255))
         screen.blit(menuForHelps, (0,0))
@@ -407,7 +407,7 @@ def level_select(lvl):
     lvl1b = Button(invlvl1, lvl1, (window[0]/2 - 750/2, window[1]/4, 700, 222))
     lvl2b = Button(invlvl2, lvl2, (window[0]/2 - 750/2, window[1]/2, 700, 222))
     lvl3b = Button(invlvl3, lvl3, (window[0]/2 - 750/2, 3*window[1]/4, 700, 222))
-    back = Button(Back_Arrow, Back_Arrow, (20, 20, 750, 222))
+    back = Button(Back_Arrow, Back_Arrow, (20, 20, 100, 70))
     TextSurf, TextRect = text_objects("Select a Level", largeText, blue)
     TextRect.center = (window[0]/2,190)
     screen.blit(TextSurf,TextRect)

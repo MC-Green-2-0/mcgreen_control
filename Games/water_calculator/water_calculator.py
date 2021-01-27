@@ -355,14 +355,20 @@ def game_help(surface):
     Line1Surf, Line1Rect = text_objects('1.) Select a button under an appliance to', mediumText, white)
     Line1Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 150)
 
-    Line12Surf, Line12Rect = text_objects('set its value', mediumText, white)
+    Line12Surf, Line12Rect = text_objects('set how many times you use it', mediumText, white)
     Line12Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 200)
 
-    Line2Surf, Line2Rect = text_objects('2.) After you are done, tap the \'Back\'', mediumText, white)
-    Line2Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 150 + (2 * line_spacing))
+    Line3Surf, Line3Rect = text_objects('2.) Hit tips to see how you can improve', mediumText, white)
+    Line3Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 150 + (2 * line_spacing))
+
+    Line32Surf, Line32Rect = text_objects('your water usage', mediumText, white)
+    Line32Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 150 + (2 * line_spacing) + 50)
+
+    Line2Surf, Line2Rect = text_objects('3.) After you are done, tap the \'Back\'', mediumText, white)
+    Line2Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 150 + (4 * line_spacing))
 
     Line22Surf, Line22Rect = text_objects('button to return to the main screen', mediumText, white)
-    Line22Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 150 + (2 * line_spacing) + 50)
+    Line22Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + 150 + (4 * line_spacing) + 50)
 
     #Make entire screen white to clean it
     surface.fill(white)
@@ -374,6 +380,8 @@ def game_help(surface):
     surface.blit(TextSurf, TextRect)
     surface.blit(Line1Surf, Line1Rect)
     surface.blit(Line12Surf, Line12Rect)
+    surface.blit(Line3Surf, Line3Rect)
+    surface.blit(Line32Surf, Line32Rect)
     surface.blit(Line2Surf, Line2Rect)
     surface.blit(Line22Surf, Line22Rect)
     #Update ENTIRE screen just once

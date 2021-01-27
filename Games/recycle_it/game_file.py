@@ -269,7 +269,7 @@ def game_won(pts):
                 touch_status = True
                 if(back.is_pressed(touch_status)):
                     intro()
-        
+
 
 
 
@@ -426,10 +426,13 @@ def level_select(lvl):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 touch_status = True
                 if(lvl1b.is_pressed(touch_status)):
+                    ready()
                     game(playerX, points_value, playerX_change, milliseconds, seconds, 0)
                 if(lvl2b.is_pressed(touch_status)):
+                    ready()
                     game(playerX, points_value, playerX_change, milliseconds, seconds, 1)
                 if(lvl3b.is_pressed(touch_status)):
+                    ready()
                     game(playerX, points_value, playerX_change, milliseconds, seconds, 2)
                 if(back.is_pressed(touch_status)):
                     intro()
@@ -450,14 +453,18 @@ def level_select(lvl):
 
 # Game Loop
 def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
+    old = 0
+    seconds = 0
+    milliseconds = 0
+
     back = Button(Back_Arrow, Back_Arrow, (20, 20, 750, 222))
     mixer.music.load('backgroundmsc.wav')
     mixer.music.play(-1)
-    ready()
+
     if(lvl == 1):
-        fallspeed = 3
+        fallspeed = 5
     else:
-        fallspeed = 2
+        fallspeed = 4
     bgame = True
     num_of_each = 3
     if(lvl == 2):
@@ -477,6 +484,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
     while bgame:
         # RGB Screen Fill - Red, Green, Blue
         back.generate()
+
         screen.fill((255, 255, 255))
         show_score(pts, textX, 100)
         # setting background
@@ -703,7 +711,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                     del neutImg[i]
                     i -= 1
 
-                elif neutY[i] > 600:
+                elif neutY[i] > 3*window[1]/4 + 50:
                     del neutX[i]
                     del neutY[i]
                     del neutY_change[i]
@@ -727,16 +735,21 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
         show_score(pts, textX, 100)
 
         # Timer
-        if milliseconds > 1000:
-            seconds += 1
-            milliseconds -= 1000
-        if seconds == 5:
-            game_over(pts)
 
-        milliseconds += clock.tick_busy_loop(60)
 
         # Updating display
         pygame.display.update()
+        if milliseconds > 1000:
+            seconds += 1
+            milliseconds -= 1000
+        if seconds == 60:
+            game_over(pts)
 
+        milliseconds += 25
+        clock.tick_busy_loop(40)
+        new = pygame.time.get_ticks()
+        dif = new - old
+        print(dif)
+        old = pygame.time.get_ticks()
 
 intro()

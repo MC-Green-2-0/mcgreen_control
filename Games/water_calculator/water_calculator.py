@@ -339,6 +339,7 @@ def game_intro(surface):
 
 #Help Menu for Game
 def game_help(surface):
+    surface.fill(white)
     #Instantiate button for returning back to intro page
     back_button = Button(surface, darker_green, green, ((window_size[0] - 750) / 2 , 0.75 * window_size[1], 750  , 250), 'Back', mediumText)
 
@@ -401,7 +402,7 @@ def game_help(surface):
             else:
                 touch_status = False
 
-        surface.fill(white)
+
         back_button.generate()
 
         pygame.display.update(updateList)

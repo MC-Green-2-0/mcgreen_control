@@ -711,7 +711,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                     del neutImg[i]
                     i -= 1
 
-                elif neutY[i] > 600:
+                elif neutY[i] > 3*window[1]/4 + 50:
                     del neutX[i]
                     del neutY[i]
                     del neutY_change[i]

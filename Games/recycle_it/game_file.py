@@ -502,7 +502,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
 
         # changes X position of player character
 
-
+        #listEvents = pygame.event.get()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -528,7 +528,8 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                     playerX_change = -5
                 elif (rMove.is_pressed(touch_status)):
                     playerX_change = 5
-
+            if event.type == pygame.MOUSEBUTTONUP:
+                playerX_change = 0
 
 
 

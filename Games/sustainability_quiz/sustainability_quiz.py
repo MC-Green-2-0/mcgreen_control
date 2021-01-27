@@ -191,7 +191,7 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
     ScoreRect.topleft = ((0.15 * window_size[0]), (window_size[1] / 16))
 
 
-    ElectricSurf, ElectricRect = text_objects('Sustainability Bar: ', mediumText, yellow)
+    ElectricSurf, ElectricRect = text_objects('Sustainability Bar: ', mediumText, white)
     ElectricRect.topleft = ((0.15 * window_size[0]), (0.70 * window_size[1]))
 
     #Make entire screen 'white' to 'clean' it

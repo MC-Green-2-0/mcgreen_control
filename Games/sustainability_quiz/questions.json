@@ -67,7 +67,7 @@
 
 		{
 			"question":
-			"Should we turn off appliances and||electronicwhen we are not using them?",
+			"Should we turn off appliances and||electronic when we are not using them?",
 			"choices":
 			["Yes", "No", "Sometimes", "Maybe"],
 			"answer": "Yes"
@@ -112,7 +112,7 @@
 		},
 
 		{
-			"question": "Do phone chargers, coffeemakers, and printers||consume energy when they're not being used?",
+			"question": "Do chargers, coffeemakers, and printers||consume energy when they're not being used?",
 			"choices": ["Yes", "No", "Sometimes", "Maybe"],
 			"answer": "Yes"
 		},
@@ -127,29 +127,6 @@
 
 	"level_hard":
 	[
-		{
-			"question": "Does a computer's screen saver||save energy or waste energy?",
-			"choices": ["Waste Energy", "Save Energy", "Neither", "Both"],
-			"answer": "Waste Energy"
-		},
-
-		{
-			"question": "Put your computer to sleep mode||if you're not using for more than _____",
-			"choices": ["20 Minutes", "2 Hours", "45 Minutes", "6 Hours"],
-			"answer": "20 Minutes"
-		},
-
-		{
-			"question": "Do phone chargers, coffeemakers, and printers||consume energy when they're not being used?",
-			"choices": ["Yes", "No", "Sometimes", "Maybe"],
-			"answer": "Yes"
-		},
-
-		{
-			"question": "Does a computer's screen saver||save energy or waste energy?",
-			"choices": ["Waste Energy", "Save Energy", "Neither", "Both"],
-			"answer": "Waste Energy"
-		},
 
 		{
 			"question": "Recycling 1 ton of paper||saves about how many trees?",

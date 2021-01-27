@@ -76,7 +76,7 @@ class Level:
 
             screen.blit(self.background, (0, 0))
             screen.blit(Back_Arrow, (10, 10))
-            screen.blit(hint, (50,25))
+            screen.blit(hint, (50,85))
             mouse = pygame.mouse.get_pos()
             click = pygame.mouse.get_pressed()
             print(mouse)
@@ -120,7 +120,7 @@ class Level:
                     seconds_elapsed = (pygame.time.get_ticks()-start_tick)//1000
                     time_left = time-seconds_elapsed
                     time_text = font.render(str(time_left), True, (0, 0, 0))
-                    screen.blit(time_text, (40, 80))
+                    screen.blit(time_text, (5, 85))
                     if time_left <= 0:
                         gamelose()
 
@@ -444,17 +444,20 @@ def gamelose():
     bgame = True
     mixer.music.load('game_lose.wav')
     mixer.music.play()
+    back = Button(Back_Arrow, Back_Arrow, (10, 10, 100, 80))
+
     while bgame:
         screen.fill((255, 255, 255))
         screen.blit(gamelost, (0, 0))
+        back.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                time.sleep(1)
-                level_select()
+                if back.is_pressed(True):
+                    level_select()
             #if event.type == pygame.KEYDOWN:
             #    if event.key == pygame.K_ESCAPE:
             #        level_select()

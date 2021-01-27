@@ -456,8 +456,9 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
     old = 0
     seconds = 0
     milliseconds = 0
-
-    back = Button(Back_Arrow, Back_Arrow, (20, 20, 750, 222))
+    lMove = Button(Back_Arrow, Back_Arrow, (0,0, window[0]/2, window[1]))
+    rMove = Button(Back_Arrow, Back_Arrow, (window[0]/2,0, window[0]/2, window[1]))
+    back = Button(Back_Arrow, Back_Arrow, (20, 20, 100, 70))
     mixer.music.load('backgroundmsc.wav')
     mixer.music.play(-1)
 
@@ -481,8 +482,11 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
     enemyX = []
     enemyY = []
     enemyY_change = []
+    lMove.generate()
+    rMove.generate()
     while bgame:
         # RGB Screen Fill - Red, Green, Blue
+
         back.generate()
 
         screen.fill((255, 255, 255))
@@ -517,12 +521,12 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
                 touch_status = True
                 if(back.is_pressed(touch_status)):
                     level_select(level)
-            if event.type == pygame.MOUSEBUTTONDOWN:
 
-        #print(mousepos[0], " ", window[0])
-                if mousepos[0] < window[0]/2:
+
+
+                if (lMove.is_pressed(touch_status)):
                     playerX_change = -5
-                elif mousepos[0] >= window[0]/2:
+                elif (rMove.is_pressed(touch_status)):
                     playerX_change = 5
 
 

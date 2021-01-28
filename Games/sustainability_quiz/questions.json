@@ -115,7 +115,7 @@
 			"question": "Do chargers, coffeemakers, and printers||consume energy when they're not being used?",
 			"choices": ["Yes", "No", "Sometimes", "Maybe"],
 			"answer": "Yes"
-		},
+		}
 
 
 

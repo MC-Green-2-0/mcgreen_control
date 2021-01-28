@@ -448,7 +448,7 @@ def gamelose():
 
     while bgame:
         screen.fill((255, 255, 255))
-        screen.blit(gamelost, (0, 0))
+        screen.blit(gamelost, (0, 50))
         back.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window

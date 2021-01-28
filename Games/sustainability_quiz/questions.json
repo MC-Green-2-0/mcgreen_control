@@ -67,7 +67,7 @@
 
 		{
 			"question":
-			"Should we turn off appliances and||electronic when we are not using them?",
+			"Should we turn off appliances and||electronics when we are not using them?",
 			"choices":
 			["Yes", "No", "Sometimes", "Maybe"],
 			"answer": "Yes"

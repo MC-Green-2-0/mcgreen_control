@@ -176,17 +176,17 @@ def isCollision(varX, varY, playerX, playerY):
 
 def game_over(pts):
     if level == 0:
-        if pts >= 1000:
+        if pts >= 600:
             game_won(pts)
         else:
             game_lost(pts)
     if level == 1:
-        if pts >= 1200:
+        if pts >= 800:
             game_won(pts)
         else:
             game_lost(pts)
     if level == 2:
-        if pts >= 1500:
+        if pts >= 1000:
             game_won(pts)
         else:
             game_lost(pts)

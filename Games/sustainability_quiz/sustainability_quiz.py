@@ -542,7 +542,7 @@ def game_help(surface):
 
     Line2Surf, Line2Rect = text_objects('2.) If your answer is correct, you will earn points', pygame.font.Font('FreeSansBold.ttf', 35), white)
     Line2Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (2 * line_spacing))
-    Line2part2Surf, Line2part2Rect = text_objects('and charge your electricity meter', pygame.font.Font('FreeSansBold.ttf', 35), white)
+    Line2part2Surf, Line2part2Rect = text_objects('and charge your sustainability meter', pygame.font.Font('FreeSansBold.ttf', 35), white)
     Line2part2Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (3 * line_spacing))
 
     Line3Surf, Line3Rect = text_objects('3.) If your answer is incorrect, you will lose points', pygame.font.Font('FreeSansBold.ttf', 35), white)

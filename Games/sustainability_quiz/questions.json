@@ -117,11 +117,7 @@
 			"answer": "Yes"
 		},
 
-		{
-			"question": "Does a computer's screen saver||save energy or waste energy?",
-			"choices": ["Waste Energy", "Save Energy", "Neither", "Both"],
-			"answer": "Waste Energy"
-		}
+
 
 	],
 

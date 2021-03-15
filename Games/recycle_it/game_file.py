@@ -340,7 +340,7 @@ def explanation_page():
                 if gBagButton.is_pressed(touch_status):
                     explanation_template("Paper Bag")
                 if gSodaButton.is_pressed(touch_status):
-                    explanation_template("Soda Bottle")
+                    explanation_template("Soda Can")
                 if plas1Button.is_pressed(touch_status):
                     explanation_template("Type 1 Plastic")
                 if plas2Button.is_pressed(touch_status):
@@ -358,7 +358,7 @@ def explanation_page():
                 if bPizzaButton.is_pressed(touch_status):
                     explanation_template("Pizza Box")
                 if bBagButton.is_pressed(touch_status):
-                    explanation_template("Trash Bag Filled With Recyclables")
+                    explanation_template("Bag of Recyclables")
                 if clothesButton.is_pressed(touch_status):
                     explanation_template("Clothes")
                 if computerButton.is_pressed(touch_status):
@@ -382,8 +382,14 @@ def  explanation_template(item):
     image = pygame.image.load(data["images"][item])
     image = pygame.transform.scale(image, (400, 400))
     screen.blit(image, (window[0]/2 - 200, window[1]/5 * 2 - 200))
-    textSurf, textRect = text_objects(data["explanations"][item], mediumText, black)
+    explanation = data["explanations"][item]
+    expSplit = explanation.split('||')
+    textSurf, textRect = text_objects(expSplit[0], mediumText, black)
     textRect.center = (window[0]/2, window[1] * 2/3)
+    if '||' in explanation:
+        textSurf2, textRect2 = text_objects(expSplit[1], mediumText, black)
+        textRect2.center = (window[0]/2, window[1] * 2/3 +50)
+        screen.blit(textSurf2, textRect2)
     screen.blit(textSurf, textRect)
     loop = True
     pygame.display.update()

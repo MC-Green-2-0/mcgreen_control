@@ -5,6 +5,7 @@ import random
 import time
 import math
 import sys
+import json
 import threading
 
 # sys.path.append("../")
@@ -64,7 +65,9 @@ invlvl2 = pygame.transform.scale(invlvl2, (700,222))
 invlvl3 = pygame.image.load('invlvl3.png')
 invlvl3 = pygame.transform.scale(invlvl3, (700,222))
 
-
+#JSON
+with open('explanation.json', 'r') as file:
+    data = json.load(file)
 # Background Music
 mixer.music.load('backgroundmsc.wav')
 mixer.music.play(-1)
@@ -77,6 +80,7 @@ pygame.display.set_icon(icon)
 # Score
 points_value = 0
 largeText = pygame.font.Font('Bubblegum.ttf', 100)   #Large text, ideal for headings
+mediumLargeText = pygame.font.Font('Bubblegum.ttf', 80)
 mediumText = pygame.font.Font('Bubblegum.ttf', 48)   #Medium text, ideal for subheadings
 mediumText2 = pygame.font.Font('Bubblegum.ttf', 24)
 smallText =  pygame.font.Font('Bubblegum.ttf', 16)   #Small text, ideal for small buttons
@@ -234,6 +238,166 @@ def change_face(expression, delay):
         print("face reset sent", flush=True)
         active_face -= 1
 
+def explanation_page():
+    screen.fill((255, 255, 255))
+    back = Button(Back_Arrow, Back_Arrow, (20, 20, 100, 70))
+    titleSurf, titleRect = text_objects('Press an Item to Learn', mediumLargeText, black)
+    titleRect.center = (window[0]/2, 130)
+    screen.blit(titleSurf, titleRect)
+    titleSurf2, titleRect2 = text_objects('More About It', mediumLargeText, black)
+    titleRect2.center = (window[0]/2, 230)
+    screen.blit(titleSurf2, titleRect2)
+    #good/recyclable
+    goodSurf, goodRect = text_objects('Recyclable Items', mediumText, black)
+    goodRect.center = (window[0]/2, window[1]/6)
+    screen.blit(goodSurf, goodRect)
+    gBag = pygame.image.load('good_bag.png')
+    gBag = pygame.transform.scale(gBag, (100, 100))
+    gSoda = pygame.image.load('good_soda.png')
+    gSoda = pygame.transform.scale(gSoda, (100, 100))
+    plas1 = pygame.image.load('plastic1.png')
+    plas1 = pygame.transform.scale(plas1, (100, 100))
+    plas2 = pygame.image.load('plastic2.png')
+    plas2 = pygame.transform.scale(plas2, (100, 100))
+    gBagButton = Button(gBag, gBag, (1 * window[0]/5 - 50, window[1]/4 - 50, 100, 100))
+    gSodaButton = Button(gSoda, gSoda, (2 * window[0]/5 - 50, window[1]/4 - 50, 100, 100))
+    plas1Button = Button(plas1, plas1, (3 * window[0]/5 - 50, window[1]/4 - 50, 100, 100))
+    plas2Button = Button(plas2, plas2, (4 * window[0]/5 - 50, window[1]/4 - 50, 100, 100))
+
+    #bad/notrecyclable
+    badSurf, badRect = text_objects('Not Recyclable Items', mediumText, black)
+    badRect.center = (window[0]/2, 3 * window[1]/7)
+    screen.blit(badSurf, badRect)
+    bBanana = pygame.image.load('enemy_banana.png')
+    bBanana = pygame.transform.scale(bBanana, (100, 100))
+    bCore = pygame.image.load('enemy_core.png')
+    bCore = pygame.transform.scale(bCore, (100, 100))
+    bTrash = pygame.image.load('enemy_trash.png')
+    bTrash = pygame.transform.scale(bTrash, (100, 100))
+    plas6 = pygame.image.load('plastic6.png')
+    plas6 = pygame.transform.scale(plas6, (100, 100))
+    plas3 = pygame.image.load('plastic3.png')
+    plas3 = pygame.transform.scale(plas3, (100, 100))
+    bPizza = pygame.image.load('pizza.png')
+    bPizza = pygame.transform.scale(bPizza, (100, 100))
+    bBag = pygame.image.load('bag.png')
+    bBag = pygame.transform.scale(bBag, (100, 100))
+    bBananaButton = Button(bBanana, bBanana, (1 * window[0]/8 - 50, 43 * window[1]/84 - 50, 100, 100))
+    bCoreButton = Button(bCore, bCore, (2 * window[0]/8 - 50, 43 * window[1]/84 - 50, 100, 100))
+    bTrashButton = Button(bTrash, bTrash, (3 * window[0]/8 - 50, 43 * window[1]/84 - 50, 100, 100))
+    plas3Button = Button(plas3, plas3, (4 * window[0]/8 - 50, 43 * window[1]/84 - 50, 100, 100))
+    plas6Button = Button(plas6, plas6, (5 * window[0]/8 - 50, 43 * window[1]/84 - 50, 100, 100))
+    bPizzaButton = Button(bPizza, bPizza, (6 * window[0]/8 - 50, 43 * window[1]/84 - 50, 100, 100))
+    bBagButton = Button(bBag, bBag, (7 * window[0]/8 - 50, 43 * window[1]/84 - 50, 100, 100))
+
+
+    #special recycling
+    neutSurf, neutRect = text_objects('Special Collection Items (LVL 3 Only)', mediumText, black)
+    neutRect.center = (window[0]/2, 29 * window[1]/42)
+    screen.blit(neutSurf, neutRect)
+    clothes = pygame.image.load('clothes.png')
+    clothes = pygame.transform.scale(clothes, (100, 100))
+    computer = pygame.image.load('computer.png')
+    computer = pygame.transform.scale(computer, (100, 100))
+    medicine = pygame.image.load('medicine.png')
+    medicine = pygame.transform.scale(medicine, (100, 100))
+    shreddedPaper = pygame.image.load('shreddedpaper.png')
+    shreddedPaper = pygame.transform.scale(shreddedPaper, (100, 100))
+    tire = pygame.image.load('tire.png')
+    tire = pygame.transform.scale(tire, (100, 100))
+    clothesButton = Button(clothes, clothes, (1 * window[0]/6 - 50, 65 * window[1]/84 - 50, 100, 100))
+    computerButton = Button(computer, computer, (2 * window[0]/6 - 50, 65 * window[1]/84 - 50, 100, 100))
+    medicineButton = Button(medicine, medicine, (3 * window[0]/6 - 50, 65 * window[1]/84 - 50, 100, 100))
+    shreddedPaperButton = Button(shreddedPaper, shreddedPaper, (4 * window[0]/6 - 50, 65 * window[1]/84 - 50, 100, 100))
+    tireButton = Button(tire, tire, (5 * window[0]/6 - 50, 65 * window[1]/84 - 50, 100, 100))
+    loop = True
+    while loop:
+
+        gBagButton.generate()
+        gSodaButton.generate()
+        plas1Button.generate()
+        plas2Button.generate()
+        bBananaButton.generate()
+        bCoreButton.generate()
+        bTrashButton.generate()
+        plas3Button.generate()
+        plas6Button.generate()
+        bPizzaButton.generate()
+        bBagButton.generate()
+        clothesButton.generate()
+        computerButton.generate()
+        medicineButton.generate()
+        shreddedPaperButton.generate()
+        tireButton.generate()
+        back.generate()
+        pygame.display.update()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                touch_status = True
+                if gBagButton.is_pressed(touch_status):
+                    explanation_template("Paper Bag")
+                if gSodaButton.is_pressed(touch_status):
+                    explanation_template("Soda Bottle")
+                if plas1Button.is_pressed(touch_status):
+                    explanation_template("Type 1 Plastic")
+                if plas2Button.is_pressed(touch_status):
+                    explanation_template("Type 2 Plastic")
+                if bBananaButton.is_pressed(touch_status):
+                    explanation_template("Banana Peel")
+                if bCoreButton.is_pressed(touch_status):
+                    explanation_template("Apple Core")
+                if bTrashButton.is_pressed(touch_status):
+                    explanation_template("Trash Bags")
+                if plas3Button.is_pressed(touch_status):
+                    explanation_template("Type 3 Plastic")
+                if plas6Button.is_pressed(touch_status):
+                    explanation_template("Type 6 Plastic")
+                if bPizzaButton.is_pressed(touch_status):
+                    explanation_template("Pizza Box")
+                if bBagButton.is_pressed(touch_status):
+                    explanation_template("Trash Bag Filled With Recyclables")
+                if clothesButton.is_pressed(touch_status):
+                    explanation_template("Clothes")
+                if computerButton.is_pressed(touch_status):
+                    explanation_template("Computers")
+                if medicineButton.is_pressed(touch_status):
+                    explanation_template("Medicine")
+                if shreddedPaperButton.is_pressed(touch_status):
+                    explanation_template("Shredded Paper")
+                if tireButton.is_pressed(touch_status):
+                    explanation_template("Tires")
+                if(back.is_pressed(touch_status)):
+                    intro()
+
+
+def  explanation_template(item):
+    back = Button(Back_Arrow, Back_Arrow, (20, 20, 100, 70))
+    screen.fill(white)
+    titleSurf, titleRect = text_objects(item, largeText, black)
+    titleRect.center = (window[0]/2, 200)
+    screen.blit(titleSurf, titleRect)
+    image = pygame.image.load(data["images"][item])
+    image = pygame.transform.scale(image, (400, 400))
+    screen.blit(image, (window[0]/2 - 200, window[1]/5 * 2 - 200))
+    textSurf, textRect = text_objects(data["explanations"][item], mediumText, black)
+    textRect.center = (window[0]/2, window[1] * 2/3)
+    screen.blit(textSurf, textRect)
+    loop = True
+    pygame.display.update()
+    while loop:
+        back.generate()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                touch_status = True
+                if(back.is_pressed(touch_status)):
+                    explanation_page()
+
 def game_won(pts):
     # face = random.randint(1, 3)  # HEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRREEEEEEEEEEEEEE
     # controller.face_update(face)
@@ -248,6 +412,7 @@ def game_won(pts):
     mixer.music.play()
     pause = True
     back = Button(Back_Arrow, Back_Arrow, (20, 20, 100, 70))
+
     while pause:
         screen.fill((255, 255, 255))
 
@@ -285,14 +450,17 @@ def game_lost(pts):
     # rotate.start()
 
     back = Button(Back_Arrow, Back_Arrow, (20, 20, 100, 70))
+    explanation = Button(lvl1, invlvl1, (window[0]/2 - 750/2, window[1] - 450, 750, 222))
+
     mixer.music.load('game_lose.wav')
     mixer.music.play()
     pause = True
+    screen.fill((255, 255, 255))
     while pause:
-        screen.fill((255, 255, 255))
+
         screen.blit(game_lst, (50, window[1]/4))
         show_score(pts, window[0]/2 - 70, 2*window[1]/3)
-
+        explanation.generate()
         back.generate()
 
         pygame.display.update()
@@ -311,6 +479,8 @@ def game_lost(pts):
                 touch_status = True
                 if(back.is_pressed(touch_status)):
                     intro()
+                if(explanation.is_pressed(touch_status)):
+                    explanation_page()
 
         pygame.display.update()
 
@@ -591,7 +761,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
 
         if(lvl == 2):
             if(len(neutImg) <= num_of_each and randol == 3):
-                # choosing which good object to show
+                # choosing which neut object to show
                 goodSelect = random.randint(1, 6)
                 if goodSelect == 1:
                     neutImg.append(pygame.image.load('clothes.png'))
@@ -751,7 +921,7 @@ def game(playerX, pts, playerX_change, milliseconds, seconds, lvl):
         if milliseconds > 1000:
             seconds += 1
             milliseconds -= 1000
-        if seconds == 60:
+        if seconds == 6:
             game_over(pts)
 
         print(seconds)

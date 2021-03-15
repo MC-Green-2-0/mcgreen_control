@@ -1,0 +1,46 @@
+{
+  "images":
+  {
+    "Paper Bag": "good_bag.png",
+    "Soda Bottle": "good_soda.png",
+    "Type 1 Plastic": "plastic1.png",
+    "Type 2 Plastic": "plastic2.png",
+    "Banana Peel": "enemy_banana.png",
+    "Apple Core": "enemy_core.png",
+    "Trash Bags": "enemy_trash.png",
+    "Type 6 Plastic": "plastic6.png",
+    "Type 3 Plastic": "plastic3.png",
+    "Pizza Box": "pizza.png",
+    "Trash Bag Filled With Recyclables": "bag.png",
+    "Clothes": "clothes.png",
+    "Computers": "computer.png",
+    "Medicine": "medicine.png",
+    "Shredded Paper": "shreddedpaper.png",
+    "Tires": "tire.png"
+
+  },
+  "explanations":
+  {
+    "Paper Bag": "words",
+    "Soda Bottle": "words",
+    "Type 1 Plastic": "words",
+    "Type 2 Plastic": "words",
+    "Banana Peel": "words",
+    "Apple Core": "words",
+    "Trash Bags": "words",
+    "Type 6 Plastic": "words",
+    "Type 3 Plastic": "words",
+    "Pizza Box": "words",
+    "Trash Bag Filled With Recyclables": "words",
+    "Clothes": "words",
+    "Computers": "words",
+    "Medicine": "words",
+    "Shredded Paper": "words",
+    "Tires": "words"
+
+
+  }
+
+
+
+}

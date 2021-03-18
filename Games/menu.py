@@ -7,6 +7,11 @@ import sys
 import threading
 import os
 
+
+from recycle_it.Recycle import Recycle_IT
+
+
+#from recycle_it.Recycle.py import RecycleIT
 homedir = os.getcwd()
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -23,7 +28,7 @@ darker_cyan = (0, 200, 200)
 pygame.display.set_caption("Games Menu")
 pygame.init()
 
-window = (1920, 1080)
+window = (1080, 1920)
 screen = pygame.display.set_mode(window)
 
 
@@ -81,14 +86,14 @@ def text_objects(text, font, color=(0,0,0)):
 
 buttonText = pygame.font.Font('FreeSansBold.ttf', 32)
 font = pygame.font.Font('FreeSansBold.ttf', 50)
-electricityButton = Button(screen, darker_yellow, yellow, (1/12*window[0], 1/4*window[1], 1/3*window[0], 3/16*window[1]), "Electricity Quiz", buttonText)
-sustainabilityButton =  Button(screen, darker_green, green, (1/12*window[0], 2/4*window[1], 1/3*window[0], 3/16*window[1]), "Sustainability Quiz", buttonText)
-whatswrongButton =  Button(screen, darker_red, red, (7/12*window[0], 1/4*window[1], 1/3*window[0], 3/16*window[1]), "Whats Wrong Game", buttonText)
-RecycleItButton =  Button(screen, darker_blue, blue, (7/12*window[0], 2/4*window[1], 1/3*window[0], 3/16*window[1]), "Recycle It Game", buttonText)
-WaterButton =  Button(screen,  darker_cyan, cyan, (1/3*window[0], 3/4*window[1], 1/3*window[0], 3/16*window[1]), "Water Calculator", buttonText)
+electricityButton = Button(screen, darker_yellow, yellow, (1/4*window[0], 1/6*window[1], 1/2*window[0], 2/16*window[1]), "Electricity Quiz", buttonText)
+sustainabilityButton =  Button(screen, darker_green, green, (1/4*window[0], 2/6*window[1], 1/2*window[0], 2/16*window[1]), "Sustainability Quiz", buttonText)
+whatswrongButton =  Button(screen, darker_red, red, (1/4*window[0], 3/6*window[1], 1/2*window[0], 2/16*window[1]), "Whats Wrong Game", buttonText)
+RecycleItButton =  Button(screen, darker_blue, blue, (1/4*window[0], 4/6*window[1], 1/2*window[0], 2/16*window[1]), "Recycle It Game", buttonText)
+WaterButton =  Button(screen,  darker_cyan, cyan, (1/4*window[0], 5/6*window[1], 1/2*window[0], 2/16*window[1]), "Water Calculator", buttonText)
 screen.fill((255, 255, 255))
 middlesex = pygame.image.load('Middlesex.png')
-screen.blit(middlesex, (705, 50))
+screen.blit(middlesex, ((window[0] - 512)/2, 50))
 textSurf, textRect = text_objects('Games Menu', font)
 textRect.center = ((window[0] / 2), 200)
 
@@ -123,9 +128,10 @@ while True:
                 exec(open("./Game File.py").read())
                 os.chdir(homedir)
             elif RecycleItButton.is_pressed(touch_status):
-                os.chdir(homedir + '/recycle_it')
-                exec(open("./game_file.py").read())
-                os.chdir(homedir)
+                os.chdir('./recycle_it')
+                game = Recycle_IT()
+                game.intro()
+                os.chdir('..')
 
             elif WaterButton.is_pressed(touch_status):
                 os.chdir(homedir + '/water_calculator')
@@ -139,5 +145,6 @@ while True:
         whatswrongButton.generate()
         RecycleItButton.generate()
         WaterButton.generate()
-
+        screen.blit(middlesex, ((window[0] - 512)/2, 50))
+        screen.blit(textSurf, textRect)
         pygame.display.update()

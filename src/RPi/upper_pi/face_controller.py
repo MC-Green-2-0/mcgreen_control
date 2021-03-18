@@ -9,9 +9,22 @@ class Face_Controller:
 
     def __init__(self):
         self.tog_sub = rospy.Subscriber(self.FACE_TOPIC, Int16, self.face_callback)
+        #initialize all your face display parameters here
 
     def face_callback(self, data):
-        pass
+        face_number = data.data
+        if face_number == 0:
+        	pass#add code to display each face
+        if face_number == 1:
+        	pass
+        if face_number == 2:
+        	pass
+        if face_number == 3:
+        	pass
+        if face_number == 4:
+        	pass
+        if face_number == 5:
+        	pass
 
 if __name__ == "__main__":
     try:

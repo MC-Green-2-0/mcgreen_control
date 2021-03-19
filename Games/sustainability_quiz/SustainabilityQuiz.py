@@ -1,4 +1,4 @@
-#Electric Quiz Game for MC Green robot
+#Sustainability Quiz Game for MC Green robot
 #Designed and written by Manas Harbola (harbolam@mcvts.net) on behalf of Middlesex County Academy
 
 import time
@@ -8,23 +8,8 @@ from PIL import Image
 import random
 import sys
 import threading
+import textwrap
 
-# def resource_path(relative):
-#     if hasattr(sys, "_MEIPASS"):
-#         return os.path.join(sys._MEIPASS, relative)
-#     return os.path.join(relative)
-#
-#
-# #UNCOMMENT BOTTOM TWO LINES BEFORE USING BOTTOM TWO LINES
-# # sys.path.append("../")
-# # from head_controller import Head_comm
-# # controller = Head_comm("elec quiz")
-#
-# def resource_path(relative):
-#     if hasattr(sys, "_MEIPASS"):
-#         return os.path.join(sys._MEIPASS, relative)
-#     return os.path.join(relative)
-#Class for generating buttons
 class Button:
     def __init__ (self, surfaceName, ac, ic, rectVals, text, font):
         self.ac = ac #Active color of button
@@ -37,6 +22,7 @@ class Button:
     def text_objects(self, text, font, color=(0,0,0)):
         textSurface = font.render(text, True, color)
         return textSurface, textSurface.get_rect()
+
 
     def generate(self):
         x, y, w, h = self.rectAttrs
@@ -77,8 +63,12 @@ class Button:
         else:
             return False
 
+#UNCOMMENT BOTTOM TWO LINES BEFORE USING BOTTOM TWO LINES
+# sys.path.append("../")
+# from head_controller import Head_comm
+# controller = Head_comm("Sust. Quiz")
 
-class ElectricictyQuiz:
+class SustainabilityQuiz:
     def __init__(self):
         #Screen size of window
         self.window_size = (1080,1920)
@@ -117,35 +107,17 @@ class ElectricictyQuiz:
 
         #Instantiate window/surface
         self.gameDisplay = pygame.display.set_mode(self.window_size)
-        pygame.display.set_caption('Electric Quiz')
+        pygame.display.set_caption('Sustainability Quiz')
         self.clock = pygame.time.Clock()
 
-        #Set Face to Neutral
-        # controller.face_update(getFaceNum())
-        #Orient Head to proper position
-        # controller.head_update([90, 90])
 
-
-
+    #Class for generating buttons
 
     #Render text to a surface and a corresponding rectangle
     def text_objects(self, text, font, color=(0,0,0)):
         textSurface = font.render(text, True, color)
         return textSurface, textSurface.get_rect()
 
-    # def getFaceNum(statusNum=2):
-    #     #statusNum = 1 -> happy, 2 -> neutral, 3-> sad
-    #     #1-3 -> Happy, 4 -> Neutral, 5-7 -> Sad
-    #     #Choose happy face
-    #     if statusNum == 1:
-    #         return random.randint(1,3)
-    #     #Choose sad face
-    #     elif statusNum == 3:
-    #         return random.randint(5,7)
-    #     #Choose neutral face
-    #     else:
-    #         return 2
-    #
     # def moveHeadUpDown():
     #     #Fine tune bottom as needed
     #     upDegree = 45
@@ -165,8 +137,10 @@ class ElectricictyQuiz:
     #     #Delay for moveDelay seconds
     #     time.sleep(moveDelay)
     #     controller.head_update([rightDegree, 90])
+    #     time.sleep(moveDelay)
+    #     controller.head_update([90, 90])
 
-    #Generate Electric Bar for game WORKS
+    #Generate Sustainability Bar for game WORKS
     def generate_bar(self, surfaceName, x, y, num_right, num_wrong, num_questions, color):
         #Fixed width for full size bar
         fixed_width = 1500 / 2
@@ -178,19 +152,23 @@ class ElectricictyQuiz:
         #Calculate width of bar
         w = max((width_div * num_right) - (0.5 * width_div * num_wrong), 0)
 
-        #Draw electricity bar
+        #Draw sustainability bar
         pygame.draw.rect(surfaceName, color, (x, y, w, fixed_height))
-        #Draw electricity bar outline
-        pygame.draw.rect(surfaceName, self.blue, (x, y, fixed_width, fixed_height), 3)
+
+        #Draw bar outline
+        pygame.draw.rect(surfaceName, self.white, (x, y, fixed_width, fixed_height), 3)
+
+
 
     def generate_q_page(self, surfaceName, status, pt_inc, question, choices, correct_ans):
         #Status is a list [score, num_right, num_wrong, num_questions]
 
         #Button dimensions
-        button_w = 750 / 2; button_h = 250 / 2
+        button_w = 1.5*(750 / 2); button_h = 1.05*(250 / 2)
 
         #Reference x, y coordinates for upper left button
-        ref_x = self.window_size[0] / 4 + 50; ref_y = self.window_size[1] / 4;
+        ref_x = (self.window_size[0] - button_w)/2
+        ref_y = self.window_size[1] / 4;
         column_spacing = button_h + (0.5 * 200)
         line_spacing = 75
 
@@ -208,22 +186,21 @@ class ElectricictyQuiz:
 
         #Textwrap the Question if needed
         q_text = question.split('||')
-        QuestionSurf, QuestionRect = self.text_objects(q_text[0], self.mediumText, self.yellow)
+        QuestionSurf, QuestionRect = self.text_objects(q_text[0], self.mediumText, self.white)
         QuestionRect.center = ((self.window_size[0] / 2), (self.window_size[1] / 8))
         if '||' in question:
-            QuestionPart2Surf, QuestionPart2Rect = self.text_objects(q_text[1], self.mediumText, self.yellow)
+            QuestionPart2Surf, QuestionPart2Rect = self.text_objects(q_text[1], self.mediumText, self.white)
             QuestionPart2Rect.center = ((self.window_size[0] / 2), (self.window_size[1] / 8) + line_spacing)
-
 
 
         #Prepare question text and location
 
-        ScoreSurf, ScoreRect = self.text_objects('Score: ' + str(status[0]) + ' points', self.mediumText, self.yellow)
-        #ScoreRect.center = ((0.20 * self.window_size[0]), (self.window_size[1] / 16))
+        ScoreSurf, ScoreRect = self.text_objects('Score: ' + str(status[0]) + ' points', self.mediumText, self.white)
+        #ScoreRect.center = ((0.20 * window_size[0]), (window_size[1] / 16))
         ScoreRect.topleft = ((0.15 * self.window_size[0]), (self.window_size[1] / 16))
 
 
-        ElectricSurf, ElectricRect = self.text_objects('Electric Bar: ', self.mediumText, self.yellow)
+        ElectricSurf, ElectricRect = self.text_objects('Sustainability Bar: ', self.mediumText, self.white)
         ElectricRect.topleft = ((0.15 * self.window_size[0]), (0.70 * self.window_size[1]))
 
         #Make entire screen 'white' to 'clean' it
@@ -313,10 +290,10 @@ class ElectricictyQuiz:
     def generate_correct_page(self, surface, status, point_inc):
         #Uncomment below
         #Make Face Happy
-        #controller.face_update(getFaceNum(1))
-        #Instantiate motor thread and begin it
-        #motorThread = threading.Thread(target=moveHeadUpDown, args=())
-        #motorThread.start()
+        # controller.face_update(getFaceNum(1))
+        # #Instantiate motor thread and begin it
+        # motorThread = threading.Thread(target=moveHeadUpDown, args=())
+        # motorThread.start()
 
         next_button = Button(surface, self.darker_blue, self.blue, (0.5 * self.window_size[0] - (0.5 * 375), 0.5 * self.window_size[1], 750 / 2, 250 / 2), 'Next Question', self.mediumText)
 
@@ -329,8 +306,9 @@ class ElectricictyQuiz:
         ScoreSurf, ScoreRect = self.text_objects('Score: ' + str(status[0]) + ' (+' + str(point_inc) + ' pts)', self.mediumText)
         ScoreRect.center = ((self.window_size[0] / 2), (0.35 * self.window_size[1]))
 
-        ElectricSurf, ElectricRect = self.text_objects('Electric Bar: ', self.mediumText)
+        ElectricSurf, ElectricRect = self.text_objects('Sustainability Bar: ', self.mediumText)
         ElectricRect.topleft = ((0.15 * self.window_size[0]), (0.70 * self.window_size[1]))
+
 
 
         surface.fill(self.green)
@@ -341,11 +319,9 @@ class ElectricictyQuiz:
         surface.blit(ElectricSurf, ElectricRect)
         self.generate_bar(surface, 0.15 * self.window_size[0], 0.80 * self.window_size[1], status[1], status[2], status[3], self.yellow)
 
-
         pygame.display.update()
 
         running = True
-
 
         while running:
 
@@ -356,17 +332,18 @@ class ElectricictyQuiz:
                 if event.type == pygame.QUIT:
                     #Change face to neutral
                     # controller.face_update(getFaceNum())
+
                     pygame.quit()
                     quit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    #print('Pressed')
                     touch_status = True
 
                     #Check if buttons are pressed if mouse button is down
                     if next_button.is_pressed(touch_status):
                         #Change face to neutral
                         # controller.face_update(getFaceNum())
+
                         running = False
                 else:
                     touch_status = False
@@ -377,15 +354,13 @@ class ElectricictyQuiz:
             pygame.display.update(updateList)
             self.clock.tick(self.FPS)
 
-        #Uncomment below
         #Change face to neutral
         # controller.face_update(getFaceNum())
 
     def generate_incorrect_page(self, surface, status, point_dec, correct_ans):
-        #Uncomment below
         #Make Face Sad
         # controller.face_update(getFaceNum(3))
-        #Instantiate motor thread and begin it
+        # #Instantiate motor thread and begin it
         # motorThread = threading.Thread(target=moveHeadLeftRight, args=())
         # motorThread.start()
 
@@ -410,7 +385,7 @@ class ElectricictyQuiz:
         ScoreSurf, ScoreRect = self.text_objects('Score: ' + str(status[0]) + ' (-' + str(point_dec) + ' pts)', self.mediumText)
         ScoreRect.center = ((self.window_size[0] / 2), (0.25 * self.window_size[1]) + (4 * line_spacing))
 
-        ElectricSurf, ElectricRect = self.text_objects('Electric Bar: ', self.mediumText)
+        ElectricSurf, ElectricRect = self.text_objects('Sustainability Bar: ', self.mediumText)
         ElectricRect.topleft = ((0.15 * self.window_size[0]), (0.70 * self.window_size[1]))
 
         surface.fill(self.red)
@@ -442,27 +417,18 @@ class ElectricictyQuiz:
                     quit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    #print('Pressed')
                     touch_status = True
 
                     #Check if buttons are pressed if mouse button is down
                     if next_button.is_pressed(touch_status):
-
                         running = False
                 else:
                     touch_status = False
 
-            #surface.fill(white)
             next_button.generate()
 
             pygame.display.update(updateList)
             self.clock.tick(self.FPS)
-
-        #Change face to neutral
-        # controller.face_update(getFaceNum())
-
-
-
 
     #Start Menu for Game
     def game_intro(self):
@@ -485,7 +451,7 @@ class ElectricictyQuiz:
         updateList = [help_button_rect, play_button_rect, quit_button_rect]
 
         #Prepare title text and location
-        TextSurf, TextRect = self.text_objects('MC Green Electric Quiz!', self.largeText, self.yellow)
+        TextSurf, TextRect = self.text_objects('MC Green Sustainability Quiz!', self.largeText, self.white)
         TextRect.center = ((self.window_size[0] / 2), (self.window_size[1] / 8))
 
         #Make entire screen white to clean it
@@ -517,7 +483,6 @@ class ElectricictyQuiz:
                     quit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    #print('Pressed')
                     touch_status = True
 
                     #Check if buttons are pressed if mouse button is down
@@ -526,8 +491,8 @@ class ElectricictyQuiz:
                         quit()
 
                     if play_button.is_pressed(touch_status):    #If 'Play' button is tapped
-                        #game_menu(gameDisplay)
                         self.select_level(self.gameDisplay)
+
                     if help_button.is_pressed(touch_status):    #If 'Help' button is tapped
                         self.game_help(self.gameDisplay)
                 else:
@@ -550,22 +515,22 @@ class ElectricictyQuiz:
         back_button_rect = back_button.get_rect()
         updateList = [back_button_rect]
 
-        TextSurf, TextRect = self.text_objects('How to Play:', self.largeText, self.yellow)
+        TextSurf, TextRect = self.text_objects('How to Play:', self.largeText, self.white)
         TextRect.center = ((self.window_size[0] / 2), (self.window_size[1] / 8))
 
         line_spacing = 75   #Spacing between each line of instructions
 
-        Line1Surf, Line1Rect = self.text_objects('1.) Read each question carefully and select the best answer', pygame.font.Font('FreeSansBold.ttf', 35), self.darker_yellow)
+        Line1Surf, Line1Rect = self.text_objects('1.) Read each question carefully and select the best answer', pygame.font.Font('FreeSansBold.ttf', 35), self.white)
         Line1Rect.center = ((self.window_size[0] / 2), (self.window_size[1] / 4))
 
-        Line2Surf, Line2Rect = self.text_objects('2.) If your answer is correct, you will earn points', pygame.font.Font('FreeSansBold.ttf', 35), self.darker_yellow)
+        Line2Surf, Line2Rect = self.text_objects('2.) If your answer is correct, you will earn points', pygame.font.Font('FreeSansBold.ttf', 35), self.white)
         Line2Rect.center = ((self.window_size[0] / 2), (self.window_size[1] / 4) + (2 * line_spacing))
-        Line2part2Surf, Line2part2Rect = self.text_objects('and charge your electricity meter', pygame.font.Font('FreeSansBold.ttf', 35), self.darker_yellow)
+        Line2part2Surf, Line2part2Rect = self.text_objects('and charge your sustainability meter', pygame.font.Font('FreeSansBold.ttf', 35), self.white)
         Line2part2Rect.center = ((self.window_size[0] / 2), (self.window_size[1] / 4) + (3 * line_spacing))
 
-        Line3Surf, Line3Rect = self.text_objects('3.) If your answer is incorrect, you will lose points', pygame.font.Font('FreeSansBold.ttf', 35), self.darker_yellow)
+        Line3Surf, Line3Rect = self.text_objects('3.) If your answer is incorrect, you will lose points', pygame.font.Font('FreeSansBold.ttf', 35), self.white)
         Line3Rect.center = ((self.window_size[0] / 2), (self.window_size[1] / 4) + (5 * line_spacing))
-        Line3part2Surf, Line3part2Rect = self.text_objects(' and your charge meter will go down', pygame.font.Font('FreeSansBold.ttf', 35), self.darker_yellow)
+        Line3part2Surf, Line3part2Rect = self.text_objects(' and your charge meter will go down', pygame.font.Font('FreeSansBold.ttf', 35), self.white)
         Line3part2Rect.center = ((self.window_size[0] / 2), (self.window_size[1] / 4) + (6 * line_spacing))
 
 
@@ -573,6 +538,7 @@ class ElectricictyQuiz:
         surface.fill(self.white)
 
         surface.blit(self.background, self.backgroundRect)
+
 
         #Write text to buffer
         surface.blit(TextSurf, TextRect)
@@ -601,21 +567,19 @@ class ElectricictyQuiz:
                     quit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    #print('Pressed')
                     touch_status = True
 
                     #Check if buttons are pressed if mouse button is down
                     if back_button.is_pressed(touch_status):
-                        #print('Intro Activated')
                         self.game_intro()
                 else:
                     touch_status = False
 
-            #surface.fill(white)
             back_button.generate()
 
             pygame.display.update(updateList)
             self.clock.tick(self.FPS)
+
 
     def select_level(self, surface):
         #Instantiate button for returning back to intro page
@@ -638,7 +602,7 @@ class ElectricictyQuiz:
 
         updateList = [back_button_rect, easy_button_rect, medium_button_rect, hard_button_rect]
 
-        TextSurf, TextRect = self.text_objects('Select your level:', self.largeText, self.yellow)
+        TextSurf, TextRect = self.text_objects('Select your level:', self.largeText, self.white)
         TextRect.center = ((self.window_size[0] / 2), (self.window_size[1] / 8))
 
         line_spacing = 75   #Spacing between each line of instructions
@@ -691,7 +655,6 @@ class ElectricictyQuiz:
                 else:
                     touch_status = False
 
-            #surface.fill(white)
             back_button.generate()
             easy_button.generate()
             medium_button.generate()
@@ -701,17 +664,14 @@ class ElectricictyQuiz:
             self.clock.tick(self.FPS)
 
 
-
     def game_menu(self, surface, point_vals, q_set):
         #Status is a list [score, num_right, num_wrong, num_questions]
         status = [0, 0, 0, len(q_set)]
 
         #Randomize order of questions
-        #random.shuffle(questions)
         random.shuffle(q_set)
 
         for q in q_set:
-            #do something
             correct_ans = q["answer"]
             pt_inc = point_vals[0]
             pt_dec = point_vals[1]
@@ -734,9 +694,10 @@ class ElectricictyQuiz:
 
         self.game_over(surface, status)
 
+
     def game_over(self, surface, status):
         #Set Face to Happy, regardless of score
-        #controller.face_update(getFaceNum(1))
+        # controller.face_update(getFaceNum(1))
 
         #Button Dimensions
         button_w = 750 / 2; button_h = 250 / 2
@@ -755,7 +716,7 @@ class ElectricictyQuiz:
         FinalSurf, FinalRect = self.text_objects('Final Score: ' + str(status[0]) + ' pts', self.mediumText)
         FinalRect.center = ((self.window_size[0] / 2), (0.4 * self.window_size[1]))
 
-        ElectricSurf, ElectricRect = self.text_objects('Electric Bar: ', self.mediumText)
+        ElectricSurf, ElectricRect = self.text_objects('Sustainability Bar: ', self.mediumText)
         ElectricRect.topleft = ((0.15 * self.window_size[0]), (0.55 * self.window_size[1]))
 
         #Make entire screen white to clean it
@@ -765,15 +726,16 @@ class ElectricictyQuiz:
         surface.blit(TextSurf, TextRect)
         surface.blit(FinalSurf, FinalRect)
         surface.blit(ElectricSurf, ElectricRect)
-        self.generate_bar(surface, 0.15 * self.window_size[0], 0.65 * self.window_size[1], status[1], status[2], status[3], self.yellow)
+        self.generate_bar(surface, 0.15 * self.window_size[0], 0.65 * self.window_size[1], status[1], status[2], status[3], self.blue)
 
         #Update ENTIRE screen just once
         pygame.display.update()
 
         touch_status = False
 
-        running = True
+        #makeFace()
 
+        running = True
 
         while running:
 
@@ -784,11 +746,11 @@ class ElectricictyQuiz:
                 if event.type == pygame.QUIT:
                     #Set Face to Neutral
                     # controller.face_update(getFaceNum())
+                    #
                     pygame.quit()
                     quit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    #print('Pressed')
                     touch_status = True
 
                     #Check if buttons are pressed if mouse button is down
@@ -796,7 +758,7 @@ class ElectricictyQuiz:
                         #Set Face to Neutral
                         # controller.face_update(getFaceNum())
 
-                        #Old code for quitting instead of returning to menu
+                        #Old code to quit instead of return to menu
                         #pygame.quit()
                         #quit()
                         pygame.display.update(updateList)
@@ -812,19 +774,21 @@ class ElectricictyQuiz:
             pygame.display.update(updateList)
             self.clock.tick(self.FPS)
 
-    #Execute game
 
-    # game_intro(gameDisplay)
 
-    #Set Face to Neutral
-    # controller.face_update(getFaceNum())
-    #Orient Head to proper position
-    # controller.head_update([90, 90])
-    # pygame.quit()
-    # quit()
+
+# #Execute game
+# game_intro(gameDisplay)
+#
+# # #Set Face to Neutral
+# # controller.face_update(getFaceNum())
+# # #Orient Head to proper position
+# # controller.head_update([90, 90])
+# pygame.quit()
+# quit()
 
 if __name__ == '__main__':
-    quiz = ElectricictyQuiz()
+    quiz = SustainabilityQuiz()
     quiz.game_intro()
     pygame.quit()
     quit()

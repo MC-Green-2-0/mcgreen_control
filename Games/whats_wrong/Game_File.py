@@ -36,6 +36,8 @@ class Button:
 
 class Level:
     def __init__(self):
+        self.game_screen_vshift = (window_size[1]-634)/2
+        self.game_screen_hshift = (window_size[0]-926)/2
         self.background = None
         self.objs = []
         self.flipped = []
@@ -51,10 +53,13 @@ class Level:
         self.timer = timer
 
     def addObj(self, obj, flippedobj, x_pos, y_pos, x_off, y_off, hint):
+        x_pos += self.game_screen_hshift
+        y_pos += self.game_screen_vshift
         xuplimit = x_pos + x_off
         xlowlimit = x_pos - 10
         yuplimit = y_pos + y_off
         ylowlimit = y_pos - 10
+
         self.objs.append([obj,flippedobj, x_pos, y_pos, xuplimit, xlowlimit, yuplimit, ylowlimit])
         self.hints.append(hint)
         self.flipped.append(0)
@@ -66,6 +71,9 @@ class Level:
         hint = font.render(" ", True, (0, 0, 0))
         mixer.music.load('backgroundmsc.wav')
         mixer.music.play(-1)
+        screen.fill((255, 255, 255))
+        screen.blit(menu, (0, 0))
+        screen.blit(menu, (0,window_size[1]/2))
         back = Button(Back_Arrow, Back_Arrow, (10, 10, 100, 80))
 
         back.generate()
@@ -74,9 +82,10 @@ class Level:
 
         while True:
 
-            screen.blit(self.background, (0, 0))
+
+            screen.blit(self.background, (self.game_screen_hshift, self.game_screen_vshift))
             screen.blit(Back_Arrow, (10, 10))
-            screen.blit(hint, (50,85))
+            screen.blit(hint, (50+self.game_screen_hshift,85+self.game_screen_vshift))
             mouse = pygame.mouse.get_pos()
             click = pygame.mouse.get_pressed()
             print(mouse)
@@ -103,16 +112,16 @@ class Level:
                     self.flipped[num] = 1
 
             else:
-                screen.blit(hintp, (815, 25))
-                if 900 > mouse[0] > 815 and 100 > mouse[1] > 25:
-                    screen.blit(hintp, (815, 25))
+                screen.blit(hintp, (815+self.game_screen_hshift, 25+self.game_screen_vshift))
+                if 900+self.game_screen_hshift > mouse[0] > 815+self.game_screen_hshift and 100+self.game_screen_vshift > mouse[1] > 25+self.game_screen_vshift:
+                    screen.blit(hintp, (815+self.game_screen_hshift, 25+self.game_screen_vshift))
                     if click[0] == 1:
                         for objnum, flip in enumerate(self.flipped):
                             if not flip:
                                 hint = font.render(self.hints[objnum], True, (0, 0, 0))
                                 break
                 else:
-                    screen.blit(hintp, (815, 25))
+                    screen.blit(hintp, (815+self.game_screen_hshift, 25+self.game_screen_vshift))
 
 
             if self.isTimer:
@@ -120,7 +129,7 @@ class Level:
                     seconds_elapsed = (pygame.time.get_ticks()-start_tick)//1000
                     time_left = time-seconds_elapsed
                     time_text = font.render(str(time_left), True, (0, 0, 0))
-                    screen.blit(time_text, (5, 85))
+                    screen.blit(time_text, (5+self.game_screen_hshift, 85+self.game_screen_vshift))
                     if time_left <= 0:
                         gamelose()
 
@@ -129,7 +138,7 @@ class Level:
             pygame.display.update()
 
 pygame.init()
-window_size = (926, 634)
+window_size = (1080, 1920)
 screen = pygame.display.set_mode(window_size)
 
 black = (0, 0, 0)
@@ -143,7 +152,7 @@ darker_blue = (35, 67, 250)
 yellow = (255, 255, 0)
 darker_yellow = (200, 200, 0)
 
-largeText = pygame.font.Font('FreeSansBold.ttf', 64)   #Large text, ideal for headings
+largeText = pygame.font.Font('FreeSansBold.ttf', 70)   #Large text, ideal for headings (normally 64)
 mediumText = pygame.font.Font('FreeSansBold.ttf', 48)   #Medium text, ideal for subheadings
 smallText =  pygame.font.Font('FreeSansBold.ttf', 14)   #Small text, ideal for small buttons
 
@@ -154,6 +163,7 @@ classroomlvl = pygame.image.load('classroomlvl.png')
 kitchenlvl = pygame.image.load('kitchenlvl.png')
 bedroomlvl = pygame.image.load('bedroomlvl.png')
 menu = pygame.image.load('menubkg.png')
+menu = pygame.transform.scale(menu, (window_size[0], window_size[1]//2))
 helps = pygame.image.load('helpback.png')
 helpbkg = pygame.image.load('helpbkglegit.png')
 helpbkg = pygame.transform.scale(helpbkg, window_size)
@@ -177,17 +187,29 @@ tick = pygame.image.load('tick.png')
 
 # Buttons
 playb = pygame.image.load('playbtn.png')
+playb = pygame.transform.scale(playb, (750,222))
 helpb = pygame.image.load('helpbtn.png')
+helpb = pygame.transform.scale(helpb, (750,222))
 exitb = pygame.image.load('quitbtn.png')
+exitb = pygame.transform.scale(exitb, (750,222))
 lvl1 = pygame.image.load('lvl1.png')
+lvl1 = pygame.transform.scale(lvl1, (750,222))
 lvl2 = pygame.image.load('lvl2.png')
+lvl2 = pygame.transform.scale(lvl2, (750,222))
 lvl3 = pygame.image.load('lvl3.png')
+lvl3 = pygame.transform.scale(lvl3, (750,222))
 invplayb = pygame.image.load('invplayb.png')
+invplayb = pygame.transform.scale(invplayb, (750,222))
 invhelpb = pygame.image.load('invhelpb.png')
+invhelpb = pygame.transform.scale(invhelpb, (750,222))
 invexitb = pygame.image.load('invquitb.png')
+invexitb = pygame.transform.scale(invexitb, (750,222))
 invlvl1 = pygame.image.load('invlvl1.png')
+invlvl1 = pygame.transform.scale(invlvl1, (750,222))
 invlvl2 = pygame.image.load('invlvl2.png')
+invlvl2 = pygame.transform.scale(invlvl2, (750,222))
 invlvl3 = pygame.image.load('invlvl3.png')
+invlvl3 = pygame.transform.scale(invlvl3, (750,222))
 
 hintp = pygame.image.load('hint.png')
 blank = pygame.image.load('blank.png')
@@ -256,43 +278,65 @@ def intro():
     mixer.music.play(-1)
     #controller.face_update(4)  # HHHHHHHHHHHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRRRRREEEEEEEEEEEEEE
 #    controller.head_update([90,90])
+    screen.fill((255, 255, 255))
+    screen.blit(menu, (0, 0))
+    screen.blit(menu, (0,window_size[1]/2))
+    playbutton = Button(invplayb, playb, (window_size[0]/2 - 750/2, window_size[1]/4, 750, 222))
+    helpbutton = Button(invhelpb, helpb, (window_size[0]/2 - 750/2,  window_size[1]/2, 750, 222))
+    quitbutton = Button(invexitb, exitb, (window_size[0]/2 - 750/2,  3*window_size[1]/4, 750, 222))
+    TextSurf, TextRect = text_objects("What's Wrong with the Room?", largeText, black)
+    TextRect.center = (window_size[0]/2,190)
+    screen.blit(TextSurf,TextRect)
     bmenu = True
     while bmenu:
-        screen.fill((255, 255, 255))
-        screen.blit(menu, (0, 0))
+
+        playbutton.generate()
+        helpbutton.generate()
+        quitbutton.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
+            # if event.type == pygame.MOUSEBUTTONUP:
+            #     if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
+            #         level_select()
+            #     elif 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
+            #         help_screen()
+            #     elif 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
+            #         pygame.quit()
+            #         quit()
             if event.type == pygame.MOUSEBUTTONUP:
-                if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
+                touch_status = True
+                if(playbutton.is_pressed(touch_status)):
                     level_select()
-                elif 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
+                if(helpbutton.is_pressed(touch_status)):
                     help_screen()
-                elif 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
+                if(quitbutton.is_pressed(touch_status)):
                     pygame.quit()
                     quit()
 
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
-        print(click)
-        if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
-            screen.blit(invplayb, (360, 80))
-        else:
-            screen.blit(playb, (360, 80))
 
-        if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
-            screen.blit(invhelpb, (360, 170))
-        else:
-            screen.blit(helpb, (360, 170))
 
-        if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
-            screen.blit(invexitb, (360, 260))
-
-        else:
-            screen.blit(exitb, (360, 260))
+        # mouse = pygame.mouse.get_pos()
+        # click = pygame.mouse.get_pressed()
+        # print(click)
+        # if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
+        #     screen.blit(invplayb, (360, 80))
+        # else:
+        #     screen.blit(playb, (360, 80))
+        #
+        # if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
+        #     screen.blit(invhelpb, (360, 170))
+        # else:
+        #     screen.blit(helpb, (360, 170))
+        #
+        # if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
+        #     screen.blit(invexitb, (360, 260))
+        #
+        # else:
+        #     screen.blit(exitb, (360, 260))
 
         pygame.display.update()
 
@@ -355,13 +399,25 @@ def level_select():
     bmenu = True
     mixer.music.load('backgroundmsc.wav')
     mixer.music.play(-1)
+    screen.fill((255, 255, 255))
+    screen.blit(menu, (0, 0))
+    screen.blit(menu, (0,window_size[1]/2))
     back = Button(Back_Arrow, Back_Arrow, (10, 10, 100, 80))
+    lvl1b = Button(invlvl1, lvl1, (window_size[0]/2 - 750/2, window_size[1]/4, 750, 222))
+    lvl2b = Button(invlvl2, lvl2, (window_size[0]/2 - 750/2, window_size[1]/2, 750, 222))
+    lvl3b = Button(invlvl3, lvl3, (window_size[0]/2 - 750/2, 3*window_size[1]/4, 750, 222))
     back.generate()
     pygame.display.update()
     while bmenu:
-        screen.fill((255, 255, 255))
-        screen.blit(menu, (0, 0))
+        # screen.fill((255, 255, 255))
+        # screen.blit(menu, (0, 0))
         for event in pygame.event.get():
+
+            lvl1b.generate()
+            lvl2b.generate()
+            lvl3b.generate()
+            back.generate()
+
             # Quitting the Game by X-ing out Window
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -370,31 +426,18 @@ def level_select():
                 if back.is_pressed(True):
                     intro()
 
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
-        if 360 + 220 > mouse[0] > 360 and 80 + 70 > mouse[1] > 80:
-            screen.blit(invlvl1, (360, 80))
-            if click[0] == 1:
-                level1.run()
-        else:
-            screen.blit(lvl1, (360, 80))
-        if 360 + 220 > mouse[0] > 360 and 170 + 70 > mouse[1] > 170:
-            screen.blit(invlvl2, (360, 170))
-            if click[0] == 1:
-                level2.run()
-        else:
-            screen.blit(lvl2, (360, 170))
-        if 360 + 220 > mouse[0] > 360 and 260 + 70 > mouse[1] > 260:
-            screen.blit(invlvl3, (360, 260))
-            if click[0] == 1:
-                level3.run()
-        else:
-            screen.blit(lvl3, (360, 260))
-        back.generate()
+            if event.type == pygame.MOUSEBUTTONUP:
+                touch_status = True
+                if(lvl1b.is_pressed(touch_status)):
+                    level1.run()
+                if(lvl2b.is_pressed(touch_status)):
+                    level2.run()
+                if(lvl3b.is_pressed(touch_status)):
+                    level3.run()
 
 
 
-        pygame.display.update()
+            pygame.display.update()
 
 
 def gamewin():
@@ -411,12 +454,14 @@ def gamewin():
     mixer.music.load('game_won.wav')
     mixer.music.play()
     back = Button(Back_Arrow, Back_Arrow, (10, 10, 100, 80))
+    game_screen_vshift = (window_size[1]-634)/2
+    game_screen_hshift = (window_size[0]-926)/2
 
     pygame.display.update()
     while bgame:
         #pygame.time.delay(60)
         screen.fill((255, 255, 255))
-        screen.blit(gamewon, (0,0))
+        screen.blit(gamewon, (game_screen_hshift,game_screen_vshift))
         back.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window
@@ -445,10 +490,11 @@ def gamelose():
     mixer.music.load('game_lose.wav')
     mixer.music.play()
     back = Button(Back_Arrow, Back_Arrow, (10, 10, 100, 80))
-
+    game_screen_vshift = (window_size[1]-634)/2
+    game_screen_hshift = (window_size[0]-926)/2
     while bgame:
         screen.fill((255, 255, 255))
-        screen.blit(gamelost, (0, 50))
+        screen.blit(gamelost, (game_screen_hshift, 50+game_screen_vshift))
         back.generate()
         for event in pygame.event.get():
             # Quitting the Game by X-ing out Window

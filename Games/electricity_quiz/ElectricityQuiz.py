@@ -80,7 +80,7 @@ class Button:
             return False
 
 
-class ElectricictyQuiz:
+class ElectricityQuiz:
     def __init__(self):
         #Screen size of window
         self.window_size = (1080,1920)

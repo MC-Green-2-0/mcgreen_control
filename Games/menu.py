@@ -9,8 +9,8 @@ import os
 
 
 from recycle_it.Recycle import Recycle_IT
-from electricity_quiz import ElectricictyQuiz
-from sustainability_quiz import SustainabilityQuiz
+from electricity_quiz.ElectricityQuiz import ElectricityQuiz
+from sustainability_quiz.SustainabilityQuiz import SustainabilityQuiz
 
 class Button:
     def __init__ (self, surfaceName, ac, ic, rectVals, text, font):
@@ -121,10 +121,11 @@ def run_menu():
                 if electricityButton.is_pressed(touch_status):
                     try:
                         os.chdir('./electricity_quiz')
-                        game = ElectrictyQuiz()
+                        game = ElectricityQuiz()
                         game.game_intro()
                     except:
                         os.chdir('..')
+                        screen.fill(white)
 
                 elif sustainabilityButton.is_pressed(touch_status):
                     try:
@@ -133,6 +134,7 @@ def run_menu():
                         game.game_intro()
                     except:
                         os.chdir('..')
+                        screen.fill(white)
 
                 elif whatswrongButton.is_pressed(touch_status):
                     os.chdir(homedir + '/whats_wrong')
@@ -147,6 +149,7 @@ def run_menu():
 
                     except:
                         os.chdir('..')
+                        screen.fill(white)
 
 
                 elif WaterButton.is_pressed(touch_status):

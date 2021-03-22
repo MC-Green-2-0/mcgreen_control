@@ -7,6 +7,8 @@ import math
 import sys
 import json
 import threading
+sys.path.append("../")
+import error
 
 class Recycle_IT:
     def __init__ (self):
@@ -49,7 +51,7 @@ class Recycle_IT:
             self.data = json.load(file)
         # Background Music
         mixer.music.load('backgroundmsc.wav')
-        mixer.music.play(-1)
+    #    mixer.music.play(-1)
 
         # Title and Icon
         pygame.display.set_caption("Recycle It or Not!")
@@ -266,6 +268,7 @@ class Recycle_IT:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.screen.fill(self.white)
+                    endGame()
                     return
                     pygame.quit()
                     quit()
@@ -332,6 +335,7 @@ class Recycle_IT:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.screen.fill(self.white)
+                    endGame()
                     return
                     pygame.quit()
                     quit()
@@ -352,7 +356,7 @@ class Recycle_IT:
         # rotate.start()
         game_wn = pygame.image.load('gameWonBkg.png')
         mixer.music.load('game_won.wav')
-        mixer.music.play()
+        #mixer.music.play()
         pause = True
         back = Button(self.Back_Arrow, self.Back_Arrow, (20, 20, 100, 70))
 
@@ -367,6 +371,7 @@ class Recycle_IT:
                 # Quitting the Game by X-ing out self.window
                 if event.type == pygame.QUIT:
                     self.screen.fill(self.white)
+                    endGame()
                     return
                     pygame.quit()
                     quit()
@@ -399,7 +404,7 @@ class Recycle_IT:
         explanation = Button(expImage, expImage, (self.window[0]/2 - 750/2, self.window[1] - 450, 750, 222))
 
         mixer.music.load('game_lose.wav')
-        mixer.music.play()
+        #mixer.music.play()
         pause = True
         self.screen.fill((255, 255, 255))
         while pause:
@@ -414,6 +419,7 @@ class Recycle_IT:
                 # Quitting the Game by X-ing out self.window
                 if event.type == pygame.QUIT:
                     self.screen.fill(self.white)
+                    endGame()
                     return
                     pygame.quit()
                     quit()
@@ -466,6 +472,7 @@ class Recycle_IT:
                 # Quitting the Game by X-ing out self.window
                 if event.type == pygame.QUIT:
                     self.screen.fill(self.white)
+                    endGame()
                     return
                     pygame.quit()
                     quit()
@@ -478,6 +485,7 @@ class Recycle_IT:
                         self.help_screen()
                     if(quitbutton.is_pressed(touch_status)):
                         self.screen.fill(self.white)
+                        endGame()
                         return
                         pygame.quit()
                         quit()
@@ -526,6 +534,7 @@ class Recycle_IT:
                         self.intro()
                 if event.type == pygame.QUIT:
                     self.screen.fill(self.white)
+                    endGame()
                     return
                     pygame.quit()
                     quit()
@@ -571,6 +580,7 @@ class Recycle_IT:
                 # Quitting the Game by X-ing out self.window
                 if event.type == pygame.QUIT:
                     self.screen.fill(self.white)
+                    endGame()
                     return
                     pygame.quit()
                     quit()
@@ -620,7 +630,7 @@ class Recycle_IT:
         rMove = Button(self.empty, self.empty, (self.window[0]/2,0, self.window[0]/2, self.window[1]))
         back = Button(self.Back_Arrow, self.Back_Arrow, (20, 20, 100, 70))
         mixer.music.load('backgroundmsc.wav')
-        mixer.music.play(-1)
+        #mixer.music.play(-1)
 
         if(lvl == 1):
             fallspeed = 8
@@ -669,6 +679,7 @@ class Recycle_IT:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.screen.fill(self.white)
+                    endGame()
                     return
                     pygame.quit()
                     quit()
@@ -926,6 +937,7 @@ class Recycle_IT:
             dif = new - old
             #print(dif)
             old = pygame.time.get_ticks()
+
 
 class Button:
     def __init__ (self, ac, ic, rectVals):

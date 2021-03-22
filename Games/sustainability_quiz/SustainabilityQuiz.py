@@ -9,7 +9,8 @@ import random
 import sys
 import threading
 import textwrap
-
+sys.path.append("../")
+import error
 class Button:
     def __init__ (self, surfaceName, ac, ic, rectVals, text, font):
         self.ac = ac #Active color of button
@@ -239,7 +240,7 @@ class SustainabilityQuiz:
                 if event.type == pygame.QUIT:
                     # Set Face to Neutral
                     # controller.face_update(getFaceNum())
-
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -332,7 +333,7 @@ class SustainabilityQuiz:
                 if event.type == pygame.QUIT:
                     #Change face to neutral
                     # controller.face_update(getFaceNum())
-
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -412,7 +413,7 @@ class SustainabilityQuiz:
                 if event.type == pygame.QUIT:
                     #Set Face to Neutral
                     # controller.face_update(getFaceNum())
-
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -478,7 +479,7 @@ class SustainabilityQuiz:
                 if event.type == pygame.QUIT:
                     #Set Face to Neutral
                     # controller.face_update(getFaceNum())
-
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -487,6 +488,7 @@ class SustainabilityQuiz:
 
                     #Check if buttons are pressed if mouse button is down
                     if quit_button.is_pressed(touch_status):    #If 'Quit' button is tapped
+                        endGame()
                         pygame.quit()
                         quit()
 
@@ -562,7 +564,7 @@ class SustainabilityQuiz:
                 if event.type == pygame.QUIT:
                     #Set Face to Neutral
                     # controller.face_update(getFaceNum())
-
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -629,7 +631,7 @@ class SustainabilityQuiz:
                 if event.type == pygame.QUIT:
                     #Set Face to Neutral
                     # controller.face_update(getFaceNum())
-
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -747,6 +749,7 @@ class SustainabilityQuiz:
                     #Set Face to Neutral
                     # controller.face_update(getFaceNum())
                     #
+                    endGame()
                     pygame.quit()
                     quit()
 

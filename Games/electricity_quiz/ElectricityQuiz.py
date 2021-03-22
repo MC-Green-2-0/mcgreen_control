@@ -8,6 +8,8 @@ from PIL import Image
 import random
 import sys
 import threading
+sys.path.append("../")
+import error
 
 # def resource_path(relative):
 #     if hasattr(sys, "_MEIPASS"):
@@ -262,7 +264,7 @@ class ElectricictyQuiz:
                 if event.type == pygame.QUIT:
                     # Set Face to Neutral
                     # controller.face_update(getFaceNum())
-
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -356,6 +358,7 @@ class ElectricictyQuiz:
                 if event.type == pygame.QUIT:
                     #Change face to neutral
                     # controller.face_update(getFaceNum())
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -437,7 +440,7 @@ class ElectricictyQuiz:
                 if event.type == pygame.QUIT:
                     #Set Face to Neutral
                     # controller.face_update(getFaceNum())
-
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -512,7 +515,7 @@ class ElectricictyQuiz:
                 if event.type == pygame.QUIT:
                     #Set Face to Neutral
                     # controller.face_update(getFaceNum())
-
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -522,6 +525,7 @@ class ElectricictyQuiz:
 
                     #Check if buttons are pressed if mouse button is down
                     if quit_button.is_pressed(touch_status):    #If 'Quit' button is tapped
+                        endGame()
                         pygame.quit()
                         quit()
 
@@ -596,7 +600,7 @@ class ElectricictyQuiz:
                 if event.type == pygame.QUIT:
                     #Set Face to Neutral
                     # controller.face_update(getFaceNum())
-
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -665,7 +669,7 @@ class ElectricictyQuiz:
                 if event.type == pygame.QUIT:
                     #Set Face to Neutral
                     # controller.face_update(getFaceNum())
-
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -784,6 +788,7 @@ class ElectricictyQuiz:
                 if event.type == pygame.QUIT:
                     #Set Face to Neutral
                     # controller.face_update(getFaceNum())
+                    endGame()
                     pygame.quit()
                     quit()
 

@@ -2,7 +2,6 @@
 import rospy
 from std_msgs.msg import Int16, String
 from mcgreen_control.msg import Array
-import non_use.py
 
 # 0   -> Caution
 # 1   -> Happy Face

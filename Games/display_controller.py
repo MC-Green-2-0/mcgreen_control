@@ -4,6 +4,7 @@ from std_msgs.msg import Int16, Bool
 import time
 import sys
 import menu.py
+import non_use.py
 
 class Display_Controller:
     MODE_TOPIC = "/safety_status"
@@ -20,18 +21,17 @@ class Display_Controller:
     # Called when the robot's mode is changed. Decides whether games can be played or not
     def mode_update(self, mode):
         if mode.data != 3:
-            # display MCGreen Logo
-            pass
+            non_use.non_use() # Adjust to run in a separate thread/stop when safety is true
         else:
             menu.run_menu()
 
     # Called when there is a change to the safety status. If unsafe, displays a "caution" picture
     def safety_update(self, safety):
         if safety.data == False:
-            # display MCGreen Logo
             self.expression = Int16()
             self.expression.data = 0
             self.face_pub.publish(self.expression)
+            non_use.non_use() # Adjust to run in a separate thread/stop when safety is true
 
 if __name__=="__main__":
     try:

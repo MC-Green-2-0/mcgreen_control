@@ -400,8 +400,11 @@ class Recycle_IT:
         # rotate.start()
         game_lst = pygame.image.load('gameLostBkg.png')
         back = Button(self.Back_Arrow, self.Back_Arrow, (20, 20, 100, 70))
-        expImage = pygame.image.load("play.png")
-        explanation = Button(expImage, expImage, (self.window[0]/2 - 750/2, self.window[1] - 450, 750, 222))
+        expImage = pygame.image.load("Explanations.png")
+        invexpImage = pygame.image.load("invExplanation.png")
+        expImage = pygame.transform.scale(expImage, (750, 222))
+        invexpImage = pygame.transform.scale(invexpImage, (750, 222))
+        explanation = Button(invexpImage, expImage, (self.window[0]/2 - 750/2, self.window[1] - 450, 750, 222))
 
         mixer.music.load('game_lose.wav')
         #mixer.music.play()

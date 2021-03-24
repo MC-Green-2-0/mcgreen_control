@@ -10,19 +10,21 @@ class Display_Controller:
         self.mode_sub = rospy.Subscriber(self.MODE_TOPIC, Int16, self.mode_update)
         self.sefety_sub = rospy.Subscriber(self.SAFETY_TOPIC, Bool, self.safety_update)
 
+    # Called when the robot's mode is changed. Decides whether games can be played or not
     def mode_update(self, mode):
         if mode.data != 3:
-            #display MCGreen Logo (Maybe kill games?)
+            # display MCGreen Logo (Games team)
             pass
         else:
             pass
-            #you can play games
-            #Perhaps call the game menu function?
+            # you can play games
+            # call the game menu function (Games team)
 
+    # Called when there is a change to the safety status. If unsafe, displays a "caution" picture
     def safety_update(self, safety):
         if safety.data == False:
             pass
-            #display Caution Picture
+            # display Caution Picture
 
 if __name__=="__main__":
     try:

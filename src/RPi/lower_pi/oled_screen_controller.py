@@ -73,12 +73,17 @@ class OLED:
 		self.face = data.data
 		if self.face == 0:
 			self.face = "Warn"
-		elif self.face < 4:
-			self.face = "Happy " + str(self.face)
-		elif self.face > 4:
-			self.face = "Sad " + str(self.face)
-		else:
+		elif self.face == 1:
+			self.face = "Happy"
+		elif self.face == 2:
 			self.face = "Neutral"
+		elif self.face == 3:
+			self.face = "Sad"
+		elif self.face == 4:
+			self.face = "Surprise"
+		elif self.face == 5:
+			self.face = "Thumbs Up"
+
 
 	def display(self):
 		self.line = 0

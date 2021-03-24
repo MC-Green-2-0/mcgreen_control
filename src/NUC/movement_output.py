@@ -27,7 +27,7 @@ class Movement_Output:
         self.upper = [1500] * 2 + [90] * 2
         self.lower = [1500] * 4
         self.face = Int16()
-        self.face.data = 4
+        self.face.data = 2
         self.override = Int16()
         self.override.data = 1
         self.safety_toggle = False

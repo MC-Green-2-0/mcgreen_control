@@ -4,6 +4,8 @@ import time
 import sys
 import random
 import threading
+sys.path.append("../")
+import error
 
 class Button:
     def __init__ (self, ac, ic, rectVals):
@@ -93,6 +95,7 @@ class Level:
             for event in pygame.event.get():
                 # Quitting the Game by X-ing out Window
                 if event.type == pygame.QUIT:
+                    endGame()
                     pygame.quit()
                     quit()
                 # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
@@ -300,6 +303,7 @@ class WhatsWrong:
             for event in pygame.event.get():
                 # Quitting the Game by X-ing out Window
                 if event.type == pygame.QUIT:
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -318,6 +322,7 @@ class WhatsWrong:
                     if(helpbutton.is_pressed(touch_status)):
                         self.help_screen(self.screen)
                     if(quitbutton.is_pressed(touch_status)):
+                        endGame()
                         pygame.quit()
                         quit()
 
@@ -361,6 +366,7 @@ class WhatsWrong:
             for event in pygame.event.get():
                 # Quitting the Game by X-ing out Window
                 if event.type == pygame.QUIT:
+                    endGame()
                     pygame.quit()
                     quit()
                 # keystroke check (right/left) and changing val of playerX_change to +/- based on keypress
@@ -397,6 +403,7 @@ class WhatsWrong:
 
                 # Quitting the Game by X-ing out Window
                 if event.type == pygame.QUIT:
+                    endGame()
                     pygame.quit()
                     quit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -452,6 +459,7 @@ class WhatsWrong:
             for event in pygame.event.get():
                 # Quitting the Game by X-ing out Window
                 if event.type == pygame.QUIT:
+                    endGame()
                     pygame.quit()
                     quit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -478,6 +486,7 @@ class WhatsWrong:
             for event in pygame.event.get():
                 # Quitting the Game by X-ing out Window
                 if event.type == pygame.QUIT:
+                    endGame()
                     pygame.quit()
                     quit()
                 if event.type == pygame.MOUSEBUTTONDOWN:

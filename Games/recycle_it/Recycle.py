@@ -983,5 +983,8 @@ class Button:
         #If mouse is not hovering over button, button must obviously not be pressed
         else:
             return False
-#game = Recycle_IT()
-#game.intro()
+if __name__ == '__main__':
+    game = Recycle_IT()
+    game.intro()
+    pygame.quit()
+    quit()

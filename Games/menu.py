@@ -11,6 +11,7 @@ import os
 from recycle_it.Recycle import Recycle_IT
 from electricity_quiz.ElectricityQuiz import ElectricityQuiz
 from sustainability_quiz.SustainabilityQuiz import SustainabilityQuiz
+from whats_wrong.Game_File import WhatsWrong
 
 class Button:
     def __init__ (self, surfaceName, ac, ic, rectVals, text, font):
@@ -137,10 +138,13 @@ def run_menu():
                         screen.fill(white)
 
                 elif whatswrongButton.is_pressed(touch_status):
-                    os.chdir(homedir + '/whats_wrong')
-                    exec(open("./Game File.py").read())
-                    os.chdir(homedir)
-
+                    try:
+                        os.chdir('./whats_wrong')
+                        game = WhatsWrong()
+                        game.intro()
+                    except:
+                        os.chdir('..')
+                        screen.fill(white)
                 elif RecycleItButton.is_pressed(touch_status):
                     try:
                         os.chdir('./recycle_it')

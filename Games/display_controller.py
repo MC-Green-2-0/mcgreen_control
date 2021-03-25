@@ -1,28 +1,37 @@
 #!/usr/bin/python3
 import rospy
 from std_msgs.msg import Int16, Bool
+import time
+import sys
+import menu.py
+import non_use.py
 
 class Display_Controller:
     MODE_TOPIC = "/safety_status"
     SAFETY_TOPIC = "/mode_status"
+    FACE_TOPIC = "/facial_expression"
+
+
 
     def __init__ (self):
         self.mode_sub = rospy.Subscriber(self.MODE_TOPIC, Int16, self.mode_update)
         self.sefety_sub = rospy.Subscriber(self.SAFETY_TOPIC, Bool, self.safety_update)
+        self.face_pub = rospy.Publisher(self.FACE_TOPIC, Int16, queue_size=1)
 
+    # Called when the robot's mode is changed. Decides whether games can be played or not
     def mode_update(self, mode):
         if mode.data != 3:
-            #display MCGreen Logo (Maybe kill games?)
-            pass
+            non_use.non_use() # Adjust to run in a separate thread/stop when safety is true
         else:
-            pass
-            #you can play games
-            #Perhaps call the game menu function?
+            menu.run_menu()
 
+    # Called when there is a change to the safety status. If unsafe, displays a "caution" picture
     def safety_update(self, safety):
         if safety.data == False:
-            pass
-            #display Caution Picture
+            self.expression = Int16()
+            self.expression.data = 0
+            self.face_pub.publish(self.expression)
+            non_use.non_use() # Adjust to run in a separate thread/stop when safety is true
 
 if __name__=="__main__":
     try:

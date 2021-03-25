@@ -167,4 +167,5 @@ def run_menu():
             screen.blit(middlesex, ((window[0] - 512)/2, 50))
             screen.blit(textSurf, textRect)
             pygame.display.update()
-run_menu()
+if __name__ == '__main__':
+    run_menu()

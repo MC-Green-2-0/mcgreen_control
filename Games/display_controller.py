@@ -18,6 +18,7 @@ from sustainability_quiz.SustainabilityQuiz import SustainabilityQuiz
 from whats_wrong.Game_File import WhatsWrong
 from water_calculator.water_calculator import WaterCalc
 from display_class.py import Display_Controller
+from game_interface import Game_Interface
 
 class Button:
     def __init__ (self, surfaceName, ac, ic, rectVals, text, font):
@@ -79,6 +80,8 @@ if __name__=="__main__":
         controller = Display_Controller()
 
         homedir = os.getcwd()
+        self.ros_controller = Game_Interface()
+        self.ros_controller.game_update("None")
         black = (0, 0, 0)
         white = (255, 255, 255)
         red = (255, 0, 0)
@@ -155,32 +158,40 @@ if __name__=="__main__":
                         #Check if buttons are pressed if mouse button is down
                         if electricityButton.is_pressed(touch_status):
                             try:
+                                self.ros_controller.game_update("Electricity Quiz")
                                 os.chdir('./electricity_quiz')
                                 game = ElectricityQuiz()
                                 game.game_intro()
+
                             except:
                                 os.chdir('..')
                                 screen.fill(white)
+                                self.ros_controller.game_update("None")
 
                         elif sustainabilityButton.is_pressed(touch_status):
                             try:
+                                self.ros_controller.game_update("Sustainability Quiz")
                                 os.chdir('./sustainability_quiz')
                                 game = SustainabilityQuiz()
                                 game.game_intro()
                             except:
                                 os.chdir('..')
                                 screen.fill(white)
+                                self.ros_controller.game_update("None")
 
                         elif whatswrongButton.is_pressed(touch_status):
                             try:
+                                self.ros_controller.game_update("What's Wrong With The Room")
                                 os.chdir('./whats_wrong')
                                 game = WhatsWrong()
                                 game.intro()
                             except:
                                 os.chdir('..')
                                 screen.fill(white)
+                                self.ros_controller.game_update("None")
                         elif RecycleItButton.is_pressed(touch_status):
                             try:
+                                self.ros_controller.game_update("Recycle It")
                                 os.chdir('./recycle_it')
                                 game = Recycle_IT()
                                 game.intro()
@@ -188,10 +199,12 @@ if __name__=="__main__":
                             except:
                                 os.chdir('..')
                                 screen.fill(white)
+                                self.ros_controller.game_update("None")
 
 
                         elif WaterButton.is_pressed(touch_status):
                             try:
+                                self.ros_controller.game_update("Water Calculator")
                                 os.chdir('./water_calculator')
                                 game = WaterCalc()
                                 game.game_intro()
@@ -199,6 +212,7 @@ if __name__=="__main__":
                             except:
                                 os.chdir('..')
                                 screen.fill(white)
+                                self.ros_controller.game_update("None")
 
 
 

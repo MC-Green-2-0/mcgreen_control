@@ -9,6 +9,7 @@ import json
 import threading
 sys.path.append("../")
 import error
+from game_interface import Game_Interface
 
 class Recycle_IT:
     def __init__ (self):
@@ -18,6 +19,8 @@ class Recycle_IT:
         # controller = Head_comm("Recycle It")
         # Initialize pygame
         pygame.init()
+
+        self.ros_controller = Game_Interface()
 
         #threading trackers
         #active_head = 0
@@ -443,6 +446,10 @@ class Recycle_IT:
 
 
     def intro(self):
+
+        self.ros_controller.face_update(1)
+        self.ros_controller.head_update(0)
+
         playb = pygame.image.load('play.png')
         playb = pygame.transform.scale(playb, (750,222))
         helpb = pygame.image.load('help.png')

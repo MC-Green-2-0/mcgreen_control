@@ -16,7 +16,7 @@ from recycle_it.Recycle import Recycle_IT
 from electricity_quiz.ElectricityQuiz import ElectricityQuiz
 from sustainability_quiz.SustainabilityQuiz import SustainabilityQuiz
 from whats_wrong.Game_File import WhatsWrong
-
+from water_calculator.water_calculator import WaterCalc
 from display_class.py import Display_Controller
 
 class Button:
@@ -77,7 +77,7 @@ if __name__=="__main__":
     try:
         rospy.init_node("Display_Controller")
         controller = Display_Controller()
-        
+
         homedir = os.getcwd()
         black = (0, 0, 0)
         white = (255, 255, 255)
@@ -111,9 +111,9 @@ if __name__=="__main__":
         textRect.center = ((window[0] / 2), 200)
 
         screen.blit(textSurf, textRect)
-        
+
         while True:
-            
+
             if controller.current_mode != 3:
                 screen.fill((255,255,255))
                 middlesex = pygame.image.load('Middlesex.png')
@@ -128,7 +128,7 @@ if __name__=="__main__":
                 pygame.display.update()
 
 
-            else:   
+            else:
                 screen.fill((255, 255, 255))
                 electricityButton.generate()
                 sustainabilityButton.generate()
@@ -191,9 +191,15 @@ if __name__=="__main__":
 
 
                         elif WaterButton.is_pressed(touch_status):
-                            os.chdir(homedir + '/water_calculator')
-                            exec(open("./water_calculator.py").read())
-                            os.chdir(homedir)
+                            try:
+                                os.chdir('./water_calculator')
+                                game = WaterCalc()
+                                game.game_intro()
+
+                            except:
+                                os.chdir('..')
+                                screen.fill(white)
+
 
 
 

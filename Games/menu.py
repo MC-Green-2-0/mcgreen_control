@@ -12,6 +12,7 @@ from recycle_it.Recycle import Recycle_IT
 from electricity_quiz.ElectricityQuiz import ElectricityQuiz
 from sustainability_quiz.SustainabilityQuiz import SustainabilityQuiz
 from whats_wrong.Game_File import WhatsWrong
+from water_calculator.water_calculator import WaterCalc
 
 class Button:
     def __init__ (self, surfaceName, ac, ic, rectVals, text, font):
@@ -157,9 +158,14 @@ def run_menu():
 
 
                 elif WaterButton.is_pressed(touch_status):
-                    os.chdir(homedir + '/water_calculator')
-                    exec(open("./water_calculator.py").read())
-                    os.chdir(homedir)
+                    try:
+                        os.chdir('./water_calculator')
+                        game = WaterCalc()
+                        game.game_intro()
+
+                    except:
+                        os.chdir('..')
+                        screen.fill(white)
 
 
 

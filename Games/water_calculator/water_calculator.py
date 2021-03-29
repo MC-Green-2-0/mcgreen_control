@@ -116,6 +116,7 @@ class Appliance:
                 print(event)
 
                 if event.type == pygame.QUIT:
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -341,6 +342,7 @@ class WaterCalc:
                 print(event)
 
                 if event.type == pygame.QUIT:
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -350,6 +352,7 @@ class WaterCalc:
 
                     #Check if buttons are pressed if mouse button is down
                     if quit_button.is_pressed(touch_status):    #If 'Quit' button is tapped
+                        endGame()
                         pygame.quit()
                         quit()
 
@@ -429,6 +432,7 @@ class WaterCalc:
                 print(event)
 
                 if event.type == pygame.QUIT:
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -521,6 +525,7 @@ class WaterCalc:
                 print(event)
 
                 if event.type == pygame.QUIT:
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -652,6 +657,7 @@ class WaterCalc:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    endGame()
                     pygame.quit()
                     quit()
 
@@ -697,6 +703,7 @@ class WaterCalc:
                         self.faucet.unitAmt = 0
                         self.game_menu(surface)
                     if quit_button.is_pressed(touch_status):
+                        endGame()
                         pygame.quit()
                         quit()
 

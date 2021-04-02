@@ -176,6 +176,7 @@ class Recycle_IT:
 
 '''
     def explanation_page(self):
+        self.ros_controller.face_update(1)
         self.screen.fill((255, 255, 255))
         back = Button(self.Back_Arrow, self.Back_Arrow, (20, 20, 100, 70))
         titleSurf, titleRect = self.text_objects('Press an Item to Learn', self.mediumLargeText, self.black)
@@ -314,6 +315,7 @@ class Recycle_IT:
 
 
     def  explanation_template(self, item):
+        self.ros_controller.face_update(1)
         back = Button(self.Back_Arrow, self.Back_Arrow, (20, 20, 100, 70))
         self.screen.fill(self.white)
         titleSurf, titleRect = self.text_objects(item, self.largeText, self.black)
@@ -348,6 +350,7 @@ class Recycle_IT:
                         self.explanation_page()
 
     def game_won(self, pts):
+        self.ros_controller.face_update(5)
         # face = random.randint(1, 3)  # HEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRREEEEEEEEEEEEEE
         # controller.face_update(face)
         # # These commands won't over write themselves right? like if i say these three in a row
@@ -393,6 +396,7 @@ class Recycle_IT:
 
 
     def game_lost(self, pts):
+        self.ros_controller.face_update(3)
         # face = random.randint(5, 7)  # HHHHHHHHHHHHHHEEEEEEEEEEEEERRRRRRRRRRRREEEEEEEEEEEE
         # controller.face_update(face)
         #See game_won head update comments
@@ -511,6 +515,7 @@ class Recycle_IT:
 
 
     def ready(self):
+        self.ros_controller.face_update(2)
         message = ["Ready ", "Ready. ", "Ready.. ", "Ready... ", "Set ", "Set. ", "Set.. ", "Set... ", "GO! " ]
         for i in range(9):
             self.screen.fill((255, 255, 255))
@@ -525,6 +530,7 @@ class Recycle_IT:
 
 
     def help_screen(self):
+        self.ros_controller.face_update(1)
         helps = pygame.image.load('newhelpbkg.png')
         helps = pygame.transform.scale(helps, (1080, 740))
         menuForHelps = pygame.transform.scale(self.menu, (1080,590))
@@ -556,6 +562,7 @@ class Recycle_IT:
 
 
     def level_select(self, lvl):
+        self.ros_controller.face_update(1)
         lvl1 = pygame.image.load('lvl1.png')
         lvl1 = pygame.transform.scale(lvl1, (700,222))
         lvl2 = pygame.image.load('lvl2.png')
@@ -627,6 +634,7 @@ class Recycle_IT:
 
     # Game Loop
     def game(self, lvl):
+        self.ros_controller.face_update(2)
         # Player + Starting Coordinates
         playerImg = pygame.image.load('character_bin.png')
         playerX = self.window[0]/2
@@ -811,6 +819,7 @@ class Recycle_IT:
 
                 # Adding points to score
                 if goodCollision:
+                    self.ros_controller.face_update(1)
                     good_catch = mixer.Sound('good_catch.wav')
                     #good_catch.play()
                     # face = random.randint(1, 3)  # HHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEEE
@@ -845,6 +854,7 @@ class Recycle_IT:
                 enemyY[i] += enemyY_change[i]
                 badCollision = self.isCollision(enemyX[i], enemyY[i], playerX, playerY)
                 if badCollision:
+                    self.ros_controller.face_update(3)
                     bad_catch = mixer.Sound('bad_catch.wav')
                     # DISPLAY THE SURPRISED FACE HERE FOR 1 SECOND AND REVERT BACK TO NEUTRAL
                     #bad_catch.play()
@@ -882,7 +892,7 @@ class Recycle_IT:
                     neutY[i] += neutY_change[i]
                     neutCollision = self.isCollision(neutX[i], neutY[i], playerX, playerY)
                     if neutCollision:
-
+                        self.ros_controller.face_update(4)
                         # DISPLAY THE SURPRISED FACE HERE FOR 1 SECOND AND REVERT BACK TO NEUTRAL
                         #bad_catch.play()
                         # face = random.randint(5, 7)  # HHHHHHHEEEEEEEEEEEEEERRRRRRRRRRRRREEEEEEEEEEEE

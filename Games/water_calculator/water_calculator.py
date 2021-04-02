@@ -220,7 +220,7 @@ class Button:
 
 
 class WaterCalc:
-    def __init__(self):
+    def __init__(self, ros_controller):
         #Initiate pygame
         pygame.init() #SUPER IMPORTANT
 
@@ -239,7 +239,7 @@ class WaterCalc:
         self.darker_green = (0, 200, 0)
         self.blue = (50, 89, 250)
         self.darker_blue = (35, 67, 250)
-
+        self.ros_controller = ros_controller
         #Define basic text sizes
         self.largeText = pygame.font.Font('FreeSansBold.ttf', 100)   #Large text, ideal for headings
         self.kindalargeText = pygame.font.Font('FreeSansBold.ttf', 70)

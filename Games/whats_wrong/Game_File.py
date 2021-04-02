@@ -142,7 +142,7 @@ class Level:
 
 
 class WhatsWrong:
-    def __init__(self):
+    def __init__(self, ros_controller):
         pygame.init()
         self.window_size = (1080, 1920)
         self.screen = pygame.display.set_mode(self.window_size)
@@ -157,7 +157,7 @@ class WhatsWrong:
         self.darker_blue = (35, 67, 250)
         self.yellow = (255, 255, 0)
         self.darker_yellow = (200, 200, 0)
-
+        self.ros_controller = ros_controller
         self.largeText = pygame.font.Font('FreeSansBold.ttf', 70)   #Large text, ideal for headings (normally 64)
         self.mediumText = pygame.font.Font('FreeSansBold.ttf', 48)   #Medium text, ideal for subheadings
         self.smallText =  pygame.font.Font('FreeSansBold.ttf', 14)   #Small text, ideal for small buttons

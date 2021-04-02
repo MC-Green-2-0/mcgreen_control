@@ -72,7 +72,7 @@ class Button:
 # controller = Head_comm("Sust. Quiz")
 
 class SustainabilityQuiz:
-    def __init__(self):
+    def __init__(self, ros_controller):
         #Screen size of window
         self.window_size = (1080,1920)
 
@@ -90,7 +90,7 @@ class SustainabilityQuiz:
         self.darker_blue = (35, 67, 250)
         self.yellow = (255, 255, 0)
         self.darker_yellow = (200, 200, 0)
-        self.ros_controller = Game_Interface()
+        self.ros_controller = ros_controller
 
         #Load questions JSON file
         with open('questions.json', 'r') as file:

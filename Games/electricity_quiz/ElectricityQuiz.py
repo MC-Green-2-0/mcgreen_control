@@ -10,6 +10,7 @@ import sys
 import threading
 sys.path.append("../")
 import error
+from game_interface import Game_Interface
 
 # def resource_path(relative):
 #     if hasattr(sys, "_MEIPASS"):
@@ -99,6 +100,8 @@ class ElectricityQuiz:
         self.darker_blue = (35, 67, 250)
         self.yellow = (255, 255, 0)
         self.darker_yellow = (200, 200, 0)
+        self.ros_controller = Game_Interface()
+        self.ros_controller.head_update(0)
 
         #Load questions JSON file
         with open('questions.json', 'r') as file:
@@ -187,6 +190,7 @@ class ElectricityQuiz:
 
     def generate_q_page(self, surfaceName, status, pt_inc, question, choices, correct_ans):
         #Status is a list [score, num_right, num_wrong, num_questions]
+        self.ros_controller.face_update(2)
 
         #Button dimensions
         button_w = 750 / 2; button_h = 250 / 2
@@ -319,7 +323,7 @@ class ElectricityQuiz:
         #Instantiate motor thread and begin it
         #motorThread = threading.Thread(target=moveHeadUpDown, args=())
         #motorThread.start()
-
+        self.ros_controller.face_update(1)
         next_button = Button(surface, self.darker_blue, self.blue, (0.5 * self.window_size[0] - (0.5 * 375), 0.5 * self.window_size[1], 750 / 2, 250 / 2), 'Next Question', self.mediumText)
 
         next_button_rect = next_button.get_rect()
@@ -392,7 +396,7 @@ class ElectricityQuiz:
         # motorThread = threading.Thread(target=moveHeadLeftRight, args=())
         # motorThread.start()
 
-
+        self.ros_controller.face_update(3)
         next_button = Button(surface, self.darker_blue, self.blue, (0.5 * self.window_size[0] - (0.5 * 375), 0.5 * self.window_size[1], 750 / 2, 250 / 2), 'Next Question', self.mediumText)
 
         next_button_rect = next_button.get_rect()
@@ -470,6 +474,7 @@ class ElectricityQuiz:
     #Start Menu for Game
     def game_intro(self):
         #Button Dimensions
+        self.ros_controller.face_update(1)
         surface = self.gameDisplay
         button_w = 1.3*(750 / 2); button_h = 1.3*(250 / 2)
         button_y = 1200 / 2
@@ -547,6 +552,7 @@ class ElectricityQuiz:
 
     #Help Menu for Game
     def game_help(self, surface):
+        self.ros_controller.face_update(1)
         #Instantiate button for returning back to intro page
         back_button = Button(surface, self.darker_green, self.green, (0.5 * self.window_size[0] - (0.5 * 375), 0.75 * self.window_size[1], 750 / 2, 250 / 2), 'Back', self.mediumText)
 
@@ -622,6 +628,7 @@ class ElectricityQuiz:
             self.clock.tick(self.FPS)
 
     def select_level(self, surface):
+        self.ros_controller.face_update(1)
         #Instantiate button for returning back to intro page
         button_w, button_h = 375, 125
         button_x = (self.window_size[0] - button_w)/2
@@ -739,6 +746,7 @@ class ElectricityQuiz:
         self.game_over(surface, status)
 
     def game_over(self, surface, status):
+        self.ros_controller.face_update(5)
         #Set Face to Happy, regardless of score
         #controller.face_update(getFaceNum(1))
 

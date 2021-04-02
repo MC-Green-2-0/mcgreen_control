@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+!/usr/bin/python3
 import rospy
 import RPi.GPIO as GPIO
 import time
@@ -14,43 +14,56 @@ class Face_Controller:
 
     def __init__(self):
         self.tog_sub = rospy.Subscriber(self.FACE_TOPIC, Int16, self.face_callback)
-        
-        # Configuration for the matrix
-        self.options = RGBMatrixOptions()
-        self.options.rows = 32
-        self.options.cols = 32
-        self.options.chain_length = 1
-        self.options.parallel = 1
-        self.matrix = RGBMatrix(options=options)
+        self.face_number = 2
+        self.current_face = -1
+
 
     # Called when the face matrix must be changed
     def face_callback(self, data):
         face_number = data.data
 
-        image = Image.open("caution.bmp")
-
-        if face_number == 0:
-        	image = Image.open("caution.bmp")
-        elif face_number == 1:
-            image = Image.open("Grin.png")
-        elif face_number == 2:
-            image = Image.open("neut.png")
-        elif face_number == 3:
-            image = Image.open("Sad.png")
-        elif face_number == 4:
-            image = Image.open("Surprise.png")
-        elif face_number == 5:
-            image = Image.open("thumbs.png")
-        
-        image.thumbnail((self.matrix.width, self.matrix.height + 1), Image.ANTIALIAS)
-        self.matrix.SetImage(image.convert('RGB'))
 
 
 if __name__ == "__main__":
+
+    # Configuration for the matrix
+    options = RGBMatrixOptions()
+    options.rows = 32
+    options.cols = 32
+    options.chain_length = 1
+    options.parallel = 1
+    matrix = RGBMatrix(options=options)
+
     try:
         rospy.init_node("Face_Controller")
         controller = Face_Controller()
-        rospy.spin()
+
+        image = Image.open("neut.png")
+        while(True):
+
+            if controller.current_face == controller.face_number:
+                image.thumbnail((matrix.width, matrix.height + 1), Image.ANTIALIAS)
+                matrix.SetImage(image.convert('RGB'))
+            else:
+                controller.current_face = controller.face_number
+
+                if controller.face_number == 0:
+        	        image = Image.open("caution.bmp")
+                elif controller.face_number == 1:
+                    image = Image.open("Grin.png")
+                elif controller.face_number == 2:
+                    image = Image.open("neut.png")
+                elif controller.face_number == 3:
+                    image = Image.open("Sad.png")
+                elif controller.face_number == 4:
+                    image = Image.open("Surprise.png")
+                elif controller.face_number == 5:
+                    image = Image.open("thumbs.png")
+                else:
+                    image = Image.open("caution.bmp")
+
+                image.thumbnail((matrix.width, matrix.height + 1), Image.ANTIALIAS)
+                matrix.SetImage(image.convert('RGB'))
     except KeyboardInterrupt:
         pass
     except rospy.ROSInterruptException:

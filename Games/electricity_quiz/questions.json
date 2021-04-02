@@ -11,31 +11,31 @@
 
 		{
 			"question": "What is electricity a flow of?",
-			"choices": 
+			"choices":
 			["Electrons", "Protons", "Neutrons", "Photons"],
 			"answer": "Electrons"
 		},
 
 		{
-			"question": 
+			"question":
 			"Electricity moves only in a _________ circuit",
-			"choices": 
+			"choices":
 			["closed", "open", "Doesn't Matter", "All of the above"],
 			"answer": "closed"
 		},
 
 		{
-			"question": 
+			"question":
 			"Electrical _______ let electricity flow through",
-			"choices": 
+			"choices":
 			["conductors", "insulators", "receivers", "transceivers"],
 			"answer": "conductors"
 		},
 
 		{
-			"question": 
-			"Lightning is caused by the buildup of charges in ________",
-			"choices": 
+			"question":
+			"Lightning is caused by the buildup||of charges in ________",
+			"choices":
 			["clouds", "the ground", "air", "water"],
 			"answer": "clouds"
 		}
@@ -45,13 +45,13 @@
 	[
 
 		{
-			"question": 
-			"Which source of alternative energy is th emost efficient?",
+			"question":
+			"Which source of alternative||energy is the most efficient?",
 			"choices":
 		       	["Wind Energy", "Land Energy", "Chemical Energy", "Water Energy"],
 			"answer": "Wind Energy"
 		},
-		
+
 		{
 			"question": "How efficient are solar panels?",
 			"choices":
@@ -60,17 +60,17 @@
 		},
 
 		{
-			"question": 
+			"question":
 			"What do our everyday energy choices affect?",
-			"choices": 
+			"choices":
 			["Air & Water Quality", "Our Hairstyles", "Soil Quality", "Food We Eat"],
 			"answer": "Air & Water Quality"
 		},
 
 		{
 			"question":
-		       	"What do photo-voltaic cells convert sunlight into?",
-			"choices": 
+		       	"What do photo-voltaic cells||convert sunlight into?",
+			"choices":
 			["Electricity", "Energy", "Power", "Wind"],
 			"answer": "Electricity"
 		}
@@ -80,31 +80,31 @@
 	"level_hard":
 	[
 		{
-			"question": "Which light source is the most energy efficient?",
+			"question": "Which light source is the||most energy efficient?",
 			"choices": ["LED Bulb", "Fluorescent Bulb", "Incandescent Bulb", "A Candle"],
 			"answer": "LED Bulb"
 		},
 
 		{
-			"question": "What is the unit of measurement for electrical power",
+			"question": "What is the unit of||measurement for electrical power",
 			"choices": ["Ohm", "Watt", "Volt", "Ampere"],
 			"answer": "Watt"
 		},
 
 		{
-			"question": "Which type of current flows in only one direction?",
+			"question": "Which type of current flows||in only one direction?",
 			"choices": ["DC", "AC", "Neither", "Both"],
 			"answer": "DC"
 		},
 
 		{
-			"question": "Why should we buy energy-efficient appliances?",
+			"question": "Why should we buy||energy-efficient appliances?",
 			"choices": ["Lower electric bills", "Save money", "Burn less fossil fuels", "All of the above"],
 			"answer": "All of the above"
 		},
 
 		{
-			"question": "Which energy source is used the most in the US?",
+			"question": "Which energy source is used||the most in the US?",
 			"choices": ["Nuclear power", "Coal", "Natural gas", "Solar power"],
 			"answer": "Natural gas"
 		}

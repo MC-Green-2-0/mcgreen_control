@@ -1,20 +1,26 @@
-#!/usr/bin/python
 import rospy
-from std_msgs.msg import Int16, String
-from mcgreen_control.msg import Array
+from std_msgs.msg import Int16, Bool
+import time
+import sys
+import non_use.py
+import pygame
+from pygame import mixer
+import random
+import math
+import threading
+import os
 
-# 0   -> Caution
-# 1   -> Happy Face
-# 2   -> Neutral
-# 3   -> Sad Face
-# 4   -> Surprise Face
-# 5   -> Thumbs Up
-class Game_Interface:
+class Display_Controller:
+    MODE_TOPIC = "/mode_status"
     FACE_EXPRESSION = "/facial_expression" # Communicates any updates to the face
     HEAD_TOPIC = "/game_motors" # Communicates changes to the head angle
     GAME_TOPIC = "/current_game" # Communicates which game is currently being playes
 
+
+
+
     def __init__ (self):
+        self.mode_sub = rospy.Subscriber(self.MODE_TOPIC, Int16, self.mode_update)
         self.face_pub=rospy.Publisher(self.FACE_EXPRESSION, Int16, queue_size=1)
         self.head_pub=rospy.Publisher(self.HEAD_TOPIC, Array, queue_size=1)
         self.game_pub=rospy.Publisher(self.GAME_TOPIC, String, queue_size=1)
@@ -27,6 +33,15 @@ class Game_Interface:
         self.game_pub.publish(self.name)
         self.head_pub.publish(self.head)
         self.face_pub.publish(self.expression)
+
+
+        self.current_mode = 3
+        self.safety = True
+
+    # Called when the robot's mode is changed. Decides whether games can be played or not
+    def mode_update(self, mode):
+        self.current_mode = mode.data
+
 
     # Publishes the desired face sent from the current game
     def face_update(self, face):
@@ -43,12 +58,4 @@ class Game_Interface:
         self.head.arr = angle
         self.head_pub.publish(self.head)
 
-if __name__=="__main__":
-    try:
-        rospy.init_node("Game_Interface")
-        face_controller = Game_Interface()
-        rospy.spin()
-    except KeyboardInterrupt:
-        pass
-    except rospy.ROSInterruptException:
-        pass
+

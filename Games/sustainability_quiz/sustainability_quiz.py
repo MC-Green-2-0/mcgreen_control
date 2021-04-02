@@ -16,7 +16,7 @@ import textwrap
 # controller = Head_comm("Sust. Quiz")
 
 #Screen size of window
-window_size = (1920,1080)
+window_size = (1080,1920)
 
 #Max FPS (frames per second) of game
 FPS = 30
@@ -154,65 +154,66 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
     #Status is a list [score, num_right, num_wrong, num_questions]
 
     #Button dimensions
-    button_w = 750 / 2; button_h = 250 / 2
+    button_w = 1.5*(750 / 2); button_h = 1.05*(250 / 2)
 
     #Reference x, y coordinates for upper left button
-    ref_x = window_size[0] / 4; ref_y = window_size[1] / 4
-
-    row_spacing = button_w + 100
-    column_spacing = button_h + 100
+    ref_x = (window_size[0] - button_w)/2
+    ref_y = window_size[1] / 4;
+    column_spacing = button_h + (0.5 * 200)
+    line_spacing = 75
 
     #Shuffle answers from choices
     random.shuffle(choices)
 
-    buttonText = pygame.font.Font('FreeSansBold.ttf', 20)
+    buttonText = pygame.font.Font('FreeSansBold.ttf', 32)
 
-
-    up_left_button = Button(surfaceName, darker_red, red, (ref_x, ref_y, button_w, button_h), choices[0], buttonText)
-    up_right_button = Button(surfaceName, darker_blue, blue, (ref_x + row_spacing, ref_y, button_w, button_h), choices[1], buttonText)
-    bottom_left_button = Button(surfaceName, darker_yellow, yellow, (ref_x, ref_y + column_spacing, button_w, button_h), choices[2], buttonText)
-    bottom_right_button = Button(surfaceName, darker_green, green, (ref_x + row_spacing, ref_y + column_spacing, button_w, button_h), choices[3], buttonText)
+    up_up_button = Button(surfaceName, darker_red, red, (ref_x, ref_y, button_w, button_h), choices[0], buttonText)
+    up_bottom_button = Button(surfaceName, darker_blue, blue, (ref_x, ref_y + column_spacing, button_w, button_h), choices[1], buttonText)
+    bottom_up_button = Button(surfaceName, darker_yellow, yellow, (ref_x, ref_y + (2*column_spacing), button_w, button_h), choices[2], buttonText)
+    bottom_right_button = Button(surfaceName, darker_green, green, (ref_x, ref_y + (3*column_spacing), button_w, button_h), choices[3], buttonText)
 
     #Need to include rects here for selective updating later
 
-    #Prepare question text and location
-    surfaceName.fill(white)
+    #Textwrap the Question if needed
+    q_text = question.split('||')
+    QuestionSurf, QuestionRect = text_objects(q_text[0], mediumText, white)
+    QuestionRect.center = ((window_size[0] / 2), (window_size[1] / 8))
+    if '||' in question:
+        QuestionPart2Surf, QuestionPart2Rect = text_objects(q_text[1], mediumText, white)
+        QuestionPart2Rect.center = ((window_size[0] / 2), (window_size[1] / 8) + line_spacing)
 
-    surfaceName.blit(background, backgroundRect)
-    questionList = textwrap.wrap(question)
-    index = 0
-    #print(questionList[0])
-    for i in range(len(questionList)):
-        #print("hi")
-        QuestionSurf, QuestionRect = text_objects(questionList[i], mediumText, white)
-        QuestionRect.center = ((window_size[0] / 2), (window_size[1] / 8) + index)
-        surfaceName.blit(QuestionSurf, QuestionRect)
-        index += 60
+
+
+    #Prepare question text and location
 
     ScoreSurf, ScoreRect = text_objects('Score: ' + str(status[0]) + ' points', mediumText, white)
-    ScoreRect.center = ((0.80 * window_size[0]), (window_size[1] / 16))
+    #ScoreRect.center = ((0.20 * window_size[0]), (window_size[1] / 16))
+    ScoreRect.topleft = ((0.15 * window_size[0]), (window_size[1] / 16))
+
 
     ElectricSurf, ElectricRect = text_objects('Sustainability Bar: ', mediumText, white)
-    ElectricRect.topleft = ((0.10 * window_size[0]), (0.70 * window_size[1]))
+    ElectricRect.topleft = ((0.15 * window_size[0]), (0.70 * window_size[1]))
 
     #Make entire screen 'white' to 'clean' it
-
+    surfaceName.fill(white)
+    surfaceName.blit(background, backgroundRect)
 
     #Write text to buffer
-
-
+    surfaceName.blit(QuestionSurf, QuestionRect)
     surfaceName.blit(ScoreSurf, ScoreRect)
     surfaceName.blit(ElectricSurf, ElectricRect)
+    if '||' in question:
+        surfaceName.blit(QuestionPart2Surf, QuestionPart2Rect)
 
     #Generate Electric bar
-    generate_bar(surfaceName, 0.25 * window_size[0], 0.80 * window_size[1], status[1], status[2], status[3], blue)
+    generate_bar(surfaceName, 0.15 * window_size[0], 0.80 * window_size[1], status[1], status[2], status[3], yellow)
 
-    up_left_rect = up_left_button.get_rect()
-    up_right_rect = up_right_button.get_rect()
-    bottom_left_rect = bottom_left_button.get_rect()
+    up_up_rect = up_up_button.get_rect()
+    up_bottom_rect = up_bottom_button.get_rect()
+    bottom_up_rect = bottom_up_button.get_rect()
     bottom_right_rect = bottom_right_button.get_rect()
 
-    updateList = [up_left_rect, up_right_rect, bottom_left_rect, bottom_right_rect]
+    updateList = [up_up_rect, up_bottom_rect, bottom_up_rect, bottom_right_rect]
 
     #Update ENTIRE screen just once
     pygame.display.update()
@@ -227,7 +228,7 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
             print(event)
 
             if event.type == pygame.QUIT:
-                #Set Face to Neutral
+                # Set Face to Neutral
                 # controller.face_update(getFaceNum())
 
                 pygame.quit()
@@ -237,20 +238,20 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
                 touch_status = True
 
                 #Check if buttons are pressed if mouse button is down
-                if up_left_button.is_pressed(touch_status):
-                    if up_left_button.text == correct_ans:
+                if up_up_button.is_pressed(touch_status):
+                    if up_up_button.text == correct_ans:
                         answer_choice = 'correct'
                     else:
                         answer_choice = 'incorrect'
 
-                if up_right_button.is_pressed(touch_status):
-                    if up_right_button.text == correct_ans:
+                if up_bottom_button.is_pressed(touch_status):
+                    if up_bottom_button.text == correct_ans:
                         answer_choice = 'correct'
                     else:
                         answer_choice = 'incorrect'
 
-                if bottom_left_button.is_pressed(touch_status):
-                    if bottom_left_button.text == correct_ans:
+                if bottom_up_button.is_pressed(touch_status):
+                    if bottom_up_button.text == correct_ans:
                         answer_choice = 'correct'
                     else:
                         answer_choice = 'incorrect'
@@ -262,16 +263,16 @@ def generate_q_page(surfaceName, status, pt_inc, question, choices, correct_ans)
                         answer_choice = 'incorrect'
 
                 if answer_choice == 'correct':
-                    return 'correct'
+                   return 'correct'
 
                 elif answer_choice == 'incorrect':
-                    return 'incorrect'
+                   return 'incorrect'
             else:
                 touch_status = False
 
-        up_left_button.generate()
-        up_right_button.generate()
-        bottom_left_button.generate()
+        up_up_button.generate()
+        up_bottom_button.generate()
+        bottom_up_button.generate()
         bottom_right_button.generate()
 
         pygame.display.update(updateList)
@@ -297,7 +298,7 @@ def generate_correct_page(surface, status, point_inc):
     ScoreRect.center = ((window_size[0] / 2), (0.35 * window_size[1]))
 
     ElectricSurf, ElectricRect = text_objects('Sustainability Bar: ', mediumText)
-    ElectricRect.topleft = ((0.10 * window_size[0]), (0.70 * window_size[1]))
+    ElectricRect.topleft = ((0.15 * window_size[0]), (0.70 * window_size[1]))
 
 
     surface.fill(green)
@@ -306,7 +307,7 @@ def generate_correct_page(surface, status, point_inc):
     surface.blit(HeadingSurf, HeadingRect)
     surface.blit(ScoreSurf, ScoreRect)
     surface.blit(ElectricSurf, ElectricRect)
-    generate_bar(surface, 0.25 * window_size[0], 0.80 * window_size[1], status[1], status[2], status[3], blue)
+    generate_bar(surface, 0.15 * window_size[0], 0.80 * window_size[1], status[1], status[2], status[3], blue)
 
 
     pygame.display.update()
@@ -376,7 +377,7 @@ def generate_incorrect_page(surface, status, pt_dec, correct_ans):
     ScoreRect.center = ((window_size[0] / 2), (0.25 * window_size[1]) + (4 * line_spacing))
 
     ElectricSurf, ElectricRect = text_objects('Sustainability Bar: ', mediumText)
-    ElectricRect.topleft = ((0.10 * window_size[0]), (0.70 * window_size[1]))
+    ElectricRect.topleft = ((0.15 * window_size[0]), (0.70 * window_size[1]))
 
 
     surface.fill(red)
@@ -388,7 +389,7 @@ def generate_incorrect_page(surface, status, pt_dec, correct_ans):
     surface.blit(ScoreSurf, ScoreRect)
     surface.blit(ElectricSurf, ElectricRect)
 
-    generate_bar(surface, 0.25 * window_size[0], 0.80 * window_size[1], status[1], status[2], status[3], blue)
+    generate_bar(surface, 0.15 * window_size[0], 0.80 * window_size[1], status[1], status[2], status[3], blue)
 
 
     pygame.display.update()
@@ -450,17 +451,16 @@ point_increment = 100
 #Start Menu for Game
 def game_intro(surface):
     #Button Dimensions
-    button_w = 750 / 2; button_h = 250 / 2
-    help_button_x = 270; button_y = 1300 / 2
-    button_spacing = 237 / 2 #spacing between buttons in px
-    play_button_x = help_button_x + button_w + button_spacing
-    quit_button_x = play_button_x + button_w + button_spacing
+    button_w = 1.3*(750 / 2); button_h = 1.3*(250 / 2)
+    button_y = 1200 / 2
+    button_spacing = window_size[1]/8 #spacing between buttons in px
+    button_x = (window_size[0] - button_w)/2
 
 
     #Instantiate buttons (Only needs to be done once)
-    help_button = Button(surface, darker_blue, blue, (help_button_x, button_y, button_w, button_h), 'Help', mediumText)
-    play_button = Button(surface, darker_green, green, (play_button_x, button_y, button_w, button_h), 'Play', mediumText)
-    quit_button = Button(surface, darker_red, red, (quit_button_x, button_y, button_w, button_h), 'Quit', mediumText)
+    play_button = Button(surface, darker_green, green, (button_x, button_y, button_w, button_h), 'Play', mediumText)
+    help_button = Button(surface, darker_blue, blue, (button_x, button_y + button_spacing, button_w, button_h), 'Help', mediumText)
+    quit_button = Button(surface, darker_red, red, (button_x, button_y + (2*button_spacing), button_w, button_h), 'Quit', mediumText)
 
     #Portion of the screen that must ONLY be updated
     help_button_rect = help_button.get_rect()
@@ -470,7 +470,7 @@ def game_intro(surface):
 
     #Prepare title text and location
     TextSurf, TextRect = text_objects('MC Green Sustainability Quiz!', largeText, white)
-    TextRect.center = ((window_size[0] / 2), (window_size[1] / 4))
+    TextRect.center = ((window_size[0] / 2), (window_size[1] / 8))
 
     #Make entire screen white to clean it
     surface.fill(white)
@@ -533,18 +533,22 @@ def game_help(surface):
     updateList = [back_button_rect]
 
     TextSurf, TextRect = text_objects('How to Play:', largeText, white)
-    TextRect.center = ((window_size[0] / 2), (window_size[1] / 4))
+    TextRect.center = ((window_size[0] / 2), (window_size[1] / 8))
 
     line_spacing = 75   #Spacing between each line of instructions
 
-    Line1Surf, Line1Rect = text_objects('1.) Read each question carefully and select the best answer', mediumText, white)
-    Line1Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (0.5 * 300))
+    Line1Surf, Line1Rect = text_objects('1.) Read each question carefully and select the best answer', pygame.font.Font('FreeSansBold.ttf', 35), white)
+    Line1Rect.center = ((window_size[0] / 2), (window_size[1] / 4))
 
-    Line2Surf, Line2Rect = text_objects('2.) If your answer is correct, you will earn points and boost your sustainability meter', pygame.font.Font('FreeSansBold.ttf', 40), white)
-    Line2Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (300 / 2) + (2 * line_spacing))
+    Line2Surf, Line2Rect = text_objects('2.) If your answer is correct, you will earn points', pygame.font.Font('FreeSansBold.ttf', 35), white)
+    Line2Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (2 * line_spacing))
+    Line2part2Surf, Line2part2Rect = text_objects('and charge your sustainability meter', pygame.font.Font('FreeSansBold.ttf', 35), white)
+    Line2part2Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (3 * line_spacing))
 
-    Line3Surf, Line3Rect = text_objects('3.) If your answer is incorrect, you will lose points and your sustainability meter will go down', pygame.font.Font('FreeSansBold.ttf', 40), white)
-    Line3Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (300 / 2) + (4 * line_spacing))
+    Line3Surf, Line3Rect = text_objects('3.) If your answer is incorrect, you will lose points', pygame.font.Font('FreeSansBold.ttf', 35), white)
+    Line3Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (5 * line_spacing))
+    Line3part2Surf, Line3part2Rect = text_objects(' and your charge meter will go down', pygame.font.Font('FreeSansBold.ttf', 35), white)
+    Line3part2Rect.center = ((window_size[0] / 2), (window_size[1] / 4) + (6 * line_spacing))
 
 
     #Make entire screen white to clean it
@@ -556,7 +560,9 @@ def game_help(surface):
     surface.blit(TextSurf, TextRect)
     surface.blit(Line1Surf, Line1Rect)
     surface.blit(Line2Surf, Line2Rect)
+    surface.blit(Line2part2Surf, Line2part2Rect)
     surface.blit(Line3Surf, Line3Rect)
+    surface.blit(Line3part2Surf, Line3part2Rect)
 
     #Update ENTIRE screen just once
     pygame.display.update()
@@ -594,14 +600,15 @@ def game_help(surface):
 def select_level(surface):
     #Instantiate button for returning back to intro page
     button_w, button_h = 375, 125
+    button_x = (window_size[0] - button_w)/2
+    button_y = window_size[1]/4
+    button_spacing = window_size[1]/8
 
-    back_button = Button(surface, darker_green, green, (0.5 * window_size[0] - (0.5 * 375), 0.75 * window_size[1], button_w, button_h), 'Back', mediumText)
 
-    x = (window_size[0] - (4 * button_w)) / 2
-
-    easy_button = Button(surface, darker_green, green, (x, 0.50 * window_size[1], button_w, button_h), 'Easy', mediumText)
-    medium_button = Button(surface, darker_yellow, yellow, (x +1.5 * button_w, 0.50 * window_size[1], button_w, button_h), 'Medium', mediumText)
-    hard_button = Button(surface, darker_red, red, (x + 3 * button_w, 0.50 * window_size[1], button_w, button_h), 'Hard', mediumText)
+    easy_button = Button(surface, darker_green, green, (button_x, button_y, button_w, button_h), 'Easy', mediumText)
+    medium_button = Button(surface, darker_yellow, yellow, (button_x, button_y + button_spacing, button_w, button_h), 'Medium', mediumText)
+    hard_button = Button(surface, darker_red, red, (button_x, button_y + (2*button_spacing), button_w, button_h), 'Hard', mediumText)
+    back_button = Button(surface, darker_green, green, (button_x, button_y + (4*button_spacing), button_w, button_h), 'Back', mediumText)
 
 
     back_button_rect = back_button.get_rect()
@@ -612,7 +619,7 @@ def select_level(surface):
     updateList = [back_button_rect, easy_button_rect, medium_button_rect, hard_button_rect]
 
     TextSurf, TextRect = text_objects('Select your level:', largeText, white)
-    TextRect.center = ((window_size[0] / 2), (window_size[1] / 4))
+    TextRect.center = ((window_size[0] / 2), (window_size[1] / 8))
 
     line_spacing = 75   #Spacing between each line of instructions
 
@@ -726,7 +733,7 @@ def game_over(surface, status):
     FinalRect.center = ((window_size[0] / 2), (0.4 * window_size[1]))
 
     ElectricSurf, ElectricRect = text_objects('Sustainability Bar: ', mediumText)
-    ElectricRect.topleft = ((0.10 * window_size[0]), (0.55 * window_size[1]))
+    ElectricRect.topleft = ((0.15 * window_size[0]), (0.55 * window_size[1]))
 
     #Make entire screen white to clean it
     surface.fill(green)
@@ -735,7 +742,7 @@ def game_over(surface, status):
     surface.blit(TextSurf, TextRect)
     surface.blit(FinalSurf, FinalRect)
     surface.blit(ElectricSurf, ElectricRect)
-    generate_bar(surface, 0.25 * window_size[0], 0.65 * window_size[1], status[1], status[2], status[3], blue)
+    generate_bar(surface, 0.15 * window_size[0], 0.65 * window_size[1], status[1], status[2], status[3], blue)
 
     #Update ENTIRE screen just once
     pygame.display.update()

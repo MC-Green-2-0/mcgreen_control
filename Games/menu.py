@@ -6,7 +6,7 @@ import math
 import sys
 import threading
 import os
-
+import rospkg
 
 from recycle_it.Recycle import Recycle_IT
 from electricity_quiz.ElectricityQuiz import ElectricityQuiz

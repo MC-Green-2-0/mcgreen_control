@@ -12,7 +12,7 @@ import error
 from game_interface import Game_Interface
 
 class Recycle_IT:
-    def __init__ (self, Game_Interface ros_controller):
+    def __init__ (self, ros_controller):
         # sys.path.append("../")
         # from head_controller import Head_comm
         #

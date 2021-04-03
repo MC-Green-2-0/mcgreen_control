@@ -1,13 +1,14 @@
-!/usr/bin/python3
+#!/usr/bin/python3
 import rospy
 import RPi.GPIO as GPIO
 import time
 import sys
+import rospkg
 
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from PIL import Image
 
-from mcgreen_control.msg import Int16
+from std_msgs.msg import Int16
 
 class Face_Controller:
     FACE_TOPIC = "/facial_expression"
@@ -20,12 +21,14 @@ class Face_Controller:
 
     # Called when the face matrix must be changed
     def face_callback(self, data):
-        face_number = data.data
+        self.face_number = data.data
 
 
 
 if __name__ == "__main__":
-
+    r = rospkg.RosPack()
+    home = r.get_path('mcgreen_control')
+    temp = home + "/src/RPi/upper_pi/"
     # Configuration for the matrix
     options = RGBMatrixOptions()
     options.rows = 32
@@ -38,7 +41,7 @@ if __name__ == "__main__":
         rospy.init_node("Face_Controller")
         controller = Face_Controller()
 
-        image = Image.open("neut.png")
+        image = Image.open(str(temp) + "neut.png")
         while(True):
 
             if controller.current_face == controller.face_number:
@@ -48,19 +51,19 @@ if __name__ == "__main__":
                 controller.current_face = controller.face_number
 
                 if controller.face_number == 0:
-        	        image = Image.open("caution.bmp")
+        	        image = Image.open(str(temp) + "Caution.bmp")
                 elif controller.face_number == 1:
-                    image = Image.open("Grin.png")
+                    image = Image.open(str(temp) + "Grin.png")
                 elif controller.face_number == 2:
-                    image = Image.open("neut.png")
+                    image = Image.open(str(temp) + "neut.png")
                 elif controller.face_number == 3:
-                    image = Image.open("Sad.png")
+                    image = Image.open(str(temp) + "Sad.png")
                 elif controller.face_number == 4:
-                    image = Image.open("Surprise.png")
+                    image = Image.open(str(temp) + "Surprise.png")
                 elif controller.face_number == 5:
-                    image = Image.open("thumbs.png")
+                    image = Image.open(str(temp) + "thumbs.png")
                 else:
-                    image = Image.open("caution.bmp")
+                    image = Image.open(str(temp) + "caution.bmp")
 
                 image.thumbnail((matrix.width, matrix.height + 1), Image.ANTIALIAS)
                 matrix.SetImage(image.convert('RGB'))

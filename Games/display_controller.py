@@ -1,23 +1,24 @@
 #!/usr/bin/python3
 import rospy
 from std_msgs.msg import Int16, Bool
+from mcgreen_control.msg import Array
 import time
 import sys
-import non_use.py
+import non_use
 import pygame
 from pygame import mixer
 import random
 import math
 import threading
 import os
-
+import rospkg
 
 from recycle_it.Recycle import Recycle_IT
 from electricity_quiz.ElectricityQuiz import ElectricityQuiz
 from sustainability_quiz.SustainabilityQuiz import SustainabilityQuiz
 from whats_wrong.Game_File import WhatsWrong
 from water_calculator.water_calculator import WaterCalc
-from display_class.py import Display_Controller
+from display_class import Display_Controller
 from game_interface import Game_Interface
 
 class Button:
@@ -76,12 +77,20 @@ def text_objects(text, font, color=(0,0,0)):
 
 if __name__=="__main__":
     try:
+
+        r = rospkg.RosPack()
+        home = r.get_path('mcgreen_control')
+        temp = home + "/Games"
+
+        os.chdir(temp)
         rospy.init_node("Display_Controller")
         controller = Display_Controller()
 
         homedir = os.getcwd()
-        self.ros_controller = Game_Interface()
-        self.ros_controller.game_update("None")
+        print(homedir)
+        print(temp)
+        ros_controller = Game_Interface()
+        ros_controller.game_update("None")
         black = (0, 0, 0)
         white = (255, 255, 255)
         red = (255, 0, 0)
@@ -100,7 +109,7 @@ if __name__=="__main__":
         window = (1080, 1920)
         screen = pygame.display.set_mode(window)
 
-        buttonText = pygame.font.Font('FreeSansBold.ttf', 32)
+        buttonText = pygame.font.Font("FreeSansBold.ttf", 32)
         font = pygame.font.Font('FreeSansBold.ttf', 50)
         electricityButton = Button(screen, darker_yellow, yellow, (1/4*window[0], 1/6*window[1], 1/2*window[0], 2/16*window[1]), "Electricity Quiz", buttonText)
         sustainabilityButton =  Button(screen, darker_green, green, (1/4*window[0], 2/6*window[1], 1/2*window[0], 2/16*window[1]), "Sustainability Quiz", buttonText)
@@ -128,6 +137,7 @@ if __name__=="__main__":
                 screen.blit(recycle, ((window[0] - 800)/2, (window[1] - 800)/2))
                 mca = pygame.transform.scale(mca, (600, 400))
                 screen.blit(mca, ((window[0] - 600)/2, 1500))
+                controller.face_update(0)
                 pygame.display.update()
 
 
@@ -158,7 +168,7 @@ if __name__=="__main__":
                         #Check if buttons are pressed if mouse button is down
                         if electricityButton.is_pressed(touch_status):
                             try:
-                                self.ros_controller.game_update("Electricity Quiz")
+                                ros_controller.game_update("Electricity Quiz")
                                 os.chdir('./electricity_quiz')
                                 game = ElectricityQuiz(ros_controller)
                                 game.game_intro()
@@ -166,32 +176,32 @@ if __name__=="__main__":
                             except:
                                 os.chdir('..')
                                 screen.fill(white)
-                                self.ros_controller.game_update("None")
+                                ros_controller.game_update("None")
 
                         elif sustainabilityButton.is_pressed(touch_status):
                             try:
-                                self.ros_controller.game_update("Sustainability Quiz")
+                                ros_controller.game_update("Sustainability Quiz")
                                 os.chdir('./sustainability_quiz')
                                 game = SustainabilityQuiz(ros_controller)
                                 game.game_intro()
                             except:
                                 os.chdir('..')
                                 screen.fill(white)
-                                self.ros_controller.game_update("None")
+                                ros_controller.game_update("None")
 
                         elif whatswrongButton.is_pressed(touch_status):
                             try:
-                                self.ros_controller.game_update("What's Wrong With The Room")
+                                ros_controller.game_update("What's Wrong With The Room")
                                 os.chdir('./whats_wrong')
                                 game = WhatsWrong(ros_controller)
                                 game.intro()
                             except:
                                 os.chdir('..')
                                 screen.fill(white)
-                                self.ros_controller.game_update("None")
+                                ros_controller.game_update("None")
                         elif RecycleItButton.is_pressed(touch_status):
                             try:
-                                self.ros_controller.game_update("Recycle It")
+                                ros_controller.game_update("Recycle It")
                                 os.chdir('./recycle_it')
                                 game = Recycle_IT(ros_controller)
                                 game.intro()
@@ -199,12 +209,12 @@ if __name__=="__main__":
                             except:
                                 os.chdir('..')
                                 screen.fill(white)
-                                self.ros_controller.game_update("None")
+                                ros_controller.game_update("None")
 
 
                         elif WaterButton.is_pressed(touch_status):
                             try:
-                                self.ros_controller.game_update("Water Calculator")
+                                ros_controller.game_update("Water Calculator")
                                 os.chdir('./water_calculator')
                                 game = WaterCalc(ros_controller)
                                 game.game_intro()
@@ -212,7 +222,7 @@ if __name__=="__main__":
                             except:
                                 os.chdir('..')
                                 screen.fill(white)
-                                self.ros_controller.game_update("None")
+                                ros_controller.game_update("None")
 
 
 

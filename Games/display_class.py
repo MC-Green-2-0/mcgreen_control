@@ -2,13 +2,15 @@ import rospy
 from std_msgs.msg import Int16, Bool
 import time
 import sys
-import non_use.py
+import non_use
 import pygame
 from pygame import mixer
 import random
 import math
 import threading
 import os
+from mcgreen_control.msg import Array
+from std_msgs.msg import Int16, Bool, String
 
 class Display_Controller:
     MODE_TOPIC = "/mode_status"
@@ -57,5 +59,3 @@ class Display_Controller:
     def head_update(self, angle):
         self.head.arr = angle
         self.head_pub.publish(self.head)
-
-

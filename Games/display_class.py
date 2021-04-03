@@ -14,7 +14,7 @@ from std_msgs.msg import Int16, Bool, String
 
 class Display_Controller:
     MODE_TOPIC = "/mode_status"
-    FACE_EXPRESSION = "/facial_expression" # Communicates any updates to the face
+    FACE_EXPRESSION = "/game_face" # Communicates any updates to the face
     HEAD_TOPIC = "/game_motors" # Communicates changes to the head angle
     GAME_TOPIC = "/current_game" # Communicates which game is currently being playes
 

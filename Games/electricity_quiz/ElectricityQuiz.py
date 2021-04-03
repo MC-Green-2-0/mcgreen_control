@@ -100,7 +100,6 @@ class ElectricityQuiz:
         self.yellow = (255, 255, 0)
         self.darker_yellow = (200, 200, 0)
         self.ros_controller = ros_controller
-        self.ros_controller.head_update(0)
 
         #Load questions JSON file
         with open('questions.json', 'r') as file:

@@ -19,7 +19,6 @@ from sustainability_quiz.SustainabilityQuiz import SustainabilityQuiz
 from whats_wrong.Game_File import WhatsWrong
 from water_calculator.water_calculator import WaterCalc
 from display_class import Display_Controller
-from game_interface import Game_Interface
 
 class Button:
     def __init__ (self, surfaceName, ac, ic, rectVals, text, font):
@@ -84,12 +83,11 @@ if __name__=="__main__":
 
         os.chdir(temp)
         rospy.init_node("Display_Controller")
-        controller = Display_Controller()
 
         homedir = os.getcwd()
         print(homedir)
         print(temp)
-        ros_controller = Game_Interface()
+        ros_controller = Display_Controller()
         ros_controller.game_update("None")
         black = (0, 0, 0)
         white = (255, 255, 255)
@@ -126,7 +124,7 @@ if __name__=="__main__":
 
         while True:
 
-            if controller.current_mode != 3:
+            if ros_controller.current_mode != 3:
                 screen.fill((255,255,255))
                 middlesex = pygame.image.load('Middlesex.png')
                 middlesex = pygame.transform.scale(middlesex, (800, 164))
@@ -137,7 +135,7 @@ if __name__=="__main__":
                 screen.blit(recycle, ((window[0] - 800)/2, (window[1] - 800)/2))
                 mca = pygame.transform.scale(mca, (600, 400))
                 screen.blit(mca, ((window[0] - 600)/2, 1500))
-                controller.face_update(0)
+                ros_controller.face_update(0)
                 pygame.display.update()
 
 
@@ -157,7 +155,7 @@ if __name__=="__main__":
 
                     if event.type == pygame.QUIT:
                         # Set Face to Neutral
-                        # controller.face_update(getFaceNum())
+                        # ros_controller.face_update(getFaceNum())
 
                         pygame.quit()
                         quit()

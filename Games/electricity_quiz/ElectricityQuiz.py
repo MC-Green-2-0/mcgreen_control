@@ -10,7 +10,6 @@ import sys
 import threading
 sys.path.append("../")
 import error
-from game_interface import Game_Interface
 
 # def resource_path(relative):
 #     if hasattr(sys, "_MEIPASS"):

@@ -11,7 +11,6 @@ import threading
 import textwrap
 sys.path.append("../")
 import error
-from game_interface import Game_Interface
 
 class Button:
     def __init__ (self, surfaceName, ac, ic, rectVals, text, font):

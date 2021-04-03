@@ -5,7 +5,7 @@ import pygame
 from PIL import Image
 import threading
 import random
-from game_interface import Game_Interface
+
 #Define class for water-using appliances
 class Appliance:
     def __init__(self, attrDict):

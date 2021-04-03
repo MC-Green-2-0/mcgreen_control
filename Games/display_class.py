@@ -59,3 +59,13 @@ class Display_Controller:
     def head_update(self, angle):
         self.head.arr = angle
         self.head_pub.publish(self.head)
+
+if __name__=="__main__":
+    try:
+        rospy.init_node("Display_Controller")
+        face_controller = Display_Controller()
+        rospy.spin()
+    except KeyboardInterrupt:
+        pass
+    except rospy.ROSInterruptException:
+        pass

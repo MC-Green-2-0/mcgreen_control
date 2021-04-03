@@ -15,6 +15,7 @@ class Movement_Output:
     FACE_IN = "/game_face"
     FACE_OUT = "/facial_expression"
     OVERRIDE_IN = "/override_status"
+    MODE_FEEDBACK_TOPIC = "/mode_status"
 
     threshold = rospy.get_param("Sensors/threshold_ultra")
     def __init__(self):
@@ -31,6 +32,9 @@ class Movement_Output:
         self.override = Int16()
         self.override.data = 1
         self.safety_toggle = False
+        self.mode = Int16()
+        self.mode.data = 1
+        self.mode_sub = rospy.Subscriber(self.MODE_FEEDBACK_TOPIC, Int16, self.mode_update)
         self.up_sub = rospy.Subscriber(self.UPPER_IN, Array, self.up_update)
         self.low_sub = rospy.Subscriber(self.LOWER_IN, Array, self.low_update)
         self.sensor_sub = rospy.Subscriber(self.US_TOPIC, Sensor, self.sensor_update)
@@ -43,6 +47,8 @@ class Movement_Output:
         self.safety_feedback_pub = rospy.Publisher(self.FEEDBACK_TOPIC, Bool, queue_size = 1)
         self.safety_feedback_pub.publish(self.feedback)
 
+    def mode_update(self,data):
+        self.mode = data
 
     def up_update(self,data):
         self.upper = list(data.arr)
@@ -70,7 +76,7 @@ class Movement_Output:
 
     def update(self):
         # upper_safe = [arm_left, arm_right, head_x, head_y]
-        if ((self.ultrasonic[0] < self.threshold or self.ultrasonic[1] < self.threshold) and self.override.data == 0):
+        if ((self.ultrasonic[0] < self.threshold or self.ultrasonic[1] < self.threshold) and self.override.data == 0 and self.mode.data != 2):
             self.lower_safe.arr = [1500]*4
             self.upper_safe.arr = [0]*2 + [90]*2
             self.safe = False

@@ -85,8 +85,6 @@ class Mode_Selector:
 
         if self.mode == 2:
             upper_data = [0,0] + self.game_data
-            if self.up_down == 1:
-                lower_data = list(self.joystick_rockers[0:4])
 
         if self.mode == 3:
             upper_data = [0,0,90,90]

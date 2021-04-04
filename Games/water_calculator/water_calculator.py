@@ -5,7 +5,7 @@ import pygame
 from PIL import Image
 import threading
 import random
-from game_interface import Game_Interface
+#from game_interface import Game_Interface
 #Define class for water-using appliances
 class Appliance:
     def __init__(self, attrDict):
@@ -293,7 +293,7 @@ class WaterCalc:
 
     #Start Menu for Game
     def game_intro(self):
-        self.ros_controller.face_update(1)
+        #self.ros_controller.face_update(1)
         #Button Dimensions
         surface = self.gameDisplay
         button_w = 1.3*750/2; button_h = 1.3*250/2
@@ -377,7 +377,7 @@ class WaterCalc:
 
     #Help Menu for Game
     def game_help(self, surface):
-        self.ros_controller.face_update(1)
+        #self.ros_controller.face_update(1)
         surface.fill(self.white)
         #Instantiate button for returning back to intro page
         back_button = Button(surface, self.darker_green, self.green, ((self.window_size[0] - 750) / 2 , 0.75 * self.window_size[1], 750  , 250), 'Back', self.mediumText)
@@ -458,7 +458,7 @@ class WaterCalc:
 
     #Provide tips on how to reduce water usage
     def game_tips(self, surface):
-        self.ros_controller.face_update(1)
+    #    self.ros_controller.face_update(1)
         #Instantiate button for returning back to intro page
         back_button = Button(surface, self.darker_green, self.green, (0.5 * self.window_size[0] - 150 , 0.80 * self.window_size[1], 750 / 2, 250 / 2), 'Back', self.mediumText)
 
@@ -495,12 +495,12 @@ class WaterCalc:
         count = 1
 
         if not any(limits):
-            self.ros_controller.face_update(5)
+        #    self.ros_controller.face_update(5)
             LineSurf, LineRect = Text().text_objects(str(count) + '.) Good Job for using water efficiently!', self.mediumText, self.white)
             LineRect.center = (x, y)
             surface.blit(LineSurf, LineRect)
         else:
-            self.ros_controller.face_update(4)
+        #    self.ros_controller.face_update(4)
             for i in range(len(limits)):
 
                 flag = limits[i]

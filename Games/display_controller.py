@@ -123,7 +123,7 @@ if __name__=="__main__":
         screen.blit(textSurf, textRect)
 
         while True:
-
+            ros_controller.face_update(2)
             if ros_controller.current_mode != 2:
                 screen.fill((255,255,255))
                 middlesex = pygame.image.load('Middlesex.png')
@@ -135,7 +135,6 @@ if __name__=="__main__":
                 screen.blit(recycle, ((window[0] - 800)/2, (window[1] - 800)/2))
                 mca = pygame.transform.scale(mca, (600, 400))
                 screen.blit(mca, ((window[0] - 600)/2, 1500))
-                ros_controller.face_update(2)
                 pygame.display.update()
 
 

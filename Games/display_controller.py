@@ -152,7 +152,7 @@ if __name__=="__main__":
                         pygame.quit()
                         quit()
 
-                    if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.type == pygame.MOUSEBUTTONUP:
                         touch_status = True
 
                         #Check if buttons are pressed if mouse button is down

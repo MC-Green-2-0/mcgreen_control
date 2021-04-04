@@ -90,7 +90,7 @@ class SustainabilityQuiz:
         self.darker_blue = (35, 67, 250)
         self.yellow = (255, 255, 0)
         self.darker_yellow = (200, 200, 0)
-        self.ros_controller = ros_controller
+        #self.ros_controller = ros_controller
 
         #Load questions JSON file
         with open('questions.json', 'r') as file:
@@ -166,7 +166,7 @@ class SustainabilityQuiz:
 
     def generate_q_page(self, surfaceName, status, pt_inc, question, choices, correct_ans):
         #Status is a list [score, num_right, num_wrong, num_questions]
-        self.ros_controller.face_update(2)
+        #self.ros_controller.face_update(2)
 
         #Button dimensions
         button_w = 1.5*(750 / 2); button_h = 1.05*(250 / 2)
@@ -293,13 +293,8 @@ class SustainabilityQuiz:
             self.clock.tick(self.FPS)
 
     def generate_correct_page(self, surface, status, point_inc):
-        #Uncomment below
-        #Make Face Happy
-        # controller.face_update(getFaceNum(1))
-        # #Instantiate motor thread and begin it
-        # motorThread = threading.Thread(target=moveHeadUpDown, args=())
-        # motorThread.start()
-        self.ros_controller.face_update(1)
+
+        #self.ros_controller.face_update(1)
 
         next_button = Button(surface, self.darker_blue, self.blue, (0.5 * self.window_size[0] - (0.5 * 375), 0.5 * self.window_size[1], 750 / 2, 250 / 2), 'Next Question', self.mediumText)
 
@@ -364,12 +359,8 @@ class SustainabilityQuiz:
         # controller.face_update(getFaceNum())
 
     def generate_incorrect_page(self, surface, status, point_dec, correct_ans):
-        #Make Face Sad
-        # controller.face_update(getFaceNum(3))
-        # #Instantiate motor thread and begin it
-        # motorThread = threading.Thread(target=moveHeadLeftRight, args=())
-        # motorThread.start()
-        self.ros_controller.face_update(3)
+
+        #self.ros_controller.face_update(3)
 
         next_button = Button(surface, self.darker_blue, self.blue, (0.5 * self.window_size[0] - (0.5 * 375), 0.5 * self.window_size[1], 750 / 2, 250 / 2), 'Next Question', self.mediumText)
 
@@ -438,7 +429,7 @@ class SustainabilityQuiz:
 
     #Start Menu for Game
     def game_intro(self):
-        self.ros_controller.face_update(1)
+        #self.ros_controller.face_update(1)
         #Button Dimensions
         surface = self.gameDisplay
         button_w = 1.3*(750 / 2); button_h = 1.3*(250 / 2)
@@ -516,7 +507,7 @@ class SustainabilityQuiz:
 
     #Help Menu for Game
     def game_help(self, surface):
-        self.ros_controller.face_update(1)
+        #self.ros_controller.face_update(1)
         #Instantiate button for returning back to intro page
         back_button = Button(surface, self.darker_green, self.green, (0.5 * self.window_size[0] - (0.5 * 375), 0.75 * self.window_size[1], 750 / 2, 250 / 2), 'Back', self.mediumText)
 
@@ -591,7 +582,7 @@ class SustainabilityQuiz:
 
 
     def select_level(self, surface):
-        self.ros_controller.face_update(1)
+        #self.ros_controller.face_update(1)
         #Instantiate button for returning back to intro page
         button_w, button_h = 375, 125
         button_x = (self.window_size[0] - button_w)/2
@@ -706,7 +697,7 @@ class SustainabilityQuiz:
 
 
     def game_over(self, surface, status):
-        self.ros_controller.face_update(5)
+        #self.ros_controller.face_update(5)
         #Set Face to Happy, regardless of score
         # controller.face_update(getFaceNum(1))
 

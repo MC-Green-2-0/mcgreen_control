@@ -12,7 +12,7 @@ import error
 #from game_interface import Game_Interface
 
 class Recycle_IT:
-    def __init__ (self):
+    def __init__ (self, Game_Interface ros_controller):
         # sys.path.append("../")
         # from head_controller import Head_comm
         #
@@ -20,7 +20,7 @@ class Recycle_IT:
         # Initialize pygame
         pygame.init()
 
-        #self.ros_controller = Game_Interface()
+        #self.ros_controller = ros_controller
 
         #threading trackers
         #active_head = 0

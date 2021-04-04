@@ -152,7 +152,7 @@ if __name__=="__main__":
                         pygame.quit()
                         quit()
 
-                    if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.type == pygame.MOUSEBUTTONUP:
                         touch_status = True
 
                         #Check if buttons are pressed if mouse button is down
@@ -160,7 +160,7 @@ if __name__=="__main__":
                             try:
                                 self.ros_controller.game_update("Electricity Quiz")
                                 os.chdir('./electricity_quiz')
-                                game = ElectricityQuiz()
+                                game = ElectricityQuiz(ros_controller)
                                 game.game_intro()
 
                             except:
@@ -172,7 +172,7 @@ if __name__=="__main__":
                             try:
                                 self.ros_controller.game_update("Sustainability Quiz")
                                 os.chdir('./sustainability_quiz')
-                                game = SustainabilityQuiz()
+                                game = SustainabilityQuiz(ros_controller)
                                 game.game_intro()
                             except:
                                 os.chdir('..')
@@ -183,7 +183,7 @@ if __name__=="__main__":
                             try:
                                 self.ros_controller.game_update("What's Wrong With The Room")
                                 os.chdir('./whats_wrong')
-                                game = WhatsWrong()
+                                game = WhatsWrong(ros_controller)
                                 game.intro()
                             except:
                                 os.chdir('..')
@@ -193,7 +193,7 @@ if __name__=="__main__":
                             try:
                                 self.ros_controller.game_update("Recycle It")
                                 os.chdir('./recycle_it')
-                                game = Recycle_IT()
+                                game = Recycle_IT(ros_controller)
                                 game.intro()
 
                             except:
@@ -206,7 +206,7 @@ if __name__=="__main__":
                             try:
                                 self.ros_controller.game_update("Water Calculator")
                                 os.chdir('./water_calculator')
-                                game = WaterCalc()
+                                game = WaterCalc(ros_controller)
                                 game.game_intro()
 
                             except:

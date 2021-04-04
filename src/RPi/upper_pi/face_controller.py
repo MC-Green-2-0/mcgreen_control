@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+!/usr/bin/python3
 import rospy
 import RPi.GPIO as GPIO
 import time
@@ -25,7 +25,7 @@ class Face_Controller:
 
 
 if __name__ == "__main__":
-    
+
     # Configuration for the matrix
     options = RGBMatrixOptions()
     options.rows = 32
@@ -37,16 +37,16 @@ if __name__ == "__main__":
     try:
         rospy.init_node("Face_Controller")
         controller = Face_Controller()
-        
+
         image = Image.open("neut.png")
-        while(True):     
+        while(True):
 
             if controller.current_face == controller.face_number:
                 image.thumbnail((matrix.width, matrix.height + 1), Image.ANTIALIAS)
                 matrix.SetImage(image.convert('RGB'))
             else:
                 controller.current_face = controller.face_number
-                
+
                 if controller.face_number == 0:
         	        image = Image.open("caution.bmp")
                 elif controller.face_number == 1:
@@ -61,7 +61,7 @@ if __name__ == "__main__":
                     image = Image.open("thumbs.png")
                 else:
                     image = Image.open("caution.bmp")
-        
+
                 image.thumbnail((matrix.width, matrix.height + 1), Image.ANTIALIAS)
                 matrix.SetImage(image.convert('RGB'))
     except KeyboardInterrupt:

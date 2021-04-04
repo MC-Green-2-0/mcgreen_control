@@ -1,5 +1,5 @@
 <launch>
-
+<!--
 <machine
 		name="upper_pi"
 		address="upper_pi"
@@ -41,7 +41,7 @@
 			<param name="echo" value="5" />
 		</node>
 	</group>
-
+-->
 	<!--
 	<node machine="lower_pi" name="Head_Servo_Driver" pkg="mcgreen_control" type="head_servo_driver.py">
 		<param name="vertical" value="8"/>
@@ -74,7 +74,7 @@
 		<param name="LPWM" value="32"/>
 	</node>
 	-->
-
+<!--
 	<node machine="lower_pi" name="OLED_Screen_Controller" pkg="mcgreen_control" type="oled_screen_controller.py">
 		<param name="rate" value="10" type="int"/>
 	</node>
@@ -89,7 +89,7 @@
 <node name="Remote_Sensors_Processor" pkg="mcgreen_control" respawn="true" type="remote_sensors_processor.py">
 	<param name="rate" value="100" type="int"/>
 </node>
-
+-->
 <node name="Display_Controller" pkg="mcgreen_control" type="display_controller.py"/>
 
 </launch>

@@ -85,8 +85,6 @@ if __name__=="__main__":
         rospy.init_node("Display_Controller")
 
         homedir = os.getcwd()
-        print(homedir)
-        print(temp)
         ros_controller = Display_Controller()
         ros_controller.game_update("None")
         black = (0, 0, 0)
@@ -105,7 +103,7 @@ if __name__=="__main__":
         pygame.init()
 
         window = (1080, 1920)
-        screen = pygame.display.set_mode(window)
+        screen = pygame.display.set_mode(window,pygame.NOFRAME)
 
         buttonText = pygame.font.Font("FreeSansBold.ttf", 32)
         font = pygame.font.Font('FreeSansBold.ttf', 50)

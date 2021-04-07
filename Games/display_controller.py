@@ -4,7 +4,6 @@ from std_msgs.msg import Int16, Bool
 from mcgreen_control.msg import Array
 import time
 import sys
-import non_use
 import pygame
 from pygame import mixer
 import random
@@ -76,7 +75,6 @@ def text_objects(text, font, color=(0,0,0)):
 
 if __name__=="__main__":
     try:
-
         r = rospkg.RosPack()
         home = r.get_path('mcgreen_control')
         temp = home + "/Games"

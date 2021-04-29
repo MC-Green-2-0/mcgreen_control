@@ -105,6 +105,7 @@ def run_menu():
     textRect.center = ((window[0] / 2), 200)
 
     screen.blit(textSurf, textRect)
+    ros_controller = 1
     while True:
         for event in pygame.event.get():
             print(event)
@@ -123,16 +124,17 @@ def run_menu():
                 if electricityButton.is_pressed(touch_status):
                     try:
                         os.chdir('./electricity_quiz')
-                        game = ElectricityQuiz()
+                        game = ElectricityQuiz(ros_controller)
                         game.game_intro()
                     except:
+
                         os.chdir('..')
                         screen.fill(white)
 
                 elif sustainabilityButton.is_pressed(touch_status):
                     try:
                         os.chdir('./sustainability_quiz')
-                        game = SustainabilityQuiz()
+                        game = SustainabilityQuiz(ros_controller)
                         game.game_intro()
                     except:
                         os.chdir('..')
@@ -141,7 +143,7 @@ def run_menu():
                 elif whatswrongButton.is_pressed(touch_status):
                     try:
                         os.chdir('./whats_wrong')
-                        game = WhatsWrong()
+                        game = WhatsWrong(ros_controller)
                         game.intro()
                     except:
                         os.chdir('..')
@@ -149,7 +151,7 @@ def run_menu():
                 elif RecycleItButton.is_pressed(touch_status):
                     try:
                         os.chdir('./recycle_it')
-                        game = Recycle_IT()
+                        game = Recycle_IT(ros_controller)
                         game.intro()
 
                     except:
@@ -160,7 +162,7 @@ def run_menu():
                 elif WaterButton.is_pressed(touch_status):
                     try:
                         os.chdir('./water_calculator')
-                        game = WaterCalc()
+                        game = WaterCalc(ros_controller)
                         game.game_intro()
 
                     except:

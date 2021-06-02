@@ -6,7 +6,7 @@ import math
 import sys
 import threading
 import os
-
+from pygame import mixer
 
 from recycle_it.Recycle import Recycle_IT
 from electricity_quiz.ElectricityQuiz import ElectricityQuiz
@@ -67,6 +67,7 @@ def text_objects(text, font, color=(0,0,0)):
     return textSurface, textSurface.get_rect()
 #from recycle_it.Recycle.py import RecycleIT
 def run_menu():
+
     homedir = os.getcwd()
     black = (0, 0, 0)
     white = (255, 255, 255)
@@ -107,6 +108,7 @@ def run_menu():
     screen.blit(textSurf, textRect)
     ros_controller = 1
     while True:
+        mixer.music.stop()
         for event in pygame.event.get():
             print(event)
 

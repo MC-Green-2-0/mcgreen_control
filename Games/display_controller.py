@@ -6,6 +6,7 @@ from pygame import mixer
 import time
 import sys
 import pygame
+from pygame import mixer
 import random
 import math
 import threading
@@ -112,6 +113,7 @@ if __name__=="__main__":
         WaterButton =  Button(screen,  darker_cyan, cyan, (1/4*window[0], 5/6*window[1], 1/2*window[0], 2/16*window[1]), "Water Calculator", buttonText)
         screen.fill((255, 255, 255))
         middlesex = pygame.image.load('Middlesex.png')
+        middlesex = pygame.transform.scale(middlesex, (512, 105))
         screen.blit(middlesex, ((window[0] - 512)/2, 50))
         textSurf, textRect = text_objects('Games Menu', font)
         textRect.center = ((window[0] / 2), 200)
@@ -119,6 +121,7 @@ if __name__=="__main__":
         screen.blit(textSurf, textRect)
 
         while True:
+            mixer.music.stop()
             ros_controller.face_update(2)
             if ros_controller.current_mode != 2:
                 screen.fill((255,255,255))

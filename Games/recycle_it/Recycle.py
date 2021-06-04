@@ -939,7 +939,7 @@ class Recycle_IT:
             if milliseconds > 1000:
                 seconds += 1
                 milliseconds -= 1000
-            if seconds == 6:
+            if seconds == 60:
                 self.game_over(pts)
 
             print(seconds)

@@ -144,6 +144,7 @@ if __name__=="__main__":
                 whatswrongButton.generate()
                 RecycleItButton.generate()
                 WaterButton.generate()
+                middlesex = pygame.transform.scale(middlesex, (512, 105))
                 screen.blit(middlesex, ((window[0] - 512)/2, 50))
                 screen.blit(textSurf, textRect)
                 pygame.display.update()

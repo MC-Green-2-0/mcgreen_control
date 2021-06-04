@@ -1,25 +1,20 @@
 import rospy
-from std_msgs.msg import Int16, Bool
+from std_msgs.msg import Int16, Bool, String
+from mcgreen_control.msg import Array
 import time
 import sys
-import non_use
 import pygame
 from pygame import mixer
 import random
 import math
 import threading
 import os
-from mcgreen_control.msg import Array
-from std_msgs.msg import Int16, Bool, String
 
 class Display_Controller:
     MODE_TOPIC = "/mode_status"
     FACE_EXPRESSION = "/game_face" # Communicates any updates to the face
     HEAD_TOPIC = "/game_motors" # Communicates changes to the head angle
     GAME_TOPIC = "/current_game" # Communicates which game is currently being playes
-
-
-
 
     def __init__ (self):
         self.mode_sub = rospy.Subscriber(self.MODE_TOPIC, Int16, self.mode_update)
@@ -36,14 +31,12 @@ class Display_Controller:
         self.head_pub.publish(self.head)
         self.face_pub.publish(self.expression)
 
-
         self.current_mode = 3
         self.safety = True
 
     # Called when the robot's mode is changed. Decides whether games can be played or not
     def mode_update(self, mode):
         self.current_mode = mode.data
-
 
     # Publishes the desired face sent from the current game
     def face_update(self, face):

@@ -280,7 +280,7 @@ class WhatsWrong:
 
 
     def intro(self):
-
+        self.ros_controller.face_update(1)
         mixer.music.load('backgroundmsc.wav')
         mixer.music.play(-1)
         #controller.face_update(4)  # HHHHHHHHHHHHHHEEEEEEEEEEEEEEERRRRRRRRRRRRRRRREEEEEEEEEEEEEE
@@ -351,6 +351,7 @@ class WhatsWrong:
 
 
     def help_screen(self, screen):
+        self.ros_controller.face_update(2)
         mixer.music.load('backgroundmsc.wav')
         mixer.music.play(-1)
         bhelp = True
@@ -378,6 +379,7 @@ class WhatsWrong:
 
 
     def level_select(self, screen):
+        self.ros_controller.face_update(2)
         #pygame.time.delay(720)
         bmenu = True
         mixer.music.load('backgroundmsc.wav')
@@ -434,6 +436,7 @@ class WhatsWrong:
 
 
     def gamewin(self, screen):
+        self.ros_controller.face_update(1)
         #face = random.randint(1, 3)  # HEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRRREEEEEEEEEEEEEE
         #controller.face_update(face)
         # These commands won't over write themselves right? like if i say these three in a row
@@ -472,7 +475,7 @@ class WhatsWrong:
             #test
 
     def gamelose(self, screen):
-
+        self.ros_controller.face_update(3)
         bgame = True
         mixer.music.load('game_lose.wav')
         mixer.music.play()

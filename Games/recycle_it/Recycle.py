@@ -361,6 +361,11 @@ class Recycle_IT:
         # rotate.start()
         game_wn = pygame.image.load('gameWonBkg.png')
         mixer.music.load('game_won.wav')
+        expImage = pygame.image.load("Explanations.png")
+        invexpImage = pygame.image.load("invExplanation.png")
+        expImage = pygame.transform.scale(expImage, (750, 222))
+        invexpImage = pygame.transform.scale(invexpImage, (750, 222))
+        explanation = Button(invexpImage, expImage, (self.window[0]/2 - 750/2, self.window[1] - 450, 750, 222))
         #mixer.music.play()
         pause = True
         back = Button(self.Back_Arrow, self.Back_Arrow, (20, 20, 100, 70))
@@ -390,7 +395,8 @@ class Recycle_IT:
                     touch_status = True
                     if(back.is_pressed(touch_status)):
                         self.intro()
-
+                    if(explanation.is_pressed(touch_status)):
+                        self.explanation_page()
 
 
 

@@ -2,11 +2,11 @@
 import rospy
 from std_msgs.msg import Int16, Bool
 from mcgreen_control.msg import Array
+from pygame import mixer
 import time
 import sys
 import non_use
 import pygame
-from pygame import mixer
 import random
 import math
 import threading

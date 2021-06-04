@@ -5,7 +5,6 @@ from mcgreen_control.msg import Array
 from pygame import mixer
 import time
 import sys
-import non_use
 import pygame
 import random
 import math
@@ -76,7 +75,6 @@ def text_objects(text, font, color=(0,0,0)):
 
 if __name__=="__main__":
     try:
-
         r = rospkg.RosPack()
         home = r.get_path('mcgreen_control')
         temp = home + "/Games"
@@ -85,8 +83,6 @@ if __name__=="__main__":
         rospy.init_node("Display_Controller")
 
         homedir = os.getcwd()
-        print(homedir)
-        print(temp)
         ros_controller = Display_Controller()
         ros_controller.game_update("None")
         black = (0, 0, 0)
@@ -105,7 +101,7 @@ if __name__=="__main__":
         pygame.init()
 
         window = (1080, 1920)
-        screen = pygame.display.set_mode(window)
+        screen = pygame.display.set_mode(window,pygame.NOFRAME)
 
         buttonText = pygame.font.Font("FreeSansBold.ttf", 32)
         font = pygame.font.Font('FreeSansBold.ttf', 50)
@@ -123,7 +119,7 @@ if __name__=="__main__":
         screen.blit(textSurf, textRect)
 
         while True:
-
+            ros_controller.face_update(2)
             if ros_controller.current_mode != 2:
                 screen.fill((255,255,255))
                 middlesex = pygame.image.load('Middlesex.png')
@@ -135,7 +131,6 @@ if __name__=="__main__":
                 screen.blit(recycle, ((window[0] - 800)/2, (window[1] - 800)/2))
                 mca = pygame.transform.scale(mca, (600, 400))
                 screen.blit(mca, ((window[0] - 600)/2, 1500))
-                ros_controller.face_update(2)
                 pygame.display.update()
 
 
@@ -160,7 +155,7 @@ if __name__=="__main__":
                         pygame.quit()
                         quit()
 
-                    if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.type == pygame.MOUSEBUTTONUP:
                         touch_status = True
 
                         #Check if buttons are pressed if mouse button is down

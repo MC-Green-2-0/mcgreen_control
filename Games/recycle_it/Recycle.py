@@ -449,10 +449,7 @@ class Recycle_IT:
 
 
     def intro(self):
-
         self.ros_controller.face_update(1)
-        self.ros_controller.head_update(0)
-
         playb = pygame.image.load('play.png')
         playb = pygame.transform.scale(playb, (750,222))
         helpb = pygame.image.load('help.png')
@@ -942,7 +939,7 @@ class Recycle_IT:
             if milliseconds > 1000:
                 seconds += 1
                 milliseconds -= 1000
-            if seconds == 6:
+            if seconds == 60:
                 self.game_over(pts)
 
             print(seconds)

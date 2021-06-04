@@ -16,7 +16,7 @@ class Linear_Actuator_Driver:
         self.PWM_VAL = PWM_VAL
         if self.side == "left":
             self.index = 0
-        else:
+        elif self.side == "right":
             self.index = 1
 
         GPIO.setwarnings(False)
@@ -33,7 +33,7 @@ class Linear_Actuator_Driver:
 
     def actuator_callback(self, data):
         motor_command = data.arr[self.index]
-        print(motor_command)
+        
         if motor_command == 1:
             GPIO.output(self.IN1, False)
             GPIO.output(self.IN2, True)
